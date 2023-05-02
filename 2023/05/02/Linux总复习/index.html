@@ -1,0 +1,692 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Pachwang">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Linux总复习第一讲起源Linux的起源可以追溯到1991年，当时一位名叫Linus Torvalds的芬兰大学生开始为自己的个人电脑开发一种新的操作系统。这个系统最初是为了满足他在学校计算机课程中的需求而设计的。在他的学习和开发过程中，他使用了Minix操作系统的代码和想法，并结合了自己的创新，最终开发出了一种新的操作系统，也就是现在所知道的Linux。 历史 1991年-1993年：最初的开">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux总复习">
+<meta property="og:url" content="https://pachwang.github.io/2023/05/02/Linux%E6%80%BB%E5%A4%8D%E4%B9%A0/index.html">
+<meta property="og:site_name" content="Pachwang">
+<meta property="og:description" content="Linux总复习第一讲起源Linux的起源可以追溯到1991年，当时一位名叫Linus Torvalds的芬兰大学生开始为自己的个人电脑开发一种新的操作系统。这个系统最初是为了满足他在学校计算机课程中的需求而设计的。在他的学习和开发过程中，他使用了Minix操作系统的代码和想法，并结合了自己的创新，最终开发出了一种新的操作系统，也就是现在所知道的Linux。 历史 1991年-1993年：最初的开">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-05-02T15:34:04.000Z">
+<meta property="article:modified_time" content="2023-05-02T15:34:57.699Z">
+<meta property="article:author" content="Pachwang">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>Linux总复习 - Pachwang</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"pachwang.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Pachwang</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Linux总复习"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-05-02 23:34" pubdate>
+          2023年5月2日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          29 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Linux总复习</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Linux总复习"><a href="#Linux总复习" class="headerlink" title="Linux总复习"></a>Linux总复习</h1><h2 id="第一讲"><a href="#第一讲" class="headerlink" title="第一讲"></a>第一讲</h2><h3 id="起源"><a href="#起源" class="headerlink" title="起源"></a>起源</h3><p>Linux的起源可以追溯到1991年，当时一位名叫Linus Torvalds的芬兰大学生开始为自己的个人电脑开发一种新的操作系统。这个系统最初是为了满足他在学校计算机课程中的需求而设计的。在他的学习和开发过程中，他使用了Minix操作系统的代码和想法，并结合了自己的创新，最终开发出了一种新的操作系统，也就是现在所知道的Linux。</p>
+<h3 id="历史"><a href="#历史" class="headerlink" title="历史"></a>历史</h3><ol>
+<li>1991年-1993年：最初的开发阶段 在1991年，Linus Torvalds开始开发Linux操作系统的内核，并在1992年发布了第一个可用版本。此时Linux还只是一个小型项目，只有几千行代码。在这个阶段，Linux主要用于个人电脑和服务器领域。</li>
+<li>1994年-1999年：Linux的商业化和扩展 在1994年，Red Hat公司成立，开始将Linux作为商业产品销售。同时，其他公司也开始对Linux进行开发和支持，包括IBM、Novell和Oracle等。在这个阶段，Linux不断扩展，支持更多的硬件和应用程序，并逐渐进入企业市场。</li>
+<li>2000年-2007年：Linux的稳定性和成熟度提高 在2000年代初，Linux开始受到更多企业的青睐，并逐渐被用于一些重要的应用场景，如金融、医疗和航空等领域。此时，Linux的稳定性和成熟度得到了极大的提高，并且逐渐成为企业级操作系统的首选。</li>
+<li>2008年-至今：Linux的广泛应用和开源生态系统的壮大 在2008年之后，Linux得到了更广泛的应用，包括移动设备、嵌入式系统和云计算等领域。同时，Linux的开源生态系统也逐渐壮大，包括各种开源软件和工具，如Docker、Kubernetes、OpenStack等。这些开源技术对现代计算产生了重要的影响，并且Linux已经成为许多企业和组织的核心技术。</li>
+</ol>
+<h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><ol>
+<li><p>开放性（遵循标准）</p>
+<p>Linux是一种开源的操作系统，任何人都可以查看、修改、使用和分发它的源代码。这意味着Linux的用户可以自由地定制和配置它，以适应他们的需求。</p>
+</li>
+<li><p>多用户、多任务</p>
+<p>Linux可以支持多个用户同时登录和使用同一台计算机，并且可以在后台同时运行多个程序和任务，不会因为资源竞争而出现系统崩溃。</p>
+</li>
+<li><p>良好的用户界面</p>
+</li>
+<li><p>设备独立性（把外部设备当作文件处理）</p>
+<p>Linux的一个重要特点是设备独立性，它能够把外部设备（如硬盘、光驱、打印机、串口、USB设备等）当作文件处理。这意味着Linux把这些设备看做是文件系统中的一个文件，用户可以使用标准的文件操作函数来访问这些设备，而不需要了解它们的具体硬件细节。</p>
+<p>在Linux中，每个设备都有一个对应的设备文件，这些文件被存储在&#x2F;dev目录下，用户可以通过这些设备文件来访问和操作设备。例如，硬盘的设备文件为&#x2F;dev&#x2F;hd<em>（其中</em>表示硬盘的分区），打印机的设备文件为&#x2F;dev&#x2F;lp<em>（其中</em>表示打印机的编号）等。</p>
+<p>通过这种设备独立性的机制，Linux操作系统能够兼容多种不同的外部设备，并且可以很容易地进行扩展和升级。另外，由于外部设备被抽象为文件，因此用户可以使用标准的文件操作函数来进行读写、复制、移动、重命名等操作，这大大简化了对设备的操作和管理。</p>
+</li>
+<li><p>丰富的网络功能</p>
+<ul>
+<li>网络协议支持：Linux支持多种网络协议，包括TCP&#x2F;IP、UDP、ICMP、HTTP、FTP、SSH等，这些协议使得Linux能够在各种网络环境中进行通信和数据传输。</li>
+<li>路由和网络管理：Linux提供了强大的路由和网络管理功能，使得管理员可以轻松地管理和监控网络连接、带宽、流量、安全等方面。</li>
+<li>网络安全：Linux具有多层次的网络安全功能，包括防火墙、网络认证、加密和虚拟专用网络（VPN）等，能够保障网络的安全性和可靠性。</li>
+<li>服务器和服务：Linux可以作为一个网络服务器，提供各种服务，包括Web服务器、邮件服务器、文件服务器、数据库服务器、DNS服务器等，这些服务能够满足不同用户的需求。</li>
+<li>网络性能优化：Linux提供了丰富的网络性能优化功能，包括内核优化、网络调整、缓存机制等，可以提高网络的速度和稳定性。</li>
+</ul>
+</li>
+<li><p>可靠的系统安全</p>
+<p>Linux是一个非常稳定和可靠的操作系统，通常不会出现崩溃或死机等问题。同时，Linux也被认为是一个相对安全的操作系统，因为它的内核可以隔离和保护用户的数据和程序。</p>
+</li>
+<li><p>良好的可移植性</p>
+<p>Linux可以运行在各种不同的硬件和平台上，包括个人电脑、服务器、嵌入式设备和移动设备等。同时，许多Linux应用程序也可以在不同的平台之间移植和运行。</p>
+</li>
+</ol>
+<h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>Linux是一个类UNIX内核的可以自由发布的实现版本，是一个操作系统的底层核心（内核）</p>
+<p>Linux &#x3D;&gt; 内核	</p>
+<p>Linux系统&#x3D;&gt;内核+实用工具  </p>
+<p>Linux发行版&#x3D;&gt;内核+配套软件</p>
+<h3 id="GNU-GPL"><a href="#GNU-GPL" class="headerlink" title="GNU GPL"></a>GNU GPL</h3><p>GNU GPL（GNU General Public License）是一种自由软件许可证，是由自由软件基金会（Free Software Foundation，FSF）发起的。该许可证规定，任何使用GNU GPL授权的软件必须在其源代码公开发布的同时，同样采用GNU GPL许可证，也就是说，这些软件必须是开源软件，并且允许其他人自由地使用、修改和再分发。GNU GPL还规定，任何使用该软件的人必须提供原始的源代码和版权声明，并在修改后的软件中明确说明。</p>
+<p>GNU GPL在开源软件界中具有广泛的应用，许多著名的开源软件和操作系统，如Linux操作系统、GNU工具集、MySQL数据库等，都采用了GNU GPL许可证。此外，许多开源社区和组织也采用GNU GPL作为其开源软件的许可证，以保障开源软件的自由和开放性。</p>
+<p>总的来说，GNU GPL是一种为保护自由软件而设计的开源软件许可证，它旨在鼓励开源社区的自由合作、共享和创新，使得开源软件的生态系统更加健康、稳定和可持续。</p>
+<h3 id="常见的发行版本"><a href="#常见的发行版本" class="headerlink" title="常见的发行版本"></a>常见的发行版本</h3><ol>
+<li>Ubuntu：一款非常流行的Linux发行版本，以易用性和友好的界面而著称，适用于桌面和服务器环境。</li>
+<li>Debian：一个稳定、可靠的Linux发行版本，以其强大的软件包管理系统和安全性而著称，适用于服务器和桌面环境。</li>
+<li>CentOS：一款基于Red Hat Enterprise Linux（RHEL）源代码的社区发行版本，以其稳定性和安全性而著称，适用于服务器环境。</li>
+<li>Fedora：一个面向开发者和技术爱好者的Linux发行版本，以其先进的软件包管理系统和最新的技术特性而著称，适用于桌面和服务器环境。</li>
+<li>Arch Linux：一个自由、轻量级的Linux发行版本，以其极简主义和灵活性而著称，适用于技术爱好者和高级用户。</li>
+<li>openSUSE：一个稳定、易用的Linux发行版本，以其强大的YAST系统配置工具和开放性而著称，适用于桌面和服务器环境。</li>
+<li>Kali Linux：一款专门用于网络安全和渗透测试的Linux发行版本，以其预装了大量安全工具而著称，适用于安全测试人员和渗透测试爱好者。</li>
+<li>Red Hat Enterprise Linux（RHEL）：这是一款面向企业级用户的Linux发行版本，以其高度的稳定性、安全性和可靠性而著称。RHEL提供了一系列的服务和工具，如软件包管理、安全更新、系统配置、集成虚拟化等，可以满足企业级用户对于Linux操作系统的各种需求。</li>
+</ol>
+<h3 id="商业、共享、自由和免费软件的区别和联系"><a href="#商业、共享、自由和免费软件的区别和联系" class="headerlink" title="商业、共享、自由和免费软件的区别和联系"></a>商业、共享、自由和免费软件的区别和联系</h3><ol>
+<li>商业软件：商业软件是指由商业公司或组织开发并销售的软件。商业软件通常需要付费购买或使用，其源代码不公开，用户无权对其进行修改或分发。商业软件通常具有稳定性和专业性，适合用于商业、工业和科学领域等。</li>
+<li>共享软件：共享软件是指由开发者免费提供、允许复制和分发的软件。共享软件可以是开源或闭源的，通常允许用户对其进行修改和定制，但需要遵守软件许可协议中的规定。共享软件的目的是鼓励创新和合作，推动知识和技术的自由流通。</li>
+<li>自由软件：自由软件是指用户可以自由使用、复制、修改和分发的软件。自由软件的源代码必须公开，用户有权修改和改进该软件，并且需要将改进后的版本公开发布。自由软件的目的是保护用户的自由和隐私，促进软件的互联互通和技术的共享。</li>
+<li>免费软件：免费软件是指用户可以免费获取和使用的软件，其源代码可以是公开或闭源的，用户无权修改和分发该软件。免费软件的目的是提供一个免费的替代品，以满足用户的一些基本需求，如文字处理、绘图等。</li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Linux/" class="category-chain-item">Linux</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Linux总复习</div>
+      <div>https://pachwang.github.io/2023/05/02/Linux总复习/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Pachwang</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年5月2日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/05/02/Docker%E8%BF%90%E7%94%A8%E5%AE%9E%E6%88%98/" title="Docker运用实战">
+                        <span class="hidden-mobile">Docker运用实战</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
