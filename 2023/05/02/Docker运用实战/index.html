@@ -1,0 +1,813 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Pachwang">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Docker 运用实战目前只实现了Java语言的部分。 TODO : Python、Go … 目标利用 docker &#x2F; docker-comose 工具完成至少3种不同动态语言（ PHP &#x2F; Java &#x2F; Python &#x2F; Go &#x2F; Perl &#x2F; Nodejs …）运行环境的搭建，并实现从 mysql &#x2F; mongodb 等数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker运用实战">
+<meta property="og:url" content="https://pachwang.github.io/2023/05/02/Docker%E8%BF%90%E7%94%A8%E5%AE%9E%E6%88%98/index.html">
+<meta property="og:site_name" content="Pachwang">
+<meta property="og:description" content="Docker 运用实战目前只实现了Java语言的部分。 TODO : Python、Go … 目标利用 docker &#x2F; docker-comose 工具完成至少3种不同动态语言（ PHP &#x2F; Java &#x2F; Python &#x2F; Go &#x2F; Perl &#x2F; Nodejs …）运行环境的搭建，并实现从 mysql &#x2F; mongodb 等数">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pachwang.github.io/Docker%E8%BF%90%E7%94%A8%E5%AE%9E%E6%88%98%5Cdocker001.jpg">
+<meta property="og:image" content="https://pachwang.github.io/Docker%E8%BF%90%E7%94%A8%E5%AE%9E%E6%88%98%5Cdocker002.jpg">
+<meta property="og:image" content="https://pachwang.github.io/Docker%E8%BF%90%E7%94%A8%E5%AE%9E%E6%88%98%5Cdocker003.jpg">
+<meta property="og:image" content="https://pachwang.github.io/Docker%E8%BF%90%E7%94%A8%E5%AE%9E%E6%88%98%5Cdocker004.jpg">
+<meta property="og:image" content="https://pachwang.github.io/Docker%E5%AE%9E%E6%88%98%5Cdocker005.jpg">
+<meta property="og:image" content="https://pachwang.github.io/Docker%E5%AE%9E%E6%88%98%5Cdocker006.jpg">
+<meta property="article:published_time" content="2023-05-02T11:37:40.000Z">
+<meta property="article:modified_time" content="2023-05-02T11:42:44.318Z">
+<meta property="article:author" content="Pachwang">
+<meta property="article:tag" content="原创">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://pachwang.github.io/Docker%E8%BF%90%E7%94%A8%E5%AE%9E%E6%88%98%5Cdocker001.jpg">
+  
+  
+  
+  <title>Docker运用实战 - Pachwang</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"pachwang.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Pachwang</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Docker运用实战"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-05-02 19:37" pubdate>
+          2023年5月2日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          54 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Docker运用实战</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Docker-运用实战"><a href="#Docker-运用实战" class="headerlink" title="Docker 运用实战"></a>Docker 运用实战</h1><p>目前只实现了Java语言的部分。</p>
+<p>TODO : Python、Go …</p>
+<h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><p>利用 docker &#x2F; docker-comose 工具完成至少3种不同动态语言（ PHP &#x2F; Java &#x2F; Python &#x2F; Go &#x2F; Perl &#x2F; Nodejs …）运行环境的搭建，并实现从 mysql &#x2F; mongodb 等数据库中读取数据到 Web 页面中显示。</p>
+<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><h3 id="安装-docker"><a href="#安装-docker" class="headerlink" title="安装 docker"></a>安装 docker</h3><ol>
+<li><p>如果此前安装过 docker，那么先卸载旧版本 docker 相关的内容</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs shell">yum remove docker \<br>                  docker-client \<br>                  docker-client-latest \<br>                  docker-common \<br>                  docker-latest \<br>                  docker-latest-logrotate \<br>                  docker-logrotate \<br>                  docker-selinux \<br>                  docker-engine-selinux \<br>                  docker-engine \<br>                  docker-ce<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>安装命令</p>
+<p>官方安装命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>ncurl -fsSL <a href="https://get.docker.com：">https://get.docker.com：</a> 下载脚本文件</p>
+<p>nbash：运行该脚本文件</p>
+<p>n -s docker –mirror Aliyun：参数传入，使用阿里云源</p>
+</blockquote>
+<p>国内 daocloud 一键安装命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">curl -sSL https://get.daocloud.io/docker | sh<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>启动</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">systemctl start docker<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>加入开机启动</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">systemctl enable docker<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>安装成功</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker -v<br></code></pre></td></tr></table></figure>
+
+<p><img src="/Docker%E8%BF%90%E7%94%A8%E5%AE%9E%E6%88%98%5Cdocker001.jpg" srcset="/img/loading.gif" lazyload></p>
+</li>
+</ol>
+<h3 id="安装-docker-compose"><a href="#安装-docker-compose" class="headerlink" title="安装 docker-compose"></a>安装 docker-compose</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">安装</span><br>curl -L https://github.com/docker/compose/releases/download/1.23.1/docker-compose-`uname -s`-`uname -m` &gt; /usr/local/bin/docker-compose<br><span class="hljs-meta prompt_"># </span><span class="language-bash">修改权限</span><br>chmod +x /usr/local/bin/docker-compose<br></code></pre></td></tr></table></figure>
+
+<p>安装成功</p>
+<p><img src="/Docker%E8%BF%90%E7%94%A8%E5%AE%9E%E6%88%98%5Cdocker002.jpg" srcset="/img/loading.gif" lazyload></p>
+<h3 id="拉取-Mysql-镜像"><a href="#拉取-Mysql-镜像" class="headerlink" title="拉取 Mysql 镜像"></a>拉取 Mysql 镜像</h3><ol>
+<li>拉取5.7版本的 mysql 镜像</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker pull mysql:5.7.25<br></code></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>查看 mysql 镜像</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker images mysql<br></code></pre></td></tr></table></figure>
+
+<p><img src="/Docker%E8%BF%90%E7%94%A8%E5%AE%9E%E6%88%98%5Cdocker003.jpg" srcset="/img/loading.gif" lazyload></p>
+<ol start="3">
+<li>运行 mysql 容器</li>
+</ol>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker run --name=mysql -p 3306:3306 \<br>-e  MYSQL_ROOT_PASSWORD=123456 \<br>-v /mydata/mysql/log:/var/log/mysql \<br>-d  mysql:5.7.25<br></code></pre></td></tr></table></figure>
+
+<ol start="4">
+<li><p>进入mysql容器查看版本号</p>
+<p><img src="/Docker%E8%BF%90%E7%94%A8%E5%AE%9E%E6%88%98%5Cdocker004.jpg" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p>navicat 远程连接数据库并导入表结构以及数据库</p>
+</li>
+</ol>
+<h3 id="准备jar包以及jdk"><a href="#准备jar包以及jdk" class="headerlink" title="准备jar包以及jdk"></a>准备jar包以及jdk</h3><ol>
+<li>在&#x2F;root下创建java-docker-compose-test文件夹</li>
+<li>利用xftp将java-demo.jar、jdk8.tar.gz传输到此文件夹</li>
+</ol>
+<h3 id="编写Dockerfile文件"><a href="#编写Dockerfile文件" class="headerlink" title="编写Dockerfile文件"></a>编写Dockerfile文件</h3>   <figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs txt"># 指定基础镜像<br>FROM ubuntu:16.04<br># 配置环境变量，JDK的安装目录<br>ENV JAVA_DIR=/usr/local<br><br># 拷贝jdk和java项目的包<br>COPY ./jdk8.tar.gz $JAVA_DIR/<br>COPY ./java-demo.jar /tmp/app.jar<br><br># 安装JDK<br>RUN cd $JAVA_DIR \<br> &amp;&amp; tar -xf ./jdk8.tar.gz \<br> &amp;&amp; mv ./jdk1.8.0_144 ./java8<br><br># 配置环境变量<br>ENV JAVA_HOME=$JAVA_DIR/java8<br>ENV PATH=$PATH:$JAVA_HOME/bin<br><br># 暴露端口<br>EXPOSE 8080<br># 入口，java项目的启动命令<br>ENTRYPOINT java -jar /tmp/app.jar<br></code></pre></td></tr></table></figure>
+
+<ol>
+<li>在java-docker-compose-test目录下运行如下指令</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker build -t java-docker-demo:1.0 .<br></code></pre></td></tr></table></figure>
+
+<p>​	ps ：注意末尾的点</p>
+<ol start="2">
+<li>运行容器</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker run --name java-demo -p 8080:8080 --link mysql -d java-docker-demo:1.0<br></code></pre></td></tr></table></figure>
+
+<h3 id="测试接口"><a href="#测试接口" class="headerlink" title="测试接口"></a>测试接口</h3><p>地址栏输入虚拟机ip:8080&#x2F;get&#x2F;201929210220，得到数据</p>
+<p><img src="/Docker%E5%AE%9E%E6%88%98%5Cdocker005.jpg" srcset="/img/loading.gif" lazyload></p>
+<h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><p>很尴尬，一开始最终测试的步骤这里，我总是页面显示500的状态码，后台日志也是这样：</p>
+<p><img src="/Docker%E5%AE%9E%E6%88%98%5Cdocker006.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>我的情况是本地环境下运行项目能得到正确的结果，本地远程连接mysql容器也能成功。</p>
+<p>一开始我理解为运行SpringBoot项目的容器与运行mysql的容器无法进行连接，我初步的解决方案是docker运行加上–link参数，但还是没有解决这个问题。</p>
+<p>最终，在我的不懈努力下(就是做了很多无用功)，以及星球里某位老哥的提醒下，我发现我的iptables防火墙是开启的，我尝试把他直接关闭：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">service iptables stop<br></code></pre></td></tr></table></figure>
+
+<p>之后重启docker以及两个容器：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">systemctl restart docker<br>docker start mysql<br>docker start java-demo<br></code></pre></td></tr></table></figure>
+
+<p>然后，我怀着沉重的心情又测了一遍，最终解决了问题。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>问题得到解决，但我想了想直接关闭防火墙iptables只是权宜之计，正解应该是开放防火墙指定端口。</p>
+<p>查看iptables并放开8080端口</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">查看iptables</span><br>cat /etc/sysconfig/iptables<br><span class="hljs-meta prompt_"># </span><span class="language-bash">sample configuration <span class="hljs-keyword">for</span> iptables service</span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">you can edit this manually or use system-config-firewall</span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">please <span class="hljs-keyword">do</span> not ask us to add additional ports/services to this default configuration</span><br>*filter<br>:INPUT ACCEPT [0:0]<br>:FORWARD ACCEPT [0:0]<br>:OUTPUT ACCEPT [0:0]<br>-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT<br>-A INPUT -p icmp -j ACCEPT<br>-A INPUT -i lo -j ACCEPT<br>-A INPUT -p tcp -m state --state NEW -m tcp --dport 8888 -j ACCEPT<br>-A INPUT -p tcp -m state --state NEW -m tcp --dport 80 -j ACCEPT<br>-A INPUT -p tcp -m state --state NEW -m tcp --dport 23000 -j ACCEPT<br>-A INPUT -p tcp -m state --state NEW -m tcp --dport 22122 -j ACCEPT<br>-A INPUT -p tcp -m state --state NEW -m tcp --dport 22 -j ACCEPT<br>-A INPUT -p tcp -m state --state NEW -m tcp --dport 8080 -j ACCEPT<br>-A INPUT -p tcp -m state --state NEW -m tcp --dport 3306 -j ACCEPT<br>-A INPUT -p tcp -m tcp --dport 23 -j ACCEPT<br>-A INPUT -p tcp -m tcp --dport 21 -j ACCEPT<br>-A INPUT -j REJECT --reject-with icmp-host-prohibited<br>-A FORWARD -j REJECT --reject-with icmp-host-prohibited<br>COMMIT<br><span class="hljs-meta prompt_"># </span><span class="language-bash">放开8080端口</span><br>iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 8080 -j ACCEPT<br></code></pre></td></tr></table></figure>
+
+<p>其次，还需要考虑能否直接在SpringBoot项目运行的环境中搭建mysql环境，即编写更加完善的Dockerfile文件。</p>
+<h1 id="相关指令"><a href="#相关指令" class="headerlink" title="相关指令"></a>相关指令</h1><h2 id="Docker基本指令"><a href="#Docker基本指令" class="headerlink" title="Docker基本指令"></a>Docker基本指令</h2><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><ul>
+<li>Docker环境信息   info、version</li>
+<li>镜像仓库命令      login、logout、pull、push、search</li>
+<li>镜像管理          build、images、import、load、rmi、save、tag、commit</li>
+<li>容器生命周期管理  create、exec、kill、pause、restart、rm、run、start、stop、unpause</li>
+<li>容器运维操作      attach、export、inspect、port、ps、rename、stats、top、wait、cp、diff、update</li>
+<li>容器资源管理      volume、network</li>
+<li>系统信息日志      events、history、logs</li>
+</ul>
+<p>docker –help       #查看docker命令<br>docker info         #docker 详细信息，镜像和容器<br>docker version      #查看docker版本<br>docker images  		# 查看docker镜像；</p>
+<h3 id="具体列解释含义"><a href="#具体列解释含义" class="headerlink" title="具体列解释含义"></a>具体列解释含义</h3><ul>
+<li>REPOSITORY  镜像仓库源                </li>
+<li>TAG         镜像的标签                 </li>
+<li>IMAGE ID    镜像id            </li>
+<li>CREATED     创建时间             </li>
+<li>SIZE        大小</li>
+</ul>
+<p>同一个仓库源可以有多个 TAG ，表示这个仓库源的不同版本，我们使用 REPOSITORY:TAG 来定义不同的镜像。</p>
+<h3 id="镜像命令"><a href="#镜像命令" class="headerlink" title="镜像命令"></a>镜像命令</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">列出本地所有的镜像</span><br>docker images -a            <br><span class="hljs-meta prompt_"># </span><span class="language-bash">只显示镜像ID</span><br>docker images -q            <br><span class="hljs-meta prompt_"># </span><span class="language-bash">显示镜像的摘要信息</span><br>docker images --digests <br><span class="hljs-meta prompt_"># </span><span class="language-bash">显示完整的镜像信息</span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">镜像下载</span><br>docker images --no-trunc    <br><span class="hljs-meta prompt_"># </span><span class="language-bash">从Docker Hub上下载tomcat镜像，默认是最新版本。等价于：docker pull tomcat:latest</span><br>docker pull tomcat  <br><span class="hljs-meta prompt_"># </span><span class="language-bash">选择指定版本下载</span><br>docker pull tomcat:8  <br><span class="hljs-meta prompt_"># </span><span class="language-bash">如果需要确认是否有需要下载的版本，可以在docker hub上查找</span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">删除镜像命令</span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">单个镜像删除，相当于：docker rmi java:latest</span><br>docker rmi java<br><span class="hljs-meta prompt_"># </span><span class="language-bash">强制删除(删除正在运行的镜像，注：以后台方式运行的不能被强制删除)</span><br>docker rmi -f java<br><span class="hljs-meta prompt_"># </span><span class="language-bash">多个镜像删除，不同镜像间以空格间隔</span><br>docker rmi -f java tomcat nginx<br><span class="hljs-meta prompt_"># </span><span class="language-bash">删除本地全部镜像</span><br>docker rmi -f $(docker images -q)<br><br></code></pre></td></tr></table></figure>
+
+<h3 id="容器命令"><a href="#容器命令" class="headerlink" title="容器命令"></a>容器命令</h3><h4 id="查看容器"><a href="#查看容器" class="headerlink" title="查看容器"></a>查看容器</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">查看正在运行的容器</span><br>docker ps<br><span class="hljs-meta prompt_"># </span><span class="language-bash">查看所有容器包括停止的容器</span><br>docker ps -a<br><span class="hljs-meta prompt_"># </span><span class="language-bash">-q参数，只显示container <span class="hljs-built_in">id</span></span><br>docker ps -q<br><span class="hljs-meta prompt_"># </span><span class="language-bash">查看容器详细信息</span><br>docker inspect demo1<br></code></pre></td></tr></table></figure>
+
+<h4 id="容器启动与停止"><a href="#容器启动与停止" class="headerlink" title="容器启动与停止"></a>容器启动与停止</h4><figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs txt"># 新建并启动容器<br># 参数：-i 以交互模式运行容器<br># 	   -t 为容器重新分配一个伪输入终端<br>#      --name  为容器指定一个名称<br>docker run -i -t --name mycentos 镜像名称/镜像ID<br># 后台启动容器，参数：-d  已守护方式启动容器<br>docker run -d mycentos<br># 启动止容器<br>docker start 容器id<br># 重启容器<br>docker restart 容器id<br># 关闭容器<br>docker kill 容器id<br>docker stop 容器id<br>-t 参数让Docker分配一个伪终端并绑定到容器的标准输入上<br>-i 参数则让容器的标准输入保持打开。<br>-c 参数用于给运行的容器分配cpu的shares值<br>-m 参数用于限制为容器的内存信息，以 B、K、M、G 为单位<br>-v 参数用于挂载一个volume，可以用多个-v参数同时挂载多个volume<br>-p 参数用于将容器的端口暴露给宿主机端口 格式：host_port:container_port 或者 host_ip:host_port:container_port<br>--name 容器名称<br>--net 容器使用的网络<br>-d 创建一个后台运行容器<br></code></pre></td></tr></table></figure>
+
+<h4 id="容器进入与退出"><a href="#容器进入与退出" class="headerlink" title="容器进入与退出"></a>容器进入与退出</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">使用run方式在创建时进入</span><br>docker run -it centos /bin/bash<br><span class="hljs-meta prompt_"># </span><span class="language-bash">关闭容器并退出</span><br>exit<br><span class="hljs-meta prompt_"># </span><span class="language-bash">仅退出容器，不关闭</span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">快捷键：Ctrl + P + Q</span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">快捷键：Ctrl + Shift + P + Q</span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">容器进程</span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">top支持 ps 命令参数，格式：docker top [OPTIONS] CONTAINER [ps OPTIONS]</span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">列出redis容器中运行进程</span><br>docker top tomcat<br><span class="hljs-meta prompt_">#</span><span class="language-bash">查看所有运行容器的进程信息</span><br>for i in  `docker ps |grep Up|awk &#x27;&#123;print $1&#125;&#x27;`;do echo \ &amp;&amp;docker top $i; done<br></code></pre></td></tr></table></figure>
+
+<p>进入当前正在运行的容器<br>方式一：<br>docker exec -it 容器id bashShell(&#x2F;bin&#x2F;bash)<br>方式二：<br>docker attach 容器id bashShell(&#x2F;bin&#x2F;bash)</p>
+<p>exec ：进入容器后，开启一个新的终端，可以再里面操作；<br>attach ：进入容器正在执行的终端，不会启动新的终端进程；</p>
+<p>容器内拷贝文件到主机<br>docker cp 容器id:容器内路径  目的主机路径</p>
+<h4 id="容器日志"><a href="#容器日志" class="headerlink" title="容器日志"></a>容器日志</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">查看redis容器日志，默认参数</span><br>docker logs tomcat<br><span class="hljs-meta prompt_"># </span><span class="language-bash">查看redis容器日志，参数：-f  跟踪日志输出；-t   显示时间戳；--<span class="hljs-built_in">tail</span>  仅列出最新N条容器日志；</span><br>docker logs -f -t --tail=20 redis<br><span class="hljs-meta prompt_"># </span><span class="language-bash">查看容器redis从2021年08月10日后的最新10条日志</span><br>docker logs --since=&quot;2021-08-10&quot; --tail=10 redis<br></code></pre></td></tr></table></figure>
+
+<h2 id="Linux基本指令"><a href="#Linux基本指令" class="headerlink" title="Linux基本指令"></a>Linux基本指令</h2><h3 id="iptables基本操作"><a href="#iptables基本操作" class="headerlink" title="iptables基本操作"></a>iptables基本操作</h3><h4 id="systemctl基本命令"><a href="#systemctl基本命令" class="headerlink" title="systemctl基本命令"></a>systemctl基本命令</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">#</span><span class="language-bash">查看防火墙的状态</span><br>systemctl status iptables.service<br><span class="hljs-meta prompt_">#</span><span class="language-bash">停止防火墙</span><br>systemctl stop iptables.service    <br><span class="hljs-meta prompt_">#</span><span class="language-bash">启动防火墙</span><br>systemctl start iptables.service<br><span class="hljs-meta prompt_">#</span><span class="language-bash">重启防火墙</span><br>systemctl restart iptables.service<br><span class="hljs-meta prompt_">#</span><span class="language-bash">开机启动防火墙</span><br>systemctl enable iptables.service<br></code></pre></td></tr></table></figure>
+
+<h4 id="service基本命令"><a href="#service基本命令" class="headerlink" title="service基本命令"></a>service基本命令</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">#</span><span class="language-bash">查看防火墙状态</span><br>service iptables status            <br><span class="hljs-meta prompt_">#</span><span class="language-bash">启动防火墙</span><br>service iptables start<br><span class="hljs-meta prompt_">#</span><span class="language-bash">停止防火墙</span><br>service iptables stop<br><span class="hljs-meta prompt_">#</span><span class="language-bash">重启防火墙</span><br>service iptables restart<br></code></pre></td></tr></table></figure>
+
+<h3 id="开放-x2F-阻止端口"><a href="#开放-x2F-阻止端口" class="headerlink" title="开放&#x2F;阻止端口"></a>开放&#x2F;阻止端口</h3><h4 id="查询防火墙端口"><a href="#查询防火墙端口" class="headerlink" title="查询防火墙端口"></a>查询防火墙端口</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">iptables -L -n<br>iptables -L -n --line-number<br></code></pre></td></tr></table></figure>
+
+<h4 id="允许所有服务器访问指定端口-比如8080"><a href="#允许所有服务器访问指定端口-比如8080" class="headerlink" title="允许所有服务器访问指定端口 比如8080"></a>允许所有服务器访问指定端口 比如8080</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 8080 -j ACCEPT<br></code></pre></td></tr></table></figure>
+
+<p>参数说明</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>-A</code></td>
+<td>添加一条INPUT的规则</td>
+</tr>
+<tr>
+<td><code>-p</code></td>
+<td>指定是什么协议（TCP&#x2F;UDP）</td>
+</tr>
+<tr>
+<td><code>--dport</code></td>
+<td>就是目标端口，当数据从外部进入服务器为目标端口</td>
+</tr>
+<tr>
+<td><code>--sport</code></td>
+<td>数据从服务器出去，则为数据原端口</td>
+</tr>
+<tr>
+<td><code>-j</code></td>
+<td>就是指定是<code>ACCEPT</code>接受或阻止<code>DROP</code></td>
+</tr>
+</tbody></table>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h3 id="1-bash-ping-command-not-found-以及同类型的问题"><a href="#1-bash-ping-command-not-found-以及同类型的问题" class="headerlink" title="1.bash: ping: command not found 以及同类型的问题"></a>1.bash: ping: command not found 以及同类型的问题</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">apt-get update<br>apt-get install iputils-ping<br></code></pre></td></tr></table></figure>
+
+<p>TODO</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/JustinQin/article/details/120936620">https://blog.csdn.net/JustinQin/article/details/120936620</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/30e13e06341a">https://www.jianshu.com/p/30e13e06341a</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Linux/" class="category-chain-item">Linux</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%8E%9F%E5%88%9B/">#原创</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Docker运用实战</div>
+      <div>https://pachwang.github.io/2023/05/02/Docker运用实战/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Pachwang</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年5月2日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/05/01/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E7%BE%8E/" title="Java并发编程之美">
+                        <span class="hidden-mobile">Java并发编程之美</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
