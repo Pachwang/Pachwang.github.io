@@ -23,18 +23,18 @@
 <meta property="og:site_name" content="Pachwang">
 <meta property="og:description" content="Docker 运用实战目前只实现了Java语言的部分。 TODO : Python、Go … 目标利用 docker &#x2F; docker-comose 工具完成至少3种不同动态语言（ PHP &#x2F; Java &#x2F; Python &#x2F; Go &#x2F; Perl &#x2F; Nodejs …）运行环境的搭建，并实现从 mysql &#x2F; mongodb 等数">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://pachwang.github.io/Docker%E8%BF%90%E7%94%A8%E5%AE%9E%E6%88%98/docker001.jpg">
-<meta property="og:image" content="https://pachwang.github.io/Docker%E8%BF%90%E7%94%A8%E5%AE%9E%E6%88%98/docker002.jpg">
-<meta property="og:image" content="https://pachwang.github.io/Docker%E8%BF%90%E7%94%A8%E5%AE%9E%E6%88%98/docker003.jpg">
-<meta property="og:image" content="https://pachwang.github.io/Docker%E8%BF%90%E7%94%A8%E5%AE%9E%E6%88%98/docker004.jpg">
-<meta property="og:image" content="https://pachwang.github.io/Docker%E8%BF%90%E7%94%A8%E5%AE%9E%E6%88%98/docker005.jpg">
-<meta property="og:image" content="https://pachwang.github.io/Docker%E8%BF%90%E7%94%A8%E5%AE%9E%E6%88%98/docker006.jpg">
+<meta property="og:image" content="https://pachwang.github.io/docker001.jpg">
+<meta property="og:image" content="https://pachwang.github.io/docker002.jpg">
+<meta property="og:image" content="https://pachwang.github.io/docker003.jpg">
+<meta property="og:image" content="https://pachwang.github.io/docker004.jpg">
+<meta property="og:image" content="https://pachwang.github.io/docker005.jpg">
+<meta property="og:image" content="https://pachwang.github.io/docker006.jpg">
 <meta property="article:published_time" content="2023-05-02T11:37:40.000Z">
-<meta property="article:modified_time" content="2023-05-02T11:53:44.598Z">
+<meta property="article:modified_time" content="2023-05-02T12:01:53.769Z">
 <meta property="article:author" content="Pachwang">
 <meta property="article:tag" content="原创">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://pachwang.github.io/Docker%E8%BF%90%E7%94%A8%E5%AE%9E%E6%88%98/docker001.jpg">
+<meta name="twitter:image" content="https://pachwang.github.io/docker001.jpg">
   
   
   
@@ -309,13 +309,13 @@
 <li><p>安装成功</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker -v<br></code></pre></td></tr></table></figure>
 
-<p><img src="/Docker%E8%BF%90%E7%94%A8%E5%AE%9E%E6%88%98/docker001.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/docker001.jpg" srcset="/img/loading.gif" lazyload></p>
 </li>
 </ol>
 <h3 id="安装-docker-compose"><a href="#安装-docker-compose" class="headerlink" title="安装 docker-compose"></a>安装 docker-compose</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">安装</span><br>curl -L https://github.com/docker/compose/releases/download/1.23.1/docker-compose-`uname -s`-`uname -m` &gt; /usr/local/bin/docker-compose<br><span class="hljs-meta prompt_"># </span><span class="language-bash">修改权限</span><br>chmod +x /usr/local/bin/docker-compose<br></code></pre></td></tr></table></figure>
 
 <p>安装成功</p>
-<p><img src="/Docker%E8%BF%90%E7%94%A8%E5%AE%9E%E6%88%98/docker002.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/docker002.jpg" srcset="/img/loading.gif" lazyload></p>
 <h3 id="拉取-Mysql-镜像"><a href="#拉取-Mysql-镜像" class="headerlink" title="拉取 Mysql 镜像"></a>拉取 Mysql 镜像</h3><ol>
 <li>拉取5.7版本的 mysql 镜像</li>
 </ol>
@@ -326,7 +326,7 @@
 </ol>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker images mysql<br></code></pre></td></tr></table></figure>
 
-<p><img src="/Docker%E8%BF%90%E7%94%A8%E5%AE%9E%E6%88%98/docker003.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/docker003.jpg" srcset="/img/loading.gif" lazyload></p>
 <ol start="3">
 <li>运行 mysql 容器</li>
 </ol>
@@ -334,7 +334,7 @@
 
 <ol start="4">
 <li><p>进入mysql容器查看版本号</p>
-<p><img src="/Docker%E8%BF%90%E7%94%A8%E5%AE%9E%E6%88%98/docker004.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/docker004.jpg" srcset="/img/loading.gif" lazyload></p>
 </li>
 <li><p>navicat 远程连接数据库并导入表结构以及数据库</p>
 </li>
@@ -357,9 +357,9 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker run --name java-demo -p 8080:8080 --link mysql -d java-docker-demo:1.0<br></code></pre></td></tr></table></figure>
 
 <h3 id="测试接口"><a href="#测试接口" class="headerlink" title="测试接口"></a>测试接口</h3><p>地址栏输入虚拟机ip:8080&#x2F;get&#x2F;201929210220，得到数据</p>
-<p><img src="/Docker%E8%BF%90%E7%94%A8%E5%AE%9E%E6%88%98/docker005.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/docker005.jpg" srcset="/img/loading.gif" lazyload></p>
 <h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><p>很尴尬，一开始最终测试的步骤这里，我总是页面显示500的状态码，后台日志也是这样：</p>
-<p><img src="/Docker%E8%BF%90%E7%94%A8%E5%AE%9E%E6%88%98/docker006.jpg" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/docker006.jpg" srcset="/img/loading.gif" lazyload></p>
 <p>我的情况是本地环境下运行项目能得到正确的结果，本地远程连接mysql容器也能成功。</p>
 <p>一开始我理解为运行SpringBoot项目的容器与运行mysql的容器无法进行连接，我初步的解决方案是docker运行加上–link参数，但还是没有解决这个问题。</p>
 <p>最终，在我的不懈努力下(就是做了很多无用功)，以及星球里某位老哥的提醒下，我发现我的iptables防火墙是开启的，我尝试把他直接关闭：</p>
