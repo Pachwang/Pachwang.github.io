@@ -4,6 +4,27 @@
   
   
   <entry>
+    <title>Docker安装Redis</title>
+    <link href="/2023/05/03/Docker%E5%AE%89%E8%A3%85Redis/"/>
+    <url>/2023/05/03/Docker%E5%AE%89%E8%A3%85Redis/</url>
+    
+    <content type="html"><![CDATA[<h1 id="详细步骤"><a href="#详细步骤" class="headerlink" title="详细步骤"></a>详细步骤</h1><ol><li><p>拉取最新的Redis镜像</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker pull redis<br></code></pre></td></tr></table></figure></li><li><p>在服务器下创建如下文件夹</p><p>&#x2F;mydata&#x2F;redis&#x2F;myredis&#x2F;data</p><p>&#x2F;mydata&#x2F;redis&#x2F;myredis&#x2F;myredis.conf</p></li><li><p>去官网下载一份标准的配置文件</p><p>官网：<a href="http://www.redis.cn/download.html">http://www.redis.cn/download.html</a></p><p>主要修改如下几项</p><p><code>bind 127.0.0.1</code>  注释掉这部分，使redis可以外部访问 </p><p><code>daemonize no</code> 用守护线程的方式启动 </p><p><code>requirepass 你的密码</code> 给redis设置密码 </p><p><code>appendonly yes</code> redis持久化　　默认是no </p><p><code>tcp-keepalive 300</code> 防止出现远程主机强迫关闭了一个现有的连接的错误 默认是300</p></li><li><p>启动Redis容器</p><p>PS: requirepass 密码自己设置</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker run --restart=always -p 6379:6379 --name redis -v /mydata/redis/myredis/myredis.conf:/etc/redis/redis.conf -v /mydata/redis/myredis/data:/data -d redis redis-server /etc/redis/redis.conf  --appendonly yes  --requirepass 123456<br></code></pre></td></tr></table></figure></li><li><p>参数解释</p><ul><li><code>--restart=always</code> 总是开机启动</li><li><code>--log</code>是日志方面的</li><li><code>-p 6379:6379</code> 将6379端口挂载出去</li><li><code>--name</code> 给这个容器取一个名字</li><li><code>-v</code> 数据卷挂载<br><code>- /mydata/redis/myredis/myredis.conf:/etc/redis/redis.conf</code> 这里是将 linux 路径下的myredis.conf 和redis下的redis.conf 挂载在一起。<br><code>- /mydata/redis/myredis/data:/data</code> 同上</li><li><code>-d redis</code> 表示后台启动redis</li><li><code>redis-server /etc/redis/redis.conf</code> 以配置文件启动redis，加载容器内的conf文件，最终找到的是挂载的目录 <code>/etc/redis/redis.conf</code> 也就是linux 下的&#x2F;mydata&#x2F;redis&#x2F;myredis&#x2F;myredis.conf</li><li>–appendonly yes 开启redis 持久化</li><li>–requirepass 设置密码</li></ul></li><li><p>查看容器运行状况</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker ps -a |grep redis <br></code></pre></td></tr></table></figure><p><img src="/images/docker007.jpg"></p></li><li><p>RESP客户端测试连接</p><p><img src="/images/docker008.jpg"></p></li><li><p>进入redis容器</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker exec -it redis /bin/bash<br>redis-cli<br></code></pre></td></tr></table></figure><p>测试</p><p><img src="/images/docker009.jpg"></p></li></ol><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://blog.csdn.net/weixin_45821811/article/details/116211724">https://blog.csdn.net/weixin_45821811/article/details/116211724</a></p><p><a href="https://cloud.tencent.com/developer/article/1670205">https://cloud.tencent.com/developer/article/1670205</a></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux</category>
+      
+      <category>Docker</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Linux总复习</title>
     <link href="/2023/05/02/Linux%E6%80%BB%E5%A4%8D%E4%B9%A0/"/>
     <url>/2023/05/02/Linux%E6%80%BB%E5%A4%8D%E4%B9%A0/</url>
@@ -33,6 +54,8 @@
     <categories>
       
       <category>Linux</category>
+      
+      <category>Docker</category>
       
     </categories>
     
