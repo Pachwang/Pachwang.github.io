@@ -30,7 +30,7 @@
 <meta property="og:image" content="https://pachwang.github.io/images/docker005.jpg">
 <meta property="og:image" content="https://pachwang.github.io/images/docker006.jpg">
 <meta property="article:published_time" content="2023-05-02T11:37:40.000Z">
-<meta property="article:modified_time" content="2023-05-02T12:23:30.227Z">
+<meta property="article:modified_time" content="2023-05-03T05:46:31.548Z">
 <meta property="article:author" content="Pachwang">
 <meta property="article:tag" content="原创">
 <meta name="twitter:card" content="summary_large_image">
@@ -227,7 +227,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          6.4k 字
+          6.7k 字
         
       </span>
     
@@ -238,7 +238,7 @@
         
         
         
-          54 分钟
+          56 分钟
         
       </span>
     
@@ -293,9 +293,9 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun<br></code></pre></td></tr></table></figure>
 
 <blockquote>
-<p>ncurl -fsSL <a href="https://get.docker.com：">https://get.docker.com：</a> 下载脚本文件</p>
-<p>nbash：运行该脚本文件</p>
-<p>n -s docker –mirror Aliyun：参数传入，使用阿里云源</p>
+<p>curl -fsSL <a href="https://get.docker.com：">https://get.docker.com：</a> 下载脚本文件</p>
+<p>bash：运行该脚本文件</p>
+<p> -s docker –mirror Aliyun：参数传入，使用阿里云源</p>
 </blockquote>
 <p>国内 daocloud 一键安装命令</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">curl -sSL https://get.daocloud.io/docker | sh<br></code></pre></td></tr></table></figure>
@@ -308,9 +308,18 @@
 </li>
 <li><p>安装成功</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker -v<br></code></pre></td></tr></table></figure>
-
 <p><img src="/images/docker001.jpg" srcset="/img/loading.gif" lazyload></p>
 </li>
+<li><p>配置镜像加速源</p>
+<p>输入指令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">vim /etc/docker/daemon.json<br></code></pre></td></tr></table></figure>
+
+<p>切换至编辑模式，添加以下内容，并保存</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs shell">&#123;<br>   &quot;registry-mirrors&quot;: [<br>   &quot;https://mirror.ccs.tencentyun.com&quot;<br>  ]<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这样拉取某些镜像就嘎嘎快了</p>
+<p>别忘记重启下docker 	ps：如果此前有正在运行的容器，那么重启后需要重新运行容器</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">systemctl restart docker<br></code></pre></td></tr></table></figure></li>
 </ol>
 <h3 id="安装-docker-compose"><a href="#安装-docker-compose" class="headerlink" title="安装 docker-compose"></a>安装 docker-compose</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">安装</span><br>curl -L https://github.com/docker/compose/releases/download/1.23.1/docker-compose-`uname -s`-`uname -m` &gt; /usr/local/bin/docker-compose<br><span class="hljs-meta prompt_"># </span><span class="language-bash">修改权限</span><br>chmod +x /usr/local/bin/docker-compose<br></code></pre></td></tr></table></figure>
 
