@@ -28,9 +28,14 @@
 <meta property="og:image" content="https://pachwang.github.io/images/docker003.jpg">
 <meta property="og:image" content="https://pachwang.github.io/images/docker004.jpg">
 <meta property="og:image" content="https://pachwang.github.io/images/docker005.jpg">
+<meta property="og:image" content="https://pachwang.github.io/images/docker010.jpg">
 <meta property="og:image" content="https://pachwang.github.io/images/docker006.jpg">
+<meta property="og:image" content="https://pachwang.github.io/images/docker011.jpg">
+<meta property="og:image" content="https://pachwang.github.io/images/docker012.jpg">
+<meta property="og:image" content="https://pachwang.github.io/images/docker013.jpg">
+<meta property="og:image" content="https://pachwang.github.io/images/docker014.jpg">
 <meta property="article:published_time" content="2023-05-02T11:37:40.000Z">
-<meta property="article:modified_time" content="2023-05-03T05:58:30.062Z">
+<meta property="article:modified_time" content="2023-05-04T02:00:18.449Z">
 <meta property="article:author" content="Pachwang">
 <meta property="article:tag" content="原创">
 <meta name="twitter:card" content="summary_large_image">
@@ -227,7 +232,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          6.7k 字
+          8.8k 字
         
       </span>
     
@@ -238,7 +243,7 @@
         
         
         
-          57 分钟
+          73 分钟
         
       </span>
     
@@ -345,7 +350,7 @@
 <li><p>进入mysql容器查看版本号</p>
 <p><img src="/images/docker004.jpg" srcset="/img/loading.gif" lazyload></p>
 </li>
-<li><p>navicat 远程连接数据库并导入表结构以及数据库</p>
+<li><p>navicat 远程连接数据库并导入表结构以及数据</p>
 </li>
 </ol>
 <h3 id="准备jar包以及jdk"><a href="#准备jar包以及jdk" class="headerlink" title="准备jar包以及jdk"></a>准备jar包以及jdk</h3><ol>
@@ -367,7 +372,26 @@
 
 <h3 id="测试接口"><a href="#测试接口" class="headerlink" title="测试接口"></a>测试接口</h3><p>地址栏输入虚拟机ip:8080&#x2F;get&#x2F;201929210220，得到数据</p>
 <p><img src="/images/docker005.jpg" srcset="/img/loading.gif" lazyload></p>
-<h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><p>很尴尬，一开始最终测试的步骤这里，我总是页面显示500的状态码，后台日志也是这样：</p>
+<h2 id="完善-阶段一"><a href="#完善-阶段一" class="headerlink" title="完善-阶段一"></a>完善-阶段一</h2><p>到目前为止，我是创建了两个镜像，一个镜像只运行mysql5.7.25，另一个容器基于ubuntu基础镜像运行SpringBoot项目，项目是一个简单的SpringBoot项目，从数据库中读取数据，具体的效果体现为接口请求。</p>
+<p>我在思考将这两个镜像合并成一个镜像，或许这种方案不是最佳解决方案，但重在一个学习过程。</p>
+<h3 id="Dockerfile"><a href="#Dockerfile" class="headerlink" title="Dockerfile"></a>Dockerfile</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><code class="hljs dockerfile"><span class="hljs-keyword">FROM</span> ubuntu:latest<br><br><span class="hljs-comment"># 配置环境变量，JDK的安装目录</span><br><span class="hljs-keyword">ENV</span> JAVA_DIR=/usr/local<br><br><span class="hljs-comment"># 拷贝jdk和java项目的包</span><br><span class="hljs-keyword">COPY</span><span class="language-bash"> ./jdk8.tar.gz <span class="hljs-variable">$JAVA_DIR</span>/</span><br><span class="hljs-keyword">COPY</span><span class="language-bash"> ./java-demo.jar /tmp/app.jar</span><br><br><span class="hljs-comment"># 安装JDK</span><br><span class="hljs-keyword">RUN</span><span class="language-bash"> <span class="hljs-built_in">cd</span> <span class="hljs-variable">$JAVA_DIR</span> \</span><br><span class="language-bash"> &amp;&amp; tar -xf ./jdk8.tar.gz \</span><br><span class="language-bash"> &amp;&amp; <span class="hljs-built_in">mv</span> ./jdk1.8.0_144 ./java8</span><br> <br><span class="hljs-comment"># 配置环境变量</span><br><span class="hljs-keyword">ENV</span> JAVA_HOME=$JAVA_DIR/java8<br><span class="hljs-keyword">ENV</span> PATH=$PATH:$JAVA_HOME/bin<br><br><span class="hljs-comment"># apt-get命令安装mysql-server</span><br><span class="hljs-keyword">RUN</span><span class="language-bash"> apt-get update &amp;&amp; apt-get install -y mysql-server</span><br><br><span class="hljs-comment"># 修改mysqld.cnf文件中的bind-address参数，允许远程连接</span><br><span class="hljs-keyword">RUN</span><span class="language-bash"> service mysql start &amp;&amp; \</span><br><span class="language-bash">    mysql -u root -e <span class="hljs-string">&quot;CREATE USER &#x27;docker&#x27;@&#x27;%&#x27; IDENTIFIED BY &#x27;docker&#x27;;&quot;</span> &amp;&amp; \</span><br><span class="language-bash">    mysql -u root -e <span class="hljs-string">&quot;GRANT ALL PRIVILEGES ON *.* TO &#x27;docker&#x27;@&#x27;%&#x27;;&quot;</span> &amp;&amp; \</span><br><span class="language-bash">    mysql -u root -e <span class="hljs-string">&quot;FLUSH PRIVILEGES;&quot;</span> &amp;&amp; \</span><br><span class="language-bash">    service mysql stop</span><br>    <br><span class="hljs-comment"># 修改mysqld.cnf文件中的bind-address参数，允许远程连接	</span><br><span class="hljs-keyword">RUN</span><span class="language-bash"> sed -i <span class="hljs-string">&#x27;s/127.0.0.1/0.0.0.0/g&#x27;</span> /etc/mysql/mysql.conf.d/mysqld.cnf</span><br><br><span class="hljs-comment"># 挂载MySQL数据存储目录到数据卷</span><br><span class="hljs-keyword">VOLUME</span><span class="language-bash"> [<span class="hljs-string">&quot;/var/lib/mysql&quot;</span>]</span><br><br><span class="hljs-comment"># 暴露端口</span><br><span class="hljs-keyword">EXPOSE</span> <span class="hljs-number">3306</span><br><span class="hljs-comment"># 暴露端口</span><br><span class="hljs-keyword">EXPOSE</span> <span class="hljs-number">8080</span><br><br><span class="hljs-comment"># 后台允许mysql服务然后允许springboot项目</span><br><span class="hljs-keyword">ENTRYPOINT</span><span class="language-bash"> mysqld_safe &amp; java -jar /tmp/app.jar</span><br><br><span class="hljs-comment"># apt-get update &amp;&amp; apt-get install -y vim</span><br><br></code></pre></td></tr></table></figure>
+
+<h3 id="镜像创建"><a href="#镜像创建" class="headerlink" title="镜像创建"></a>镜像创建</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker build -t demo:v5<br></code></pre></td></tr></table></figure>
+
+<h3 id="镜像运行"><a href="#镜像运行" class="headerlink" title="镜像运行"></a>镜像运行</h3><p>暴露两个端口，暴露8080端口供接口请求，暴露3306端口接口允许navicat远程操作数据库便于调试。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker run -d --name demo -p 3306:3306 -p 8080:8080 demo:v5<br></code></pre></td></tr></table></figure>
+
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>进入容器内部或者在服务器上用curl命令测试接口</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">基于ubuntu的基础镜像，先安装curl</span><br>apt-get update -y &amp;&amp; apt-get install curl -y<br><span class="hljs-meta prompt_"># </span><span class="language-bash">测试接口</span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">curl localhost:8080/student/get/201929210220</span><br></code></pre></td></tr></table></figure>
+
+<p>效果图</p>
+<p><img src="/images/docker010.jpg" srcset="/img/loading.gif" lazyload></p>
+<h2 id="完善-阶段二"><a href="#完善-阶段二" class="headerlink" title="完善-阶段二"></a>完善-阶段二</h2><p>TODO:</p>
+<ol>
+<li>编写自动下载jdk以及配置java环境的脚本。</li>
+<li>下载mysql-server后，编写一个脚本创建指定数据库并自动导入现有的数据库表结构以及数据。</li>
+</ol>
+<h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><h3 id="测试接口1"><a href="#测试接口1" class="headerlink" title="测试接口1"></a>测试接口1</h3><p>很尴尬，一开始最终测试的步骤这里，我总是页面显示500的状态码，后台日志也是这样：</p>
 <p><img src="/images/docker006.jpg" srcset="/img/loading.gif" lazyload></p>
 <p>我的情况是本地环境下运行项目能得到正确的结果，本地远程连接mysql容器也能成功。</p>
 <p>一开始我理解为运行SpringBoot项目的容器与运行mysql的容器无法进行连接，我初步的解决方案是docker运行加上–link参数，但还是没有解决这个问题。</p>
@@ -378,11 +402,29 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">systemctl restart docker<br>docker start mysql<br>docker start java-demo<br></code></pre></td></tr></table></figure>
 
 <p>然后，我怀着沉重的心情又测了一遍，最终解决了问题。</p>
+<h3 id="测试接口2"><a href="#测试接口2" class="headerlink" title="测试接口2"></a>测试接口2</h3><p>编写第二种dockerfile的过程中遇到了很多困难，总是无法下载mysql服务，最终选择apt-get命令</p>
+<p>服务器内以及容器内测试接口都得到了正确结果，但本机测试却总也得不到数据，具体报错信息如下：</p>
+<p><img src="/images/docker011.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>注意到状态码为502，我显示查看了容器运行日志</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker logs -f demo<br></code></pre></td></tr></table></figure>
+
+<p>并没有上面报错信息</p>
+<p>这时候我就有点晕了，折腾了很久，在室友的提示下打开游览器网络页面检查</p>
+<p><img src="/images/docker012.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>这里就很奇怪了，<em>Remote Address: 127.0.0.1:7890</em></p>
+<p>明明游览器发送的url是 <em><a target="_blank" rel="noopener" href="http://43.138.188.66:8080/student/get/201929210220">http://43.138.188.66:8080/student/get/201929210220</a></em>，但最终怎么会变成这种意想不到的结果呢？</p>
+<p>最终还是在室友的提示下，发现了问题所在，很蛋疼，是因为科学上网的原因…</p>
+<p>重新测试</p>
+<p><img src="/images/docker013.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>Remote Address也很正常！</p>
+<p>所以，科学上网需谨慎！</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>问题得到解决，但我想了想直接关闭防火墙iptables只是权宜之计，正解应该是开放防火墙指定端口。</p>
 <p>查看iptables并放开8080端口</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">查看iptables</span><br>cat /etc/sysconfig/iptables<br><span class="hljs-meta prompt_"># </span><span class="language-bash">sample configuration <span class="hljs-keyword">for</span> iptables service</span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">you can edit this manually or use system-config-firewall</span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">please <span class="hljs-keyword">do</span> not ask us to add additional ports/services to this default configuration</span><br>*filter<br>:INPUT ACCEPT [0:0]<br>:FORWARD ACCEPT [0:0]<br>:OUTPUT ACCEPT [0:0]<br>-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT<br>-A INPUT -p icmp -j ACCEPT<br>-A INPUT -i lo -j ACCEPT<br>-A INPUT -p tcp -m state --state NEW -m tcp --dport 8888 -j ACCEPT<br>-A INPUT -p tcp -m state --state NEW -m tcp --dport 80 -j ACCEPT<br>-A INPUT -p tcp -m state --state NEW -m tcp --dport 23000 -j ACCEPT<br>-A INPUT -p tcp -m state --state NEW -m tcp --dport 22122 -j ACCEPT<br>-A INPUT -p tcp -m state --state NEW -m tcp --dport 22 -j ACCEPT<br>-A INPUT -p tcp -m state --state NEW -m tcp --dport 8080 -j ACCEPT<br>-A INPUT -p tcp -m state --state NEW -m tcp --dport 3306 -j ACCEPT<br>-A INPUT -p tcp -m tcp --dport 23 -j ACCEPT<br>-A INPUT -p tcp -m tcp --dport 21 -j ACCEPT<br>-A INPUT -j REJECT --reject-with icmp-host-prohibited<br>-A FORWARD -j REJECT --reject-with icmp-host-prohibited<br>COMMIT<br><span class="hljs-meta prompt_"># </span><span class="language-bash">放开8080端口</span><br>iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 8080 -j ACCEPT<br></code></pre></td></tr></table></figure>
 
-<p>其次，还需要考虑能否直接在SpringBoot项目运行的环境中搭建mysql环境，即编写更加完善的Dockerfile文件。</p>
+<p>其次，还需要考虑能否直接在SpringBoot项目运行的环境中搭建mysql环境，即编写更加完善的Dockerfile文件。（已完成）</p>
+<p>服务器上运行的话，以腾讯云轻量服务器为例，放开指定端口即可！</p>
+<p><img src="/images/docker014.jpg" srcset="/img/loading.gif" lazyload></p>
 <h1 id="相关指令"><a href="#相关指令" class="headerlink" title="相关指令"></a>相关指令</h1><h2 id="Docker基本指令"><a href="#Docker基本指令" class="headerlink" title="Docker基本指令"></a>Docker基本指令</h2><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><ul>
 <li>Docker环境信息   info、version</li>
 <li>镜像仓库命令      login、logout、pull、push、search</li>
