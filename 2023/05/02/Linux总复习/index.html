@@ -23,10 +23,13 @@
 <meta property="og:site_name" content="Pachwang">
 <meta property="og:description" content="Linux总复习第一讲起源Linux的起源可以追溯到1991年，当时一位名叫Linus Torvalds的芬兰大学生开始为自己的个人电脑开发一种新的操作系统。这个系统最初是为了满足他在学校计算机课程中的需求而设计的。在他的学习和开发过程中，他使用了Minix操作系统的代码和想法，并结合了自己的创新，最终开发出了一种新的操作系统，也就是现在所知道的Linux。 历史 1991年-1993年：最初的开">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pachwang.github.io/%5Cimages%5Clinux001.jpg">
+<meta property="og:image" content="https://pachwang.github.io/%5Cimages%5Clinux002.jpg">
 <meta property="article:published_time" content="2023-05-02T15:34:04.000Z">
-<meta property="article:modified_time" content="2023-05-02T15:34:57.699Z">
+<meta property="article:modified_time" content="2023-05-04T12:05:30.509Z">
 <meta property="article:author" content="Pachwang">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://pachwang.github.io/%5Cimages%5Clinux001.jpg">
   
   
   
@@ -219,7 +222,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.4k 字
+          4.1k 字
         
       </span>
     
@@ -230,7 +233,7 @@
         
         
         
-          29 分钟
+          35 分钟
         
       </span>
     
@@ -332,6 +335,36 @@
 <li>共享软件：共享软件是指由开发者免费提供、允许复制和分发的软件。共享软件可以是开源或闭源的，通常允许用户对其进行修改和定制，但需要遵守软件许可协议中的规定。共享软件的目的是鼓励创新和合作，推动知识和技术的自由流通。</li>
 <li>自由软件：自由软件是指用户可以自由使用、复制、修改和分发的软件。自由软件的源代码必须公开，用户有权修改和改进该软件，并且需要将改进后的版本公开发布。自由软件的目的是保护用户的自由和隐私，促进软件的互联互通和技术的共享。</li>
 <li>免费软件：免费软件是指用户可以免费获取和使用的软件，其源代码可以是公开或闭源的，用户无权修改和分发该软件。免费软件的目的是提供一个免费的替代品，以满足用户的一些基本需求，如文字处理、绘图等。</li>
+</ol>
+<h2 id="第二讲"><a href="#第二讲" class="headerlink" title="第二讲"></a>第二讲</h2><h3 id="Linux内核版本号"><a href="#Linux内核版本号" class="headerlink" title="Linux内核版本号"></a>Linux内核版本号</h3><p>由Linus等人制定和维护，全球统一</p>
+<p>内核版本号格式：<strong>x.y.zz</strong></p>
+<p>x为主版本号	y为次版本号	zz为次次版本号</p>
+<p>例如：</p>
+<p>查看内核版本号：</p>
+<p><img src="/%5Cimages%5Clinux001.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>查看发行版本号：</p>
+<p><img src="/%5Cimages%5Clinux002.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>2.6及以下版本(x.y.zz)</p>
+<p>次版本号&#x3D;偶数 &#x3D;&gt; 稳定版本</p>
+<p>次版本号&#x3D;奇数 &#x3D;&gt;测试版本</p>
+<p>3.0开始</p>
+<p>次版本号不再表示一个内核是稳定版本还是测试版本，所有发布出来的正式版本<strong>都是稳定版本</strong></p>
+<h3 id="Linux目录结构"><a href="#Linux目录结构" class="headerlink" title="Linux目录结构"></a>Linux目录结构</h3><p>Linux以目录的方式来组织和管理系统中的所有文件，以根目录 &#x2F; 为起点，所有其他的目录都由根目录派生而来，采用了一种层次化的树形结构，称为文件系统层次结构（Filesystem Hierarchy Standard，FHS）。</p>
+<h4 id="常见目录的作用和存放内容"><a href="#常见目录的作用和存放内容" class="headerlink" title="常见目录的作用和存放内容"></a>常见目录的作用和存放内容</h4><ol>
+<li>&#x2F;bin：常用系统程序目录</li>
+<li>&#x2F;boot：开机设定目录，也是存放核心 vmlinuz 的地方</li>
+<li>&#x2F;dev：存放系统设备装置文件的目录</li>
+<li>&#x2F;etc：系统配置文件，尤其 passwd, shadow</li>
+<li>&#x2F;etc&#x2F;rc.d&#x2F;init.d：存放系统开机时载入服务的脚本</li>
+<li>&#x2F;home：系统使用者的目录</li>
+<li>&#x2F;lib：Linux 执行或编译程序函数库目录</li>
+<li>&#x2F;mnt：软驱与光驱接入挂载的地方</li>
+<li>&#x2F;proc：系统核心与执行程序的一些信息</li>
+<li>&#x2F;root：系统管理员的目录</li>
+<li>&#x2F;usr&#x2F;bin, &#x2F;bin：一般执行文件摆放的地方</li>
+<li>&#x2F;usr&#x2F;sbin, &#x2F;sbin：系统管理员常用指令集</li>
+<li>&#x2F;var：摆放系统日志文件的地方</li>
+<li>&#x2F;lost+fount：摆放系统不正常产生错误时遗失的片段</li>
 </ol>
 
                 
