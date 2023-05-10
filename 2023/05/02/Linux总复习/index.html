@@ -31,8 +31,15 @@
 <meta property="og:image" content="https://pachwang.github.io/images/linux006.jpg">
 <meta property="og:image" content="https://pachwang.github.io/images/linux007.jpg">
 <meta property="og:image" content="https://pachwang.github.io/images/linux008.jpg">
+<meta property="og:image" content="https://pachwang.github.io/images/linux009.jpg">
+<meta property="og:image" content="https://pachwang.github.io/images/linux0010.jpg">
+<meta property="og:image" content="https://pachwang.github.io/images/linux011.jpg">
+<meta property="og:image" content="https://pachwang.github.io/images/linux012.jpg">
+<meta property="og:image" content="https://pachwang.github.io/images/linux013.jpg">
+<meta property="og:image" content="https://pachwang.github.io/images/linux014.jpg">
+<meta property="og:image" content="https://pachwang.github.io/images/linux015.jpg">
 <meta property="article:published_time" content="2023-05-02T15:34:04.000Z">
-<meta property="article:modified_time" content="2023-05-06T12:39:23.766Z">
+<meta property="article:modified_time" content="2023-05-09T12:28:04.756Z">
 <meta property="article:author" content="Pachwang">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://pachwang.github.io/images/linux001.jpg">
@@ -228,7 +235,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          24k 字
+          37k 字
         
       </span>
     
@@ -239,7 +246,7 @@
         
         
         
-          198 分钟
+          313 分钟
         
       </span>
     
@@ -1465,6 +1472,818 @@
 <li>\W  \w的反置形式，匹配一个或多个非单词字符，如点号句号等 </li>
 <li>\b  单词锁定符，如: ‘\bgrep\b’只匹配grep</li>
 </ul>
+<h2 id="第五讲"><a href="#第五讲" class="headerlink" title="第五讲"></a>第五讲</h2><h3 id="常见的命令"><a href="#常见的命令" class="headerlink" title="常见的命令"></a>常见的命令</h3><h4 id="cal命令"><a href="#cal命令" class="headerlink" title="cal命令"></a>cal命令</h4><p>作用：打印日期<br>格式：cal</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-3</td>
+<td>显示最近三个月的日历</td>
+</tr>
+<tr>
+<td>-s</td>
+<td>将星期天作为月的第一天</td>
+</tr>
+<tr>
+<td>-m</td>
+<td>将星期一作为月的第一天</td>
+</tr>
+<tr>
+<td>-y</td>
+<td>显示当年日历</td>
+</tr>
+</tbody></table>
+<h4 id="date命令"><a href="#date命令" class="headerlink" title="date命令"></a>date命令</h4><p>作用：显示或设定系统的日期与时间<br>格式：date [选项] 时间格式</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>%H</td>
+<td>小时(00..23)</td>
+</tr>
+<tr>
+<td>%M</td>
+<td>分钟(00..59)</td>
+</tr>
+<tr>
+<td>%S</td>
+<td>秒(00..60)</td>
+</tr>
+<tr>
+<td>%Y</td>
+<td>完整月份(0000..9999)</td>
+</tr>
+<tr>
+<td>%m</td>
+<td>月份(01..12)</td>
+</tr>
+<tr>
+<td>%d</td>
+<td>日(01..31)</td>
+</tr>
+</tbody></table>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">date &#x27;+%Y-%m-%d %H:%M:%S&#x27;<br>2023-05-07 23:45:03<br></code></pre></td></tr></table></figure>
+
+<h4 id="wc命令-1"><a href="#wc命令-1" class="headerlink" title="wc命令"></a>wc命令</h4><p>作用：默认统计文件内的行／字和字节数<br>格式：wc  [选项] 文件路径</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-c</td>
+<td>按字节统计</td>
+</tr>
+<tr>
+<td>-l</td>
+<td>按行数统计</td>
+</tr>
+<tr>
+<td>-m</td>
+<td>按字符统计</td>
+</tr>
+<tr>
+<td>-w</td>
+<td>按单词统计</td>
+</tr>
+</tbody></table>
+<h4 id="sort命令"><a href="#sort命令" class="headerlink" title="sort命令"></a>sort命令</h4><p>作用：对内容排序<br>格式：sort [选项] 文件路径</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-f</td>
+<td>排序时，将小写字母视为大写字母</td>
+</tr>
+<tr>
+<td>-n</td>
+<td>按照数值大小排序</td>
+</tr>
+<tr>
+<td>-u</td>
+<td>去重排序</td>
+</tr>
+<tr>
+<td>-o  file</td>
+<td>将排序后的结果存入指定的文件</td>
+</tr>
+<tr>
+<td>-r</td>
+<td>以相反的顺序来排序</td>
+</tr>
+</tbody></table>
+<h4 id="which命令-和-whereis命令"><a href="#which命令-和-whereis命令" class="headerlink" title="which命令 和 whereis命令"></a>which命令 和 whereis命令</h4><p>作用：查找文件<br>格式： which &#x2F; whereis 命令</p>
+<h4 id="su命令"><a href="#su命令" class="headerlink" title="su命令"></a>su命令</h4><p>作用：变更为其他使用者的身份。除 root 外，需要键入该使用者的密码<br>格式： su [选项] [用户名]</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">该命令将以tak用户的身份执行<span class="hljs-built_in">ls</span>命令但不切换用户</span><br>su -c ls tak<br><span class="hljs-meta prompt_"># </span><span class="language-bash">变更账号为tak的使用者，并执行指令（<span class="hljs-built_in">ls</span>）后再变回原来使用者</span><br>su - tak -c ls<br></code></pre></td></tr></table></figure>
+
+<h4 id="yum命令"><a href="#yum命令" class="headerlink" title="yum命令"></a>yum命令</h4><h4 id="sudo命令"><a href="#sudo命令" class="headerlink" title="sudo命令"></a>sudo命令</h4><p>作用：以系统管理者的身份执行指令<br>格式： sudo 命令<br>CentOS7默认没有普通用户具有sudo权限</p>
+<h5 id="添加sudo权限"><a href="#添加sudo权限" class="headerlink" title="添加sudo权限"></a>添加sudo权限</h5><p>修改 &#x2F;etc&#x2F;sudoers<br>步骤</p>
+<ol>
+<li>su   #切换到root用户</li>
+<li>ls -l &#x2F;etc&#x2F;sudoers 	#查看文件权限</li>
+<li>chmod u+w &#x2F;etc&#x2F;sudoers  	#添加写权限</li>
+<li>vi &#x2F;etc&#x2F;sudoers 	#打开并搜索root行</li>
+<li>用户名     ALL&#x3D;(ALL)       ALL   #添加内容，保存退出</li>
+<li>chmod u-w &#x2F;etc&#x2F;sudoers  	#删除写权限</li>
+<li>exit 	#切换回当前用户</li>
+</ol>
+<h3 id="vi三种模式的功能、切换"><a href="#vi三种模式的功能、切换" class="headerlink" title="vi三种模式的功能、切换"></a>vi三种模式的功能、切换</h3><h4 id="快捷键"><a href="#快捷键" class="headerlink" title="快捷键"></a>快捷键</h4><p><img src="/images/linux009.jpg" srcset="/img/loading.gif" lazyload></p>
+<h4 id="三种模式"><a href="#三种模式" class="headerlink" title="三种模式"></a>三种模式</h4><p><img src="/images/linux0010.jpg" srcset="/img/loading.gif" lazyload></p>
+<h4 id="命令模式"><a href="#命令模式" class="headerlink" title="命令模式"></a>命令模式</h4><p>启动vi后默认模式 按下ESC键可进入命令模式 输入的字符被当成命令，字符不回显 </p>
+<h5 id="单文件打开"><a href="#单文件打开" class="headerlink" title="单文件打开"></a>单文件打开</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">默认定位第一行</span> <br>vi /path/to/file <br><span class="hljs-meta prompt_"># </span><span class="language-bash">打开文件后把光标置于第n行</span> <br>vi +n filename <br><span class="hljs-meta prompt_"># </span><span class="language-bash">打开文件后把光标置于最后一行</span><br>vi + filename  <br></code></pre></td></tr></table></figure>
+
+<h5 id="多文件打开"><a href="#多文件打开" class="headerlink" title="多文件打开"></a>多文件打开</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">vi filename1 filenam2 filename3 <br><span class="hljs-meta prompt_"># </span><span class="language-bash">末行模式下进行切换</span> <br>:e filename2<br></code></pre></td></tr></table></figure>
+
+<h5 id="光标移动-1"><a href="#光标移动-1" class="headerlink" title="光标移动"></a>光标移动</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">h(左), j(下), k(上), l(右)  &lt;=&gt; 键盘上下左右键</span> <br><span class="hljs-meta prompt_"># </span><span class="language-bash">移动到行未</span><br><span class="hljs-meta prompt_">$ </span><span class="language-bash"> </span>   	<br><span class="hljs-meta prompt_"># </span><span class="language-bash">移动到行首</span> <br>0,^  	<br><span class="hljs-meta prompt_"># </span><span class="language-bash">定位第一行行首</span> <br>gg    <br><span class="hljs-meta prompt_"># </span><span class="language-bash">定位末行行首</span><br>G     	<br><span class="hljs-meta prompt_"># </span><span class="language-bash">定位到第n行行首</span> <br>nG  <br><span class="hljs-meta prompt_"># </span><span class="language-bash">向下移动n行</span> <br>n+ 	  	<br><span class="hljs-meta prompt_"># </span><span class="language-bash">向上移动n行</span><br>n- 	  <br><span class="hljs-meta prompt_"># </span><span class="language-bash">移动到下一/n个字首</span> <br>w | nw <br><span class="hljs-meta prompt_"># </span><span class="language-bash">移动到下一/n个字尾</span><br>e | ne <br><span class="hljs-meta prompt_"># </span><span class="language-bash">移动到上一/n个字首</span><br>b | nb <br><span class="hljs-meta prompt_"># </span><span class="language-bash">上一句</span><br>(   	<br><span class="hljs-meta prompt_"># </span><span class="language-bash">下一句</span><br>) <br><span class="hljs-meta prompt_"># </span><span class="language-bash">上一段</span><br>&#123;  		<br><span class="hljs-meta prompt_"># </span><span class="language-bash">当前段</span><br>&#125;  	<br><span class="hljs-meta prompt_"># </span><span class="language-bash">上翻一页</span> <br>Ctrl + b 	<br><span class="hljs-meta prompt_"># </span><span class="language-bash">下翻一页</span> <br>Ctrl + f 	<br><span class="hljs-meta prompt_"># </span><span class="language-bash">上翻半页</span><br>Ctrl + u 	<br><span class="hljs-meta prompt_"># </span><span class="language-bash">下翻半页</span><br>Ctrl + d 	<br></code></pre></td></tr></table></figure>
+
+<h5 id="删除-amp-恢复"><a href="#删除-amp-恢复" class="headerlink" title="删除&amp;恢复"></a>删除&amp;恢复</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">删除一/n个字符</span><br>x | nx 	  	<br><span class="hljs-meta prompt_">#</span><span class="language-bash">删除一/n行</span><br>dd | ndd  	<br><span class="hljs-meta prompt_"># </span><span class="language-bash">删除光标移动范围内的内容</span> <br>d[w|e|b|$|^|G|gg …]   <br><span class="hljs-meta prompt_"># </span><span class="language-bash">撤销上一步操作</span> <br>u  	<br><span class="hljs-meta prompt_"># </span><span class="language-bash">撤销对当前行的所有操作</span><br>U 	<br></code></pre></td></tr></table></figure>
+
+<h5 id="复制-amp-粘贴"><a href="#复制-amp-粘贴" class="headerlink" title="复制&amp;粘贴"></a>复制&amp;粘贴</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">复制一/n行</span> <br>yy | nyy  			<br><span class="hljs-meta prompt_"># </span><span class="language-bash">复制光标移动范围内的内容</span><br>y[w|e|b|$|^|G|gg…]   	<br><span class="hljs-meta prompt_"># </span><span class="language-bash">粘贴到光标所在位置下一个字符位置</span><br>p 			<br></code></pre></td></tr></table></figure>
+
+<h5 id="替换"><a href="#替换" class="headerlink" title="替换"></a>替换</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">替换光标所在字符(相同字符)</span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">自动退出</span><br>r | nr <br><span class="hljs-meta prompt_"> </span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">进入替换模式</span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">替换光标所在字符，直到按下Esc</span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">不会自动退出</span><br>R<br></code></pre></td></tr></table></figure>
+
+<h5 id="进入插入模式"><a href="#进入插入模式" class="headerlink" title="进入插入模式"></a>进入插入模式</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs shell">i 	#在光标左侧插入<br>a 	#在光标右侧插入<br>o  	#在光标所在行的下一行插入<br>s 	#删除光标所在字符后插入<br><br>I 	#在光标所在行首插入<br>A 	#在光标所在行尾插入<br>O	#在光标所在行的上一行插入<br>S 	#删除光标所在行<br></code></pre></td></tr></table></figure>
+
+<h5 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h5><ul>
+<li><p>保存退出 </p>
+<p>执行 ZZ 	#与末行模式下 :wq 效果一样  </p>
+</li>
+<li><p>快速清空文本内容 </p>
+<p>执行 gg 	#定位第一行行首 执行 </p>
+<p>dG 	#删除所有内容  </p>
+</li>
+<li><p>快速删除指定行之间的内容 </p>
+<p>执行 :n,m d	#删除第n行到m行之间的内容</p>
+</li>
+</ul>
+<h4 id="插入模式"><a href="#插入模式" class="headerlink" title="插入模式"></a>插入模式</h4><p>命令模式下通过i、a、o、c、r、s等命令进入 输入的字符被当成文本内容，显示在屏幕上 </p>
+<h4 id="末行模式"><a href="#末行模式" class="headerlink" title="末行模式"></a>末行模式</h4><h5 id="保存退出"><a href="#保存退出" class="headerlink" title="保存退出"></a>保存退出</h5><p>命令模式下通过:、&#x2F;、?等命令进入 显示在屏幕的最后一行 命令执行后，自动切换到命令模式</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">正常退出。	如果文件有修改未保存需要强制退出</span> <br>:q 			<br><span class="hljs-meta prompt_"># </span><span class="language-bash">强制退出</span> <br>:q!		<br><span class="hljs-meta prompt_"># </span><span class="language-bash">写入文件</span> <br>:w 		<br><span class="hljs-meta prompt_"># </span><span class="language-bash">另存为</span> <br>:w filename  <br><span class="hljs-meta prompt_"># </span><span class="language-bash">写入后退出</span> <br>:wq 	<br><span class="hljs-meta prompt_"># </span><span class="language-bash">写入后强制退出</span> <br>:wq!<br><span class="hljs-meta prompt_"># </span><span class="language-bash">:wq一样</span><br>:x 			<br></code></pre></td></tr></table></figure>
+
+<h5 id="行号"><a href="#行号" class="headerlink" title="行号"></a>行号</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">临时</span> <br><span class="hljs-meta prompt_"># </span><span class="language-bash">显示所有行号</span><br>:set nu | :set number <br><span class="hljs-meta prompt_"># </span><span class="language-bash">显示光标所在行号</span><br>:nu | :number 		<br><span class="hljs-meta prompt_"># </span><span class="language-bash">取消行号显示</span><br>:set nonu | :set nonumber <br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">长期</span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">当前用户下的vim配置文件</span><br>~/.vimrc    <br></code></pre></td></tr></table></figure>
+
+<h5 id="搜索"><a href="#搜索" class="headerlink" title="搜索"></a>搜索</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">从光标所在位置往下搜索</span><br>/&lt;pattern&gt;   <br><span class="hljs-meta prompt_"># </span><span class="language-bash">从光标所在位置往上搜索</span><br>?&lt;pattern&gt;  <br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">切换匹配项</span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">向下搜索下一个匹配项</span><br>n<br><span class="hljs-meta prompt_"># </span><span class="language-bash">向上搜索上一个匹配项</span><br>N <br></code></pre></td></tr></table></figure>
+
+<h5 id="替换-1"><a href="#替换-1" class="headerlink" title="替换"></a>替换</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">把光标所在行第一个匹配的x替换为y</span><br>:s/x/y   <br><span class="hljs-meta prompt_"># </span><span class="language-bash">把第n行到m行中每行中第一个匹配的x替换为y</span><br>:n,m s/x/y  <br><span class="hljs-meta prompt_"># </span><span class="language-bash">把当前文件中所有行的第一个匹配的x替换为y</span><br>:% s/x/y  <br><span class="hljs-meta prompt_"># </span><span class="language-bash">g : 全局 =&gt; 把每一行中所有的匹配项都替换</span> <br>:s/x/y/g <br>:n,m s/x/y/g <br>:% s/x/y/g<br></code></pre></td></tr></table></figure>
+
+<h3 id="vi与shell交互"><a href="#vi与shell交互" class="headerlink" title="vi与shell交互"></a>vi与shell交互</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">在末行模式下用“!”符号来访问Linux的Shell</span> <br>:!cat /etc/passwd | more<br>:! /bin/bash <br></code></pre></td></tr></table></figure>
+
+<h3 id="vi冲突处理"><a href="#vi冲突处理" class="headerlink" title="vi冲突处理"></a>vi冲突处理</h3><p>每次打开文件是会创建一个名为*.swp的临时文件</p>
+<p>当多界面编辑、vi异常退出时会导致异常</p>
+<p>删除*.swp即可</p>
+<h3 id="文本格式转换"><a href="#文本格式转换" class="headerlink" title="文本格式转换"></a>文本格式转换</h3><p>Windows 换行结束符号有两个控制字符，一个是归位字符(carriage return，^M)，另一个是换行字符( new line，^J ) </p>
+<p>Linux中只使用一个换行字符\n (功能同^J ) </p>
+<p>安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">yum install –y dos2unix unix2dos <br></code></pre></td></tr></table></figure>
+
+<p>使用 </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">格式转换后覆盖更新原文件</span> <br>unix2dos|dos2unix  filename <br><span class="hljs-meta prompt_"># </span><span class="language-bash">格式转换后存为新文件</span><br>unix2dos|dos2unix –n filename newFilename <br></code></pre></td></tr></table></figure>
+
+<h3 id="练习"><a href="#练习" class="headerlink" title="练习"></a>练习</h3><ol>
+<li><p>执行 man ls &gt; out.txt ,生成out.txt文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">man ls &gt; out.txt<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>使用 vi 打开 out.txt</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">vi out.txt<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>显示所有行号 </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">:set nu<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>光标移动到100行，向右移动10个字符</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">100G<br>10l<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>移动到第一行，往下搜索“1024”,定位到第二个匹配项</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">gg<br>/1024<br>n<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>将50行到100行之间的小写“o”改写为大写”O”</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">:50,100s/o/O/g<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>修改完了，突然反悔，如何恢复修改前？</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">u<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>复制65到73行之间这9行的内容，粘贴到最后一行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell">65G<br>9yy  #复制9行<br>G    #去最后一行<br>p    #将已复制的数据在光标下一行粘贴<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>删除21到42行之间的所有内容</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">21G<br>22dd<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>把当前文档另存为 out.txt.bak</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">:w out.txt.bak<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>定位到28行，删除3个单词</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">28G<br>3dw<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>在第一行新增一行，输入”I am a Student!”</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">1G<br>O<br>&quot;I am a Student!&quot;&quot;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>保存退出</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">:wq<br></code></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="第六讲"><a href="#第六讲" class="headerlink" title="第六讲"></a>第六讲</h2><h3 id="网络管理相关命令"><a href="#网络管理相关命令" class="headerlink" title="网络管理相关命令"></a>网络管理相关命令</h3><h4 id="ifconfig命令"><a href="#ifconfig命令" class="headerlink" title="ifconfig命令"></a>ifconfig命令</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">查看网卡信息</span><br>ifconfig<br><span class="hljs-meta prompt_"># </span><span class="language-bash">激活网络接口</span><br>ifconfig eth0 up<br><span class="hljs-meta prompt_"># </span><span class="language-bash">禁用网络接口</span><br>ifconfig eth0 down<br></code></pre></td></tr></table></figure>
+
+<h5 id="临时修改网络接口配置"><a href="#临时修改网络接口配置" class="headerlink" title="临时修改网络接口配置"></a>临时修改网络接口配置</h5><p>ifconfig &lt;设备名&gt; <IP> netmask &lt;掩码&gt;</p>
+<p>修改网络接口配置会导致SSH客户端断开</p>
+<p>重启网络控制程序后或重启系统后失效</p>
+<p>修改后不一定可以上网</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">ifconfig eth0 192.168.1.100 netmask 255.255.255.0<br></code></pre></td></tr></table></figure>
+
+<p>但<code>ifconfig</code>是一个已经被淘汰的命令，现在推荐使用ip命令进行网络接口的配置。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">设置eth0接口的IP地址和子网掩码 <span class="hljs-string">&quot;dev&quot;</span>是<span class="hljs-string">&quot;device&quot;</span>的缩写</span><br>ip addr add 192.168.1.100/24 dev eth0<br><span class="hljs-meta prompt_"># </span><span class="language-bash">启用eth0接口</span><br>ip link set eth0 up<br></code></pre></td></tr></table></figure>
+
+<p>这段代码将eth0接口的IP地址设置为192.168.1.100，子网掩码为255.255.255.0，并将该接口启用。</p>
+<h5 id="长期修改网络接口配置"><a href="#长期修改网络接口配置" class="headerlink" title="长期修改网络接口配置"></a>长期修改网络接口配置</h5><p>&#x2F;etc&#x2F;sysconfig&#x2F;network-scripts&#x2F;ifcfg-xxx </p>
+<ul>
+<li>IPADDR&#x3D;XX.XX.XX.XX # IP 十进制点分法</li>
+<li>NETMASK&#x3D;YY.YY.YY.YY  #子网掩码</li>
+<li>GATEWAY&#x3D;ZZ.ZZ.ZZ.ZZ #网关 </li>
+<li>DNS1&#x3D;AA.AA.AA.AA #DNS服务器IP</li>
+</ul>
+<h4 id="ifup命令-amp-ifdown命令"><a href="#ifup命令-amp-ifdown命令" class="headerlink" title="ifup命令 &amp; ifdown命令"></a>ifup命令 &amp; ifdown命令</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">激活网络接口</span><br>ifup eth0<br><span class="hljs-meta prompt_"># </span><span class="language-bash">禁用网络接口</span><br>ifdown eth0<br></code></pre></td></tr></table></figure>
+
+<h4 id="ping命令"><a href="#ping命令" class="headerlink" title="ping命令"></a>ping命令</h4><p>作用：网络连通性测试<br>格式：ping [选项] &lt;目的主机名或IP地址&gt;</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-c  &lt;完成次数&gt;</td>
+<td>设置完成要求回应的次数</td>
+</tr>
+<tr>
+<td>-s &lt;数据包大小&gt;</td>
+<td>设置数据包的大小</td>
+</tr>
+<tr>
+<td>-t &lt;存活数值&gt;</td>
+<td>设置存活数值TTL的大小</td>
+</tr>
+<tr>
+<td>-v</td>
+<td>详细显示指令的执行过程</td>
+</tr>
+</tbody></table>
+<h4 id="netstat命令"><a href="#netstat命令" class="headerlink" title="netstat命令"></a>netstat命令</h4><p>作用:用于显示网络状态<br>格式: netstat [选项]</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-a或–all</td>
+<td>显示所有连线中的Socket</td>
+</tr>
+<tr>
+<td>-A&lt;网络类型&gt;或–&lt;网络类型&gt;</td>
+<td>列出该网络类型连线中的相关地址</td>
+</tr>
+<tr>
+<td>-c或–continuous</td>
+<td>持续列出网络状态</td>
+</tr>
+<tr>
+<td>-e或–extend</td>
+<td>显示网络其他相关信息</td>
+</tr>
+<tr>
+<td>-l或–listening</td>
+<td>显示监控中的服务器的Socket</td>
+</tr>
+<tr>
+<td>-n或–numeric</td>
+<td>直接使用IP地址，而不通过域名服务器</td>
+</tr>
+<tr>
+<td>-p或–programs</td>
+<td>显示正在使用Socket的程序识别码和程序名称</td>
+</tr>
+<tr>
+<td>-t或–tcp</td>
+<td>显示TCP传输协议的连线状况</td>
+</tr>
+<tr>
+<td>-u或–udp</td>
+<td>显示UDP传输协议的连线状况</td>
+</tr>
+<tr>
+<td>-v或–verbose</td>
+<td>显示指令执行过程</td>
+</tr>
+</tbody></table>
+<p>例子</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">显示所有连线中的Socket</span><br>netstat -a<br><span class="hljs-meta prompt_"># </span><span class="language-bash">列出所有监听UNIX端口和udp端口</span>  <br>netstat -aux<br><span class="hljs-meta prompt_"># </span><span class="language-bash">查看端口使用</span><br>netstat -ntlp | grep port   <br></code></pre></td></tr></table></figure>
+
+<h4 id="service命令"><a href="#service命令" class="headerlink" title="service命令"></a>service命令</h4><p>作用：用于对系统服务进行管理<br>格式：service 服务名 [ start | stop | restart | status ]</p>
+<h4 id="chkconfig命令"><a href="#chkconfig命令" class="headerlink" title="chkconfig命令"></a>chkconfig命令</h4><p>作用：用于检查和设置系统的各种服务，设置启动项<br>格式：chkconfig [选项] 服务名 [状态]</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>–add</td>
+<td>添加指定的新服务</td>
+</tr>
+<tr>
+<td>–del</td>
+<td>删除指定服务</td>
+</tr>
+<tr>
+<td>–level&lt;运行级别编号&gt;</td>
+<td>改变服务的运行级别及启动信息</td>
+</tr>
+<tr>
+<td>–list</td>
+<td>显示所有或指定服务，以及他们在每个运行级别是否启动</td>
+</tr>
+</tbody></table>
+<p>提供了一个维护&#x2F;etc&#x2F;rc[0~6] d 文件夹的命令行工具，它减轻了系统直接管理这些文件夹中的符号连接的负担<br>chkconfig不是立即自动禁止或激活一个服务，它只是简单的改变了符号连接，需要重启才能生效</p>
+<h4 id="systemctl命令"><a href="#systemctl命令" class="headerlink" title="systemctl命令"></a>systemctl命令</h4><p>主要负责控制systemd系统和服务管理器 </p>
+<p>一个系统管理守护进程、工具和库的集合，用于取代System V、service和chkconfig命令</p>
+<p>例子</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs shell">systemctl start network.service<br>systemctl restart sshd<br><br>systemctl enable nginx.service<br>systemctl disable sshd<br></code></pre></td></tr></table></figure>
+
+<h5 id="与service命令对比"><a href="#与service命令对比" class="headerlink" title="与service命令对比"></a>与service命令对比</h5><table>
+<thead>
+<tr>
+<th><strong>daemon命令</strong></th>
+<th><strong>systemctl命令</strong></th>
+<th><strong>说明</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>service [服务] start</td>
+<td>systemctl  start [unit type]</td>
+<td>启动服务</td>
+</tr>
+<tr>
+<td>service [服务] stop</td>
+<td>systemctl stop [unit type]</td>
+<td>停止服务</td>
+</tr>
+<tr>
+<td>service [服务] restart</td>
+<td>systemctl restart [unit type]</td>
+<td>重启服务</td>
+</tr>
+</tbody></table>
+<h5 id="与chkconfig-对比"><a href="#与chkconfig-对比" class="headerlink" title="与chkconfig 对比"></a>与chkconfig 对比</h5><table>
+<thead>
+<tr>
+<th><strong>daemon命令</strong></th>
+<th><strong>systemctl命令</strong></th>
+<th><strong>说明</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>chkconfig  [服务]  on</td>
+<td>systemctl enable [unit type]</td>
+<td>设置服务开机启动</td>
+</tr>
+<tr>
+<td>chkconfig  [服务]  off</td>
+<td>systemctl  disable [unit type]</td>
+<td>设备服务禁止开机启动</td>
+</tr>
+</tbody></table>
+<h5 id="与init对比"><a href="#与init对比" class="headerlink" title="与init对比"></a>与init对比</h5><table>
+<thead>
+<tr>
+<th>init命令</th>
+<th>systemctl命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>init  0</td>
+<td>systemctl  poweroff</td>
+<td>系统关机</td>
+</tr>
+<tr>
+<td>init  6</td>
+<td>systemctl  reboot</td>
+<td>重新启动</td>
+</tr>
+</tbody></table>
+<h5 id="与开关机相关"><a href="#与开关机相关" class="headerlink" title="与开关机相关"></a>与开关机相关</h5><table>
+<thead>
+<tr>
+<th>指令</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>systemctl  suspend</td>
+<td>进入睡眠模式</td>
+</tr>
+<tr>
+<td>systemctl  hibernate</td>
+<td>进入休眠模式</td>
+</tr>
+<tr>
+<td>systemctl  rescue</td>
+<td>强制进入救援模式</td>
+</tr>
+<tr>
+<td>systemctl emergency</td>
+<td>强制进入紧急救援模式</td>
+</tr>
+</tbody></table>
+<h5 id="查看系统服务"><a href="#查看系统服务" class="headerlink" title="查看系统服务"></a>查看系统服务</h5><table>
+<thead>
+<tr>
+<th>选项</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>systemctl</td>
+<td>列出所有的系统服务</td>
+</tr>
+<tr>
+<td>systemctl  list-units</td>
+<td>列出所有启动unit</td>
+</tr>
+<tr>
+<td>systemctl  list-unit-files</td>
+<td>列出所有启动文件</td>
+</tr>
+<tr>
+<td>systemctl  list-units –type&#x3D;service  –all</td>
+<td>列出所有service类型的unit</td>
+</tr>
+<tr>
+<td>systemctl  list-units –type&#x3D;service  –all  |grep  cpu</td>
+<td>列出 cpu电源管理机制的服务</td>
+</tr>
+<tr>
+<td>systemctl  list-units –type&#x3D;target –all</td>
+<td>列出所有target</td>
+</tr>
+</tbody></table>
+<h5 id="特殊用法"><a href="#特殊用法" class="headerlink" title="特殊用法"></a>特殊用法</h5><table>
+<thead>
+<tr>
+<th>选项</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>systemctl  is-active [unit type]</td>
+<td>查看服务是否运行</td>
+</tr>
+<tr>
+<td>systemctl  is-enabled [unit type]</td>
+<td>查看服务是否设置为开机启动</td>
+</tr>
+<tr>
+<td>systemctl mask [unit type]</td>
+<td>注销指定服务</td>
+</tr>
+<tr>
+<td>systemctl unmask [unit type]</td>
+<td>取消注销指定服务</td>
+</tr>
+</tbody></table>
+<h5 id="开机自启动"><a href="#开机自启动" class="headerlink" title="开机自启动"></a>开机自启动</h5><h6 id="x2F-etc-x2F-rc-d-x2F-rc-local"><a href="#x2F-etc-x2F-rc-d-x2F-rc-local" class="headerlink" title="&#x2F;etc&#x2F;rc.d&#x2F;rc.local"></a>&#x2F;etc&#x2F;rc.d&#x2F;rc.local</h6><ol>
+<li><p>赋予脚本可执行权限</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">chmod +x  /opt/script/autostart.sh<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>在 &#x2F;etc&#x2F;rc.d&#x2F;rc.local 末尾增加想要执行的脚本内容</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">su - user -c &#x27;/opt/script/autostart.sh’<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>给 &#x2F;etc&#x2F;rc.d&#x2F;rc.local 赋予可执行权限</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">chmod +x /etc/rc.d/rc.local<br></code></pre></td></tr></table></figure></li>
+</ol>
+<h6 id="chkconfig"><a href="#chkconfig" class="headerlink" title="chkconfig"></a>chkconfig</h6><ol>
+<li><p>将脚本移动到 &#x2F;etc&#x2F;rc.d&#x2F;init.d目录下</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">mv /opt/script/autostart.sh /etc/rc.d/init.d<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>赋予脚本可执行权限</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">chmod +x /etc/rc.d/init.d/autostart.sh<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>添加脚本到开机自动启动项目中</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">cd /etc/rc.d/init.d<br>chkconfig --add autostart.sh<br>chkconfig autostart.sh on<br></code></pre></td></tr></table></figure></li>
+</ol>
+<h6 id="systemctl"><a href="#systemctl" class="headerlink" title="systemctl"></a>systemctl</h6><p>默认情况下，服务通过yum install时，会自动配置好unit文件 默认在 &#x2F;usr&#x2F;lib&#x2F;systemd&#x2F;system 目录下</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">以jenkins为例</span><br>systemctl enable jenkins.service<br>systemctl start  jenkins.service<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="网络相关配置文件"><a href="#网络相关配置文件" class="headerlink" title="网络相关配置文件"></a>网络相关配置文件</h3><table>
+<thead>
+<tr>
+<th><strong>&#x2F;etc&#x2F;sysconfig&#x2F;network</strong></th>
+<th><strong>最基本的网络信息，系统启动时读取该文件</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>&#x2F;etc&#x2F;sysconfig&#x2F;network-scripts&#x2F;*</strong></td>
+<td><strong>此目录下的文件是系统启动时用来初始化网络的一些信息，例如：第一块以太网卡对应的文件为ifcfg-eth0</strong></td>
+</tr>
+<tr>
+<td><strong>&#x2F;etc&#x2F;host.conf</strong></td>
+<td><strong>域名解析的配置文件</strong></td>
+</tr>
+<tr>
+<td><strong>&#x2F;etc&#x2F;hosts</strong></td>
+<td><strong>域名或主机名与IP地址的映射文件</strong></td>
+</tr>
+<tr>
+<td><strong>&#x2F;etc&#x2F;resolv.conf</strong></td>
+<td><strong>域名服务器配置文件</strong></td>
+</tr>
+<tr>
+<td><strong>&#x2F;etc&#x2F;protocols</strong></td>
+<td><strong>定义使用的网络互联协议及协议号</strong></td>
+</tr>
+<tr>
+<td><strong>&#x2F;etc&#x2F;services</strong></td>
+<td><strong>设定主机的不同端口的网络服务</strong></td>
+</tr>
+</tbody></table>
+<h4 id="x2F-etc-x2F-sysconfig-x2F-network"><a href="#x2F-etc-x2F-sysconfig-x2F-network" class="headerlink" title="&#x2F;etc&#x2F;sysconfig&#x2F;network"></a>&#x2F;etc&#x2F;sysconfig&#x2F;network</h4><p>该文件用来指定服务器上的网络配置信息， 包含了控制和网络有关的文件和守护程序的行为的参数<br>常见的几个配置项如下：</p>
+<ul>
+<li>NETWORKING：值为yes或no，表示主机是否支持网络功能</li>
+<li>HOSTNAME：主机名(即域名)</li>
+<li>GATEWAY:  默认网关</li>
+<li>FORWARD_IPV4: 设置本机是否允许转发IPV4的数据包</li>
+<li>DOMAINNAME: 此台主机所属的网络域</li>
+<li>GATEWAYDEV: 连接网关的设备，例如eth0，如果是拨号用户则设为ppp0</li>
+</ul>
+<h4 id="x2F-etc-x2F-sysconfig-x2F-network-scripts-x2F-ifcfg"><a href="#x2F-etc-x2F-sysconfig-x2F-network-scripts-x2F-ifcfg" class="headerlink" title="&#x2F;etc&#x2F;sysconfig&#x2F;network-scripts&#x2F;ifcfg-*"></a>&#x2F;etc&#x2F;sysconfig&#x2F;network-scripts&#x2F;ifcfg-*</h4><ul>
+<li>DEVICE&#x3D;eth0 		设备名称 </li>
+<li>ONBOOT&#x3D;yes		启动时是否启动该设备</li>
+<li>BOOTPROTO&#x3D;none 	启动协议,none表示使用用户设置的ip地址,dhcp表示从dhcp获得ip地址,static表示静态</li>
+<li>IPADDR&#x3D;192.168.14.11	IP地址</li>
+<li>NETMASK&#x3D;255.255.255.0	子网掩码</li>
+<li>GATEWAY&#x3D;XX.XXX.XXXX	网关</li>
+<li>DNS1&#x3D;xx.xxx.xxx.xx		DNS服务器</li>
+</ul>
+<h4 id="x2F-etc-x2F-host-conf"><a href="#x2F-etc-x2F-host-conf" class="headerlink" title="&#x2F;etc&#x2F;host.conf"></a>&#x2F;etc&#x2F;host.conf</h4><p>域名解析配置文件</p>
+<ol>
+<li><p>order hosts bind</p>
+<p>​	先查询解析&#x2F;etc&#x2F;hosts文件，然后是DNS服务器</p>
+</li>
+<li><p>multi on</p>
+<p>​	指定的计算机是否可以有多个IP地址</p>
+</li>
+<li><p>nospoof on</p>
+<p>​	不允许对该服务器进行IP地址欺骗</p>
+</li>
+</ol>
+<h4 id="x2F-etc-x2F-protocols"><a href="#x2F-etc-x2F-protocols" class="headerlink" title="&#x2F;etc&#x2F;protocols"></a>&#x2F;etc&#x2F;protocols</h4><p>定义协议定义文件</p>
+<p>协议名称  协议号  别名</p>
+<h4 id="x2F-etc-x2F-services"><a href="#x2F-etc-x2F-services" class="headerlink" title="&#x2F;etc&#x2F;services"></a>&#x2F;etc&#x2F;services</h4><p>网络服务列表文件, 列出了系统支持的服务名称、服务使用的端口号和协议类型、服务的别名、功能注释等</p>
+<h2 id="第七讲"><a href="#第七讲" class="headerlink" title="第七讲"></a>第七讲</h2><h3 id="网络模式"><a href="#网络模式" class="headerlink" title="网络模式"></a>网络模式</h3><h4 id="独立的守护进程工作模式（stand-alone）"><a href="#独立的守护进程工作模式（stand-alone）" class="headerlink" title="独立的守护进程工作模式（stand-alone）"></a>独立的守护进程工作模式（stand-alone）</h4><ol>
+<li>Unix传统的C&#x2F;S模式的访问模式</li>
+<li>在Client&#x2F;Server模式下，服务器监听（Listen）在一个特定的端口上等待客户连接，连接成功后服务器和客户端通过端口进行数据通信</li>
+<li><strong>守护进程</strong>的工作就是打开一个端口，并且等待（Listen）进入连接</li>
+<li>如果客户端发起一个连接请求，守护进程就创建（Fork）一个子进程响应这个连接，而主进程继续监听其他的服务请求</li>
+<li>运行独立的守护进程工作方式称作：stand-alone</li>
+</ol>
+<p><img src="/images/linux011.jpg" srcset="/img/loading.gif" lazyload></p>
+<h4 id="基于xinetd的工作模式"><a href="#基于xinetd的工作模式" class="headerlink" title="基于xinetd的工作模式"></a>基于xinetd的工作模式</h4><ol>
+<li>从守护进程的概念可以看出，对于系统所要提供的每一种服务，都必须运行一个监听某个端口连接情况的守护进程，这通常意味着资源浪费</li>
+<li>为了解决这个问题，Linux引进了“网络守护进程服务程序”的概念</li>
+<li>RHEL5使用的网络守护进程是xinetd ( eXtended InterNET daemon)</li>
+<li>和stand-alone模式相比xinetd模式也称 Internet Super-Server(超级服务器)</li>
+<li>xinetd能够同时监听<strong>多个指定的端口</strong>，在接受用户请求时，它能够根据用户请求的端口不同，启动不同的网络服务进程来处理这些用户请求</li>
+<li>可以把xinetd看做一个管理启动服务的<strong>管理服务器</strong>，它决定把一个客户请求交给那个程序处理，然后启动相应的守护进程</li>
+</ol>
+<p><img src="/images/linux012.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>运行单个xinetd就可以同时监听所有服务端口，这样就降低了系统开销，保护系统资源</p>
+<p>但是对于访问量大、经常出现并发访问时，xinetd想要<strong>频繁启动</strong>对应的网络服务进程，反而会导致系统性能下降</p>
+<h5 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h5><ul>
+<li>支持对TCP、UDP、RPC服务的管理</li>
+<li>可以实施基于时间段的访问控制</li>
+<li>功能完备的log功能，可以记录连接成功、连接失败的行为</li>
+<li>能够有效地防止拒绝服务（DoS）的攻击</li>
+<li>能够限制同时运行的同一类型的服务器的数目</li>
+<li>能够限制log文件大小</li>
+<li>能够将某个服务绑定在特定的系统接口上，从而实现只能允许私有网络访问某项服务</li>
+<li>能够实现作为其它系统的代理</li>
+</ul>
+<h4 id="区别与联系"><a href="#区别与联系" class="headerlink" title="区别与联系"></a>区别与联系</h4><p>​	<strong>stand-alone模式</strong></p>
+<p>在stand-alone模式下，服务程序会作为一个独立的进程运行。这种模式下，服务程序需要监听特定的端口来接收来自客户端的请求，并直接与客户端通信，完成相应的操作。由于服务程序在独立的进程中运行，所以服务程序的配置、管理和调试都比较简单，但是这种模式下不能实现服务的并发处理。</p>
+<blockquote>
+<p>在standalone模式下，服务程序作为一个独立的进程运行，它需要监听特定的端口来接收来自客户端的请求，并直接与客户端通信，完成相应的操作。在这种模式下，如果有多个客户端同时请求连接服务程序，则服务程序只能按照一个客户端一个客户端的方式来处理请求，无法同时处理多个请求。因此，standalone模式下不能实现服务的并发处理。</p>
+<p>举个例子来说明，假设有一个基于TCP协议的文件传输服务，它可以实现将本地文件上传到服务器或从服务器下载文件到本地。在standalone模式下，服务程序会作为一个独立的进程运行，并监听特定的端口（例如端口号为8000）。当一个客户端请求连接服务程序时，服务程序会响应该请求并与该客户端进行通信，完成文件传输的操作。但是，如果同时有多个客户端请求连接服务程序，则服务程序只能按照一个客户端一个客户端的方式来处理请求，无法同时处理多个请求，从而导致服务的并发处理能力较弱。</p>
+<p>因此，如果需要实现高并发的服务，就需要使用一些支持并发处理的模式，例如xinetd模式或者多线程模式。在这些模式下，服务程序可以同时处理多个客户端的请求，从而提高服务的并发处理能力。</p>
+</blockquote>
+<p>​	<strong>运用场景</strong></p>
+<p>Web服务器Apache和邮件服务器Sendmail、域名服务器Bind使用独立守护进程模式启动，因为这些负载很大服务器上，预先创建子服务器，可以提高客户的服务速度。</p>
+<p>​	<strong>xinetd模式</strong></p>
+<p>在xinetd模式下，服务程序并不直接监听特定的端口，而是由xinetd守护进程来监听端口。当有客户端请求连接时，xinetd守护进程会启动一个服务进程来处理该请求。服务进程完成请求后，xinetd会将其关闭。这种模式下，服务程序可以实现并发处理，但是服务进程的启动和关闭会带来额外的系统开销。xinetd还可以控制服务进程的并发连接数和重启次数等参数。</p>
+<p>联系：stand-alone模式和xinetd模式都是在Unix和Linux系统中运行网络服务的两种常见方式。它们都需要服务程序监听特定的端口，并能够响应客户端请求。不同的是，stand-alone模式下服务程序作为独立进程运行，而xinetd模式下服务程序由xinetd守护进程管理。在实际应用中，可以根据实际需求选择不同的模式来运行网络服务。例如，如果服务需要支持并发连接，则可以选择xinetd模式；如果服务需要简单、快速地运行，则可以选择stand-alone模式。</p>
+<p>​	<strong>运用场景</strong></p>
+<p>xinetd模式适用于需要同时支持多个服务，或需要支持并发连接的场景，例如SSH服务、Telnet服务、FTP服务等。在xinetd模式下，服务程序并不直接监听特定的端口，而是由xinetd守护进程来监听端口。当有客户端请求连接时，xinetd守护进程会启动一个服务进程来处理该请求。服务进程完成请求后，xinetd会将其关闭。这种模式下服务程序可以实现并发处理，但是服务进程的启动和关闭会带来额外的系统开销。</p>
+<p>举个例子来说，vsftpd (Very Secure FTP Daemon)就是一个典型的xinetd模式下运行的FTP服务器。vsftpd服务器在监听21端口后，接收客户端的FTP请求并进行处理，支持多用户同时登录和并发文件传输等操作，因此需要使用xinetd模式来保证服务的性能和可靠性。</p>
+<h3 id="Telnet服务"><a href="#Telnet服务" class="headerlink" title="Telnet服务"></a>Telnet服务</h3><p>Telnet是一种远程登录应用，常用于系统远程维护，端口23，但安全性无ssh高，明文传输报文，默认禁用</p>
+<p>Telnet设计为基于xinetd的一种服务，受xinetd管理</p>
+<h4 id="配置过程"><a href="#配置过程" class="headerlink" title="配置过程"></a>配置过程</h4><h4 id="命令使用"><a href="#命令使用" class="headerlink" title="命令使用"></a>命令使用</h4><h5 id="安装Telnet服务"><a href="#安装Telnet服务" class="headerlink" title="安装Telnet服务"></a>安装Telnet服务</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">yum install -y telnet telnet-server<br></code></pre></td></tr></table></figure>
+
+<h5 id="开启Telnet服务"><a href="#开启Telnet服务" class="headerlink" title="开启Telnet服务"></a>开启Telnet服务</h5><ol>
+<li><p>查看启用情况</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">chkconfig --list  <br></code></pre></td></tr></table></figure>
+</li>
+<li><p>编辑（新建）&#x2F;etc&#x2F;xinetd.d&#x2F;telnet</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">vim /etc/xinetd.d/telnet<br></code></pre></td></tr></table></figure>
+
+<p><strong>注意&#x3D;两边空格</strong></p>
+<p><img src="/images/linux013.jpg" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p>重新启动服务 </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">systemctl restart xinetd<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>查看端口占用情况</p>
+<p>netstat -ntlp | grep 23</p>
+</li>
+</ol>
+<h5 id="测试Telnet服务"><a href="#测试Telnet服务" class="headerlink" title="测试Telnet服务"></a>测试Telnet服务</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">yum install -y telnet<br>telnet 10.0.0.1 23<br></code></pre></td></tr></table></figure>
+
+<p>如果无法连接</p>
+<ul>
+<li><p>关闭防火墙</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">systemctl status firewalld 		#查看防火墙状态<br>systemctl disable firewalld 	#取消开机自启动<br>systemctl stop firewalld  		#关闭防火墙<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>关闭SELinux安全增强</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">临时关闭</span><br>setenforce 0<br><span class="hljs-meta prompt_"># </span><span class="language-bash">长期关闭</span><br>vi /etc/sysconfig/selinux<br>SELINUX=disabled<br>reboot<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>先保证Linux本机可以使用Telnet服务</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">telnet 127.0.0.1<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>默认情况下<strong>不允许root登录</strong>，只能登录普通用户</p>
+</li>
+</ul>
+<h3 id="FTP服务"><a href="#FTP服务" class="headerlink" title="FTP服务"></a>FTP服务</h3><p>FTP是一种文件传输协议，它实现了服务器与客户机之间的文件传输和资源的共享</p>
+<p>vsFTPd（very secure FTP daemon）是一个功能强大的FTP服务器，能运行在大部分UNIX 类作系统上，支持很多其他的FTP服务器不支持的特征：¨支持虚拟IP</p>
+<ul>
+<li>支持虚拟用户</li>
+<li>可以独立操作（<strong>stand</strong>-<strong>alone</strong>）或者由<strong>xinetd</strong>管理</li>
+<li>可以对每个用户进行配置</li>
+<li>带宽限制</li>
+<li>支持IPv6</li>
+<li>支持通过SSL的加密</li>
+</ul>
+<h4 id="两种工作模式"><a href="#两种工作模式" class="headerlink" title="两种工作模式"></a>两种工作模式</h4><h5 id="PORT模式"><a href="#PORT模式" class="headerlink" title="PORT模式"></a>PORT模式</h5><p>主动模式PORT(服务器 主动连接 客户端 )</p>
+<p>FTP服务器“主动”去连接客户端的数据端口来传输数据</p>
+<ol>
+<li><p>客户端从一个任意的非特权端口N（N&gt;1024）连接到FTP服务器的命令端口（即tcp 21端口）</p>
+</li>
+<li><p>客户端开始监听端口N+1，并发送FTP命令“port N+1”到FTP服务器</p>
+</li>
+<li><p>服务器会从它自己的数据端口（20）“主动”连接到客户端指定的数据端口（N+1）</p>
+</li>
+<li><p>客户端就可以和ftp服务器建立数据传输通道了</p>
+</li>
+</ol>
+<p><img src="/images/linux014.jpg" srcset="/img/loading.gif" lazyload></p>
+<h5 id="PASV模式"><a href="#PASV模式" class="headerlink" title="PASV模式"></a>PASV模式</h5><p>被动模式PASV(服务器 被动等待 客户端连接)</p>
+<p>指的是FTP服务器“被动”等待客户端来连接自己的数据端口</p>
+<ol>
+<li><p>客户端打开两个任意的非特权本地端口（N &gt;1024和N+1）</p>
+</li>
+<li><p>第一个端口连接服务器的21端口，提交PASV命令</p>
+</li>
+<li><p>服务器会开启一个任意的非特权端口（P &gt; 1024），并发送给客户端</p>
+<blockquote>
+<p>在PASV模式下，第三步服务器会发送给客户端一个包含了服务器IP地址和一个指定的非特权端口号的响应。这个非特权端口号就是服务器为数据连接所开放的端口号，客户端需要使用这个端口号来连接服务器的数据端口。</p>
+<p>例如，服务器可以发送如下形式的响应： 227 Entering Passive Mode (192,168,1,100,19,215)</p>
+<p>其中，括号中的前四个数字表示服务器的IP地址（192.168.1.100），后两个数字表示服务器为数据连接开放的端口号（4911 &#x3D; 19*256 + 215）。</p>
+<p>客户端收到服务器的响应后，会使用指定的非特权端口号向FTP服务器发起数据连接，这个连接将会被用来传输数据。</p>
+</blockquote>
+</li>
+<li><p>客户端发起从本地端口N+1到服务器的端口的连接用来传送数据。（注意此模式下的FTP服务器不需要开启tcp 20端口了）</p>
+</li>
+</ol>
+<p><img src="/images/linux015.jpg" srcset="/img/loading.gif" lazyload></p>
+<h4 id="安装vsFTPd服务器"><a href="#安装vsFTPd服务器" class="headerlink" title="安装vsFTPd服务器"></a>安装vsFTPd服务器</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">yum install -y vsftpd ftp<br></code></pre></td></tr></table></figure>
+
+<p>默认会创建一个名为ftp用户，home目录为：&#x2F;var&#x2F;ftp，<strong>默认是同时监听IPv6</strong>、<strong>IPv4</strong>，<strong>端口 21</strong></p>
+<p>配置文件目录：&#x2F;etc&#x2F;vsftpd</p>
+<h5 id="vsFTPd两种运行模式"><a href="#vsFTPd两种运行模式" class="headerlink" title="vsFTPd两种运行模式"></a>vsFTPd两种运行模式</h5><h6 id="独立工作模式"><a href="#独立工作模式" class="headerlink" title="独立工作模式"></a>独立工作模式</h6><ol>
+<li><p>修改&#x2F;etc&#x2F;vsftpd&#x2F;vsftpd.conf</p>
+<p>​	listen&#x3D;YES</p>
+<p>​	listen_ipv6&#x3D;NO</p>
+</li>
+<li><p>systemctl start  vsftpd</p>
+</li>
+<li><p>systemctl enable vsftpd</p>
+</li>
+</ol>
+<p>独立工作模式下的配置</p>
+<p>vsFTPd的配置文件有三个：</p>
+<p>​	&#x2F;etc&#x2F;vsftpd&#x2F;vsftpd.conf：vsFTPd的主配置文件</p>
+<p>​	&#x2F;etc&#x2F;vsftpd&#x2F;ftpusers : vsFTPd的访问控制</p>
+<p>​	&#x2F;etc&#x2F;vsftpd&#x2F;user_list: 允许&#x2F;禁止用户列表</p>
+<p><strong>vsftpd.conf</strong></p>
+<ol>
+<li><p>anonymous_enable&#x3D;YES	允许匿名登录</p>
+</li>
+<li><p>local_enable&#x3D;YES	允许本地用户登录</p>
+</li>
+<li><p>write_enable&#x3D;YES	开放本地用户的写权限</p>
+</li>
+<li><p>local_umask&#x3D;022	指定目录和文件被创建时得到的初始权限</p>
+</li>
+<li><p>dirmessage_enable&#x3D;YES	当切换目录时，显示该目录的信息。</p>
+</li>
+<li><p>xferlog_enable&#x3D;YES	记录ftp上传下载的日志记录</p>
+</li>
+<li><p>connect_from_port_20&#x3D;YES	指定是否支持PORT模式</p>
+</li>
+<li><p>xferlog_std_format&#x3D;YES	传输日志文件将以标准xferlog格式写入</p>
+</li>
+<li><p>listen&#x3D;NO	是否使用IPv4的stand-alone模式</p>
+</li>
+<li><p>listen_ipv6&#x3D;YES	是否同时监听IPv6跟IPv4，不能跟listen同时打开</p>
+</li>
+<li><p>pam_service_name&#x3D;vsftpd	指定vsftpd将使用的PAM服务的名称</p>
+</li>
+<li><p>userlist_enable&#x3D;YES	从userlist_file给出的文件名加载用户名列表</p>
+</li>
+<li><p>userlist_enable</p>
+<p>​	用法：YES&#x2F;NO 默认为YES。若是启动此功能，则会读取&#x2F;etc&#x2F;vsftpd.user_list 当中的使用者名称，只有出现在文件中的用户名才能登录ftp</p>
+<p>​	此项功能可以在询问密码前就出现失败讯息，而不需要检验密码的程序</p>
+</li>
+<li><p>userlist_deny</p>
+<p>​	用法：YES&#x2F;NO  默认为NO这个选项只有在userlist_enable 启动时才会被检验</p>
+<p>​	如果将这个选项设为YES，则在 &#x2F;etc&#x2F;vsftpd.user_list 中的使用者将无法登入</p>
+<p>​	若设为NO ， 则只有在&#x2F;etc&#x2F;vsftpd.user_list 中的使用者才能登入</p>
+<p>​	此项功能可以在询问密码前就出现错误讯息，而不需要检验密码的程序</p>
+</li>
+<li><p>限制指定的本地用户不能访问，而其它本地用户可以访问</p>
+<p>​	userlist_enable&#x3D; YES</p>
+<p>​	userlist_deny&#x3D; YES</p>
+<p>​	userlist_file&#x3D; &#x2F;etc&#x2F;vsftpd.user_list</p>
+</li>
+<li><p>限制指定的本地用户可以访问，而其它本地用户不可以访问</p>
+<p>​	userlist_enable&#x3D; YES</p>
+<p>​	userlist_deny&#x3D; NO</p>
+<p>​	userlist_file&#x3D; &#x2F;etc&#x2F;vsftpd.user_list</p>
+</li>
+<li><p>无论何时都禁止指定的本地用户访问服务器</p>
+<p>​	&#x2F;etc&#x2F;vsftpd.ftpusers</p>
+<p>​	如果用户名在这个列表中，它就不能通过网络进行FTP登录</p>
+</li>
+</ol>
+<h6 id="借助xinetd管理的工作模式"><a href="#借助xinetd管理的工作模式" class="headerlink" title="借助xinetd管理的工作模式"></a>借助xinetd管理的工作模式</h6><p>​	配置&#x2F;etc&#x2F;xinetd.d&#x2F;ftp文件</p>
+<p>​	systemctl restart xinetd</p>
+<h5 id="应用实例"><a href="#应用实例" class="headerlink" title="应用实例"></a>应用实例</h5><h6 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">systemctl start vsftpd<br>ps -ef | grep vsftpd<br>netstat -ntlp | grep 21<br></code></pre></td></tr></table></figure>
+
+<p>默认情况下</p>
+<ul>
+<li>进入登录用户的Home目录</li>
+<li>能切换到其他可访问的用户</li>
+<li>可访问，可下载</li>
+<li>可上传，可创建目录</li>
+<li>可匿名登录，默认目录为用户ftp的home目录</li>
+<li>所有Linux用户都可以访问</li>
+</ul>
+<h6 id="连接ftp"><a href="#连接ftp" class="headerlink" title="连接ftp"></a>连接ftp</h6><h6 id="ftp命令使用"><a href="#ftp命令使用" class="headerlink" title="ftp命令使用"></a>ftp命令使用</h6><ul>
+<li>ftp xx.xx.xx.xx | open xx.xx.xx.xx</li>
+<li>get | mget <filename></li>
+<li>put | mput <filename></li>
+<li>binary | acsii 设置文件传输方式</li>
+<li>cd 在远程主机切换目录</li>
+<li>lcd 在本地主机切换目录</li>
+<li>ls 在远程主机上执行ls</li>
+<li>mkdir 在远程主机上创建目录</li>
+<li>close 关闭</li>
+<li>quit 退出</li>
+</ul>
+<h6 id="xinetd模式启动vsFtpd"><a href="#xinetd模式启动vsFtpd" class="headerlink" title="xinetd模式启动vsFtpd"></a>xinetd模式启动vsFtpd</h6><p>修改&#x2F;etc&#x2F;vsftpd&#x2F;vsftpd.conf</p>
+<p>​	listen_ipv6&#x3D;NO</p>
+<p>停止stand-alone版vsftpd</p>
+<p>​	systemctl stop vsftpd</p>
+<p>新增一个文件：&#x2F;etc&#x2F;xinetd.d&#x2F;ftp</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs shell">service ftp #注意这里的名字是ftp不是vsftpd<br>&#123;<br> socket_type = stream #使用TCP的Socket类型<br> wait = no #多线程<br> user = root<br> server = /usr/sbin/vsftpd<br> server_args = /etc/vsftpd/vsftpd.conf<br> disable = no<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>xinetd模式启动&amp;连接</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell">systemctl restart xinetd<br>ps -ef | grep vsftp<br>chkconfig --list | grep vsftpd<br>netstat -ntlp | grep 21<br></code></pre></td></tr></table></figure>
+
+<p>客户端ftp登录</p>
 
                 
               </div>
