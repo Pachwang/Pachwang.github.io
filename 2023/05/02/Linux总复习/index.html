@@ -39,7 +39,7 @@
 <meta property="og:image" content="https://pachwang.github.io/images/linux014.jpg">
 <meta property="og:image" content="https://pachwang.github.io/images/linux015.jpg">
 <meta property="article:published_time" content="2023-05-02T15:34:04.000Z">
-<meta property="article:modified_time" content="2023-05-09T12:28:04.756Z">
+<meta property="article:modified_time" content="2023-05-13T01:30:21.982Z">
 <meta property="article:author" content="Pachwang">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://pachwang.github.io/images/linux001.jpg">
@@ -235,7 +235,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          37k 字
+          43k 字
         
       </span>
     
@@ -246,7 +246,7 @@
         
         
         
-          313 分钟
+          362 分钟
         
       </span>
     
@@ -2284,6 +2284,347 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell">systemctl restart xinetd<br>ps -ef | grep vsftp<br>chkconfig --list | grep vsftpd<br>netstat -ntlp | grep 21<br></code></pre></td></tr></table></figure>
 
 <p>客户端ftp登录</p>
+<h2 id="第八讲"><a href="#第八讲" class="headerlink" title="第八讲"></a>第八讲</h2><h3 id="shell程序的特点与用途"><a href="#shell程序的特点与用途" class="headerlink" title="shell程序的特点与用途"></a>shell程序的特点与用途</h3><ul>
+<li>shell程序可以认为是将shell命令按照控制结构组织到一个文本文件中，批量的交给shell去执行 </li>
+<li>不同的shell解释器使用不同的shell命令语法</li>
+<li>shell程序解释执行，不生成可以执行的二进制文件</li>
+<li>可以帮助用户完成特定的任务，提高使用、维护系统的效率 </li>
+<li>了解shell程序可以更好的配置和使用Linux，实现自动化运维</li>
+</ul>
+<h3 id="shell程序的编写、执行和调试"><a href="#shell程序的编写、执行和调试" class="headerlink" title="shell程序的编写、执行和调试"></a>shell程序的编写、执行和调试</h3><p>有两种执行方法：</p>
+<ol>
+<li><p>使用 &#x2F;bin&#x2F;bash filename</p>
+</li>
+<li><p>可能需要先赋予权限</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">chmod</span> +x /path/filename<br></code></pre></td></tr></table></figure>
+
+<p>然后执行shell程序</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">./path/filename<br></code></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="变量声明与使用"><a href="#变量声明与使用" class="headerlink" title="变量声明与使用"></a>变量声明与使用</h3><h4 id="变量是弱类型"><a href="#变量是弱类型" class="headerlink" title="变量是弱类型"></a>变量是弱类型</h4><p>​	声明变量不用声明类型</p>
+<p>​	可以存储不同类型的内容</p>
+<p>​	大小写区分</p>
+<p>格式</p>
+<p>​	变量&#x3D;值 (<strong>注意</strong>：<strong>等号两侧不能有空格</strong>)</p>
+<h4 id="变量的引用"><a href="#变量的引用" class="headerlink" title="变量的引用"></a>变量的引用</h4><p>格式:</p>
+<p>​	$变量名    变量名为一个字符时使用</p>
+<p>​	${变量名}   变量名多于一个字符时使用</p>
+<h4 id="强调"><a href="#强调" class="headerlink" title="强调"></a>强调</h4><ul>
+<li>如果字符串里包含空格，就必须用引号把它们括起来</li>
+<li>等号两边不能有空格!!!</li>
+<li>默认情况下，所有输入的内容都是字符串</li>
+</ul>
+<h4 id="read"><a href="#read" class="headerlink" title="read"></a>read</h4><p>使用read将用户的输入赋值给变量</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">#</span><span class="language-bash">! /bin/bash</span><br>echo “Input something please:”<br>read something<br>echo $&#123;something&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="位置变量"><a href="#位置变量" class="headerlink" title="位置变量"></a>位置变量</h4><p>bash在解释用户命令时，会把所输入的命令后面的参数使用位置变量传递给bash脚本程序</p>
+<ul>
+<li>$0则代表脚本的名字 </li>
+<li>$1、$2…$n分别代表参数1、参数2…参数n</li>
+<li>$*：这个变量包括参数的列表(字符串)</li>
+<li>$@：这个变量包括参数的列表(数组)</li>
+<li>$#：这个变量包括参数的个数</li>
+</ul>
+<p>例子：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">#</span><span class="language-bash">!/bin/bash</span><br>echo There are $# parameters. <br>echo &quot;The parameters are *$&#123;*&#125;*&quot;<br>echo &quot;The parameters are *$@*&quot;<br>echo &quot;The script $0 is now running.&quot;<br>echo &quot;The first parameter was *$1*&quot;<br>echo &quot;The second parameter was *$2*&quot;<br>echo &quot;The third parameter was *$3*&quot;<br></code></pre></td></tr></table></figure>
+
+<p>执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">./5.sh 1 2 3 4 5 6<br></code></pre></td></tr></table></figure>
+
+<h5 id="和"><a href="#和" class="headerlink" title="$* 和 $@"></a>$* 和 $@</h5><p><code>$*</code> 和 <code>$@</code> 都是用来表示所有的位置参数的变量，但它们的扩展方式不同。</p>
+<p><code>$*</code> 将所有位置参数作为一个单词来扩展，每个参数之间用IFS环境变量中的第一个字符进行分隔。而 <code>$@</code> 将每个位置参数扩展成一个独立的单词，每个参数之间不使用IFS环境变量中的分隔符。</p>
+<p>具体来说，当使用 <code>$*</code> 时，所有的位置参数会被视为一个单词，用IFS环境变量中的第一个字符分隔开。例如，如果我们有以下命令：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-variable">$</span> <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;The parameters are: <span class="hljs-variable">$</span>*&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>假设我们执行以下命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">./example.sh foo bar <span class="hljs-string">&quot;hello world&quot;</span></span><br></code></pre></td></tr></table></figure>
+
+<p>则输出为：</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gams">The <span class="hljs-keyword">parameters</span> are: foo <span class="hljs-comment">bar hello world</span><br></code></pre></td></tr></table></figure>
+
+<p>在这个例子中，<code>$*</code> 将所有位置参数连接成一个单词，使用空格分隔开。</p>
+<p>相比之下，当使用 <code>$@</code> 时，每个位置参数都会被扩展成一个独立的单词。例如，如果我们有以下命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;The parameters are: <span class="hljs-variable">$@</span>&quot;</span></span><br></code></pre></td></tr></table></figure>
+
+<p>假设我们执行以下命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">./example.sh foo bar <span class="hljs-string">&quot;hello world&quot;</span></span><br></code></pre></td></tr></table></figure>
+
+<p>则输出为：</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gams">The <span class="hljs-keyword">parameters</span> are: foo <span class="hljs-comment">bar hello world</span><br></code></pre></td></tr></table></figure>
+
+<p>在这个例子中，<code>$@</code> 将每个位置参数都扩展成了一个独立的单词，没有使用任何分隔符。</p>
+<p>因此，如果你需要将所有的位置参数当作一个单词处理，就可以使用 <code>$*</code>。如果你需要将每个位置参数都当作独立的单词处理，就可以使用 <code>$@</code>。</p>
+<h4 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h4><table>
+<thead>
+<tr>
+<th>环境变量</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$HOME</td>
+<td>用户的主目录</td>
+</tr>
+<tr>
+<td>$IFS</td>
+<td>内部的域分隔符，一般为空格符、制表符或换行符</td>
+</tr>
+<tr>
+<td>$PATH</td>
+<td>寻找命令或可执行文件的搜索路径列表，路径以冒号分隔</td>
+</tr>
+<tr>
+<td>$$</td>
+<td>Shell脚本的进程号</td>
+</tr>
+<tr>
+<td>$?</td>
+<td>紧邻的前驱命令的返回值 0&#x3D;成功  1&#x3D;失败</td>
+</tr>
+<tr>
+<td>$TERM</td>
+<td>使用的终端类型</td>
+</tr>
+<tr>
+<td>$SHELL</td>
+<td>查看当前用户所使用的的shell</td>
+</tr>
+</tbody></table>
+<p>例子：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs shell">[root@VM-12-12-centos shell]# echo $PATH<br>/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin<br>[root@VM-12-12-centos shell]# echo $HOME<br>/root<br>[root@VM-12-12-centos shell]# echo $?<br>0<br></code></pre></td></tr></table></figure>
+
+<h3 id="双引号、单引号和倒引号"><a href="#双引号、单引号和倒引号" class="headerlink" title="双引号、单引号和倒引号"></a>双引号、单引号和倒引号</h3><h4 id="双引"><a href="#双引" class="headerlink" title="双引"></a>双引</h4><ul>
+<li><p>字符串通常被放在双引号中</p>
+</li>
+<li><p>如果在参数中包含一个或多个空白字符，必须给参数加双引号</p>
+</li>
+<li><p>如果把一个带有$字符的变量放在双引号中，程序执行到该行时会把变量替换为它的值</p>
+</li>
+<li><p>可用\字符取消$的特殊含义</p>
+</li>
+</ul>
+<h4 id="单引"><a href="#单引" class="headerlink" title="单引"></a>单引</h4><p>由单引号括起来的字符都作为普通字符出现</p>
+<h4 id="倒引"><a href="#倒引" class="headerlink" title="倒引"></a>倒引</h4><p>倒引号括起来的字符串被shell解释为命令行，在执行时shell会先执行该命令行，并以它的标准输出结果取代整个倒引号部分</p>
+<p>例子：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">#</span><span class="language-bash">!/bin/sh</span><br>myVar=&quot;Hi there&quot;<br>echo $myVar<br>echo &quot;$myVar&quot;<br>echo &#x27;$myVar&#x27;<br>echo \$myVar<br>echo Enter some text<br>read myVar<br>echo &#x27;$myVar&#x27; now equals $myVar<br>exit 0<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>确实，在shell中，为了明确变量名的边界，建议在变量名和紧挨着的其他字符之间加上花括号，例如<code>$&#123;myVar&#125;</code>。这可以避免解释器将变量名与其后面的字符组合在一起，导致意外结果的发生。</p>
+<p>在这个脚本中，第二行和第三行的输出是等价的，因为双引号内允许变量替换。但是，为了增加代码的可读性和可维护性，最好在花括号中使用变量名，例如<code>echo &quot;$&#123;myVar&#125;&quot;</code>。这将确保变量名与周围的其他字符明确地分隔开来，使代码更易于阅读和理解。</p>
+</blockquote>
+<p>将会打印：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs shell">[root@VM-12-12-centos shell]# ./4.sh <br>Hi there<br>Hi there<br><span class="hljs-meta prompt_">$</span><span class="language-bash">myVar</span><br><span class="hljs-meta prompt_">$</span><span class="language-bash">myVar</span><br>Enter some text<br>dd<br><span class="hljs-meta prompt_">$</span><span class="language-bash">myVar now equals <span class="hljs-built_in">dd</span></span><br></code></pre></td></tr></table></figure>
+
+<h3 id="Shell编程"><a href="#Shell编程" class="headerlink" title="Shell编程"></a>Shell编程</h3><h4 id="常用的运算符"><a href="#常用的运算符" class="headerlink" title="常用的运算符"></a>常用的运算符</h4><h5 id="整数的算术运算符"><a href="#整数的算术运算符" class="headerlink" title="整数的算术运算符"></a>整数的算术运算符</h5><p>​	+、－、* 、&#x2F;、%；</p>
+<h5 id="赋值运算符"><a href="#赋值运算符" class="headerlink" title="赋值运算符"></a>赋值运算符</h5><p>​	＋＝、－＝、* ＝、&#x2F;＝、％＝；</p>
+<h5 id="位运算符"><a href="#位运算符" class="headerlink" title="位运算符"></a>位运算符</h5><p>​	<em>&lt;&lt;、&gt;&gt;、&amp;、|、~、^；</em> </p>
+<h5 id="位运算赋值运算符"><a href="#位运算赋值运算符" class="headerlink" title="位运算赋值运算符"></a>位运算赋值运算符</h5><p>​	&lt;&lt;＝、&gt;&gt;＝、&amp;＝、|＝、~＝、^＝；</p>
+<h5 id="逻辑运算符"><a href="#逻辑运算符" class="headerlink" title="逻辑运算符"></a>逻辑运算符</h5><p>​	&amp;&amp;，||，!，&gt;，&gt;＝，&lt;，&lt;＝，！＝，＝＝；</p>
+<h4 id="简单数学表达式"><a href="#简单数学表达式" class="headerlink" title="简单数学表达式"></a>简单数学表达式</h4><h5 id="expr命令"><a href="#expr命令" class="headerlink" title="expr命令"></a>expr命令</h5><p>expr命令计算一个表达式的值<br>格式 :expr arg<br>例子：计算(2＋3)x4的值<br>    分步计算，即先计算2+3，再对其和乘4<br>        s&#x3D;<code>expr 2 + 3</code><br>        expr $s * 4<br>    一步完成计算：<br>    expr  <code>expr 2 + 3 </code>  * 4 说明：<br>    * 运算符和参数之间要有空格分开<br>    通配符号(*)作为乘法运算符时要用\、“”、‘’符号修饰</p>
+<p>说明：<br>    *运算符和参数之间要有空格分开<br>    通配符号(*)作为乘法运算符时要用\、””、’’符号修饰</p>
+<h5 id="let命令"><a href="#let命令" class="headerlink" title="let命令"></a>let命令</h5><p>格式：let arg1 [arg2 ……]</p>
+<p>例子：计算(2＋3)x4的值</p>
+<p>​	let s&#x3D;(2+3)*4</p>
+<p>说明：<br>    与expr命令相比，let命令更简洁直观<br>    运算符号和参数之间不能有空格<br>    当运算符中有&lt;、&gt;、&amp;、|等符号时，同样需要用引号(单引号、双引号)或者斜杠来修饰运算符</p>
+<h4 id="条件判断"><a href="#条件判断" class="headerlink" title="条件判断"></a>条件判断</h4><p>常见的条件：<br>    变量属性<br>    文件属性<br>    命令执行结果<br>    多种条件的逻辑组合<br>判断结果的一般定义：<br>    真：0<br>    假：1<br>格式：<br>    test condition<br>    [ condition ] #[右边和]左边需要有空格</p>
+<h5 id="测试文件属性"><a href="#测试文件属性" class="headerlink" title="测试文件属性"></a>测试文件属性</h5><table>
+<thead>
+<tr>
+<th>常用的文件属性条件判断</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-f   fn</td>
+<td>如果fn存在且fn为普通文件则返回真，否则返回假。 file</td>
+</tr>
+<tr>
+<td>-b fn</td>
+<td>如果fn存在且fn为块设备则返回真，否则返回假。 block</td>
+</tr>
+<tr>
+<td>-e fn</td>
+<td>如果fn存在则返回真，否则返回假。 exist</td>
+</tr>
+<tr>
+<td>-d fn</td>
+<td>如果fn  存在且fn为目录则返回真，否则返回假。 directory</td>
+</tr>
+<tr>
+<td>-r fn</td>
+<td>如果fn存在且fn可读则返回真，否则返回假。 read</td>
+</tr>
+<tr>
+<td>-w fn</td>
+<td>如果fn存在且fn可写则返回真，否则返回假。 write</td>
+</tr>
+<tr>
+<td>-x fn</td>
+<td>如果fn存在且fn可执行则返回真，否则返回假。 execute</td>
+</tr>
+<tr>
+<td>-O fn</td>
+<td>如果fn存在且被当前用户拥有则返回真，否则返回假。</td>
+</tr>
+<tr>
+<td>-L fn</td>
+<td>如果fn存在且fn为符号链接则返回真，否则返回假。</td>
+</tr>
+</tbody></table>
+<h5 id="测试字符串属性"><a href="#测试字符串属性" class="headerlink" title="测试字符串属性"></a>测试字符串属性</h5><table>
+<thead>
+<tr>
+<th>常用字符串属性条件判断</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>string_1  &#x3D; string_2</td>
+<td>如果string_1和string_2两个字符串相等则返回真，否则返回假；</td>
+</tr>
+<tr>
+<td>string_1  !&#x3D; string_2</td>
+<td>如果string_1和string_2两个字符串不相等则返回真，否则返回假；</td>
+</tr>
+<tr>
+<td>-z  string</td>
+<td>如果字符串string的长度为0则返回真，否则返回假； zero</td>
+</tr>
+<tr>
+<td>-n  string</td>
+<td>如果字符串string长度不为0则返回真，否则返回假；</td>
+</tr>
+<tr>
+<td>string</td>
+<td>同-n string，如果字符串string长度不为0返回真，否则返回假。</td>
+</tr>
+</tbody></table>
+<h5 id="测试整数关系"><a href="#测试整数关系" class="headerlink" title="测试整数关系"></a>测试整数关系</h5><table>
+<thead>
+<tr>
+<th>常用的整数关系条件判断</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>mum_1  –eq num_2</td>
+<td>如果num_1和num_2相等则返回真，否则返回假；</td>
+</tr>
+<tr>
+<td>mum_1  –ne num_2</td>
+<td>如果num_1不等于num_2则返回真，否则返回假；</td>
+</tr>
+<tr>
+<td>mum_1  –gt  num_2</td>
+<td>如果num_1大于num_2则返回真，否则返回假；</td>
+</tr>
+<tr>
+<td>mum_1  –lt num_2</td>
+<td>如果num_1小于num_2则返回真，否则返回假；</td>
+</tr>
+<tr>
+<td>mum_1  –le num_2</td>
+<td>如果num_1小于等于num_2则返回真，否则返回假；</td>
+</tr>
+<tr>
+<td>mum_1  –ge num_2</td>
+<td>如果num_1大于等于num_2则返回真，否则返回假；</td>
+</tr>
+</tbody></table>
+<h4 id="逻辑运算"><a href="#逻辑运算" class="headerlink" title="逻辑运算"></a>逻辑运算</h4><p>逻辑与-a：condition1 -a condition2，如果两个条件都为真，则结果为真</p>
+<p>逻辑或-o：condition1 -o condition2，如果两个条件有一个为真，则结果为真</p>
+<p>逻辑非!：! condition，结果与condition相反 </p>
+<p>例子：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@VM-12-12-centos shell]<span class="hljs-comment"># str1=&quot;Linux&quot;</span><br>[root@VM-12-12-centos shell]<span class="hljs-comment"># str2=&quot;Unix&quot;</span><br>[root@VM-12-12-centos shell]<span class="hljs-comment"># test $str1 = $str2</span><br>[root@VM-12-12-centos shell]<span class="hljs-comment"># echo $?</span><br>1<br>[root@VM-12-12-centos shell]<span class="hljs-comment"># [ -n str1 ]</span><br>[root@VM-12-12-centos shell]<span class="hljs-comment"># echo $?</span><br>0<br></code></pre></td></tr></table></figure>
+
+<h4 id="控制结构"><a href="#控制结构" class="headerlink" title="控制结构"></a>控制结构</h4><h5 id="分支结构"><a href="#分支结构" class="headerlink" title="分支结构"></a>分支结构</h5><h6 id="if"><a href="#if" class="headerlink" title="if"></a>if</h6><p>说明：</p>
+<p>​	中括号中的部分可省略</p>
+<p>​	当条件为真(0)时,执行then后面的语句,否则执行else后面的语句</p>
+<p>​	以fi作为if结构的结束</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs shell">if 条件1;then<br>    命令<br>[ elif 条件2;then<br>    命令]<br>[else<br>	命令]<br>fi<br></code></pre></td></tr></table></figure>
+
+<h6 id="case"><a href="#case" class="headerlink" title="case"></a>case</h6><p>说明：</p>
+<p>​	“条件”可以是变量、表达式、shell命令等</p>
+<p>​	“模式”为条件的值，并且一个“模式”可以匹配多种值，不同值之间用竖线(|)联结 </p>
+<p>​	一个模式要用双分号(;;)作为结束 </p>
+<p>​	以逆序的case命令(esac)表示case分支语句的结束 </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs shell">case 条件 in<br>模式1)<br>	命令1<br>	;;<br>[模式2)<br>	命令2<br>	;;<br>模式n)<br>	命令n<br>	;;]<br>esac<br></code></pre></td></tr></table></figure>
+
+<p>模式的匹配可以使用通配符<br>    ？：仅匹配一个字符<br>    *：匹配任意字符<br>    […]：配置方括号中的任意一个字符<br>    [!…] ： 不匹配方括号中的任意字符<br>    [a-zA-Z] : -指定一个取值范围</p>
+<p>例子</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">#</span><span class="language-bash">!/bin/bash</span><br><br>echo -n &quot;Please enter a number between 1 and 7: &quot;<br>read num<br><br>case $num in<br>  1)<br>    echo &quot;Monday&quot;<br>    ;;<br>  2)<br>    echo &quot;Tuesday&quot;<br>    ;;<br>  3)<br>    echo &quot;Wednesday&quot;<br>    ;;<br>  4)<br>    echo &quot;Thursday&quot;<br>    ;;<br>  5)<br>    echo &quot;Friday&quot;<br>    ;;<br>  6)<br>    echo &quot;Saturday&quot;<br>    ;;<br>  7)<br>    echo &quot;Sunday&quot;<br>    ;;<br>  *)<br>    echo &quot;Invalid input. Please enter a number between 1 and 7.&quot;<br>    ;;<br>esac<br></code></pre></td></tr></table></figure>
+
+
+
+<h5 id="循环结构"><a href="#循环结构" class="headerlink" title="循环结构"></a>循环结构</h5><h6 id="for"><a href="#for" class="headerlink" title="for"></a>for</h6><p>说明：</p>
+<p>​	“列表”为存储了一系列值的列表，随着循环的进行，变量从列表中的第一个值依次取到最后一个值；</p>
+<p>​	do和done之间的命令通常为根据变量进行处理的一系列命令，这些命令每次循环都执行一次；</p>
+<p>​	如果中括号中的部分省略掉，Bash则认为是“in $@”，即执行该程序时通过命令行传给程序的所有参数的列表。 </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell">for 变量 [in 列表]<br>do<br>	命令<br>done<br></code></pre></td></tr></table></figure>
+
+<p>例子</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">#</span><span class="language-bash">!/bin/bash</span><br>echo &quot;Input a directory:”<br>read dir<br>for file in `ls $dir`<br>do<br>echo $file<br>done<br></code></pre></td></tr></table></figure>
+
+<h6 id="while-amp-until"><a href="#while-amp-until" class="headerlink" title="while &amp; until"></a>while &amp; until</h6><p>说明：</p>
+<p>​	while循环中，只要条件为真，就执行do和done之间的循环命令； </p>
+<p>​	until循环中，只要条件不为真，就执行do和done之间的循环命令，或者说，在until循环中，一直执行do和done之间的循环命令，直到条件为真；</p>
+<p>​	避免生成死循环</p>
+<p>​	break continue shift</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell">while/until 条件<br>do<br>	命令<br>done<br></code></pre></td></tr></table></figure>
+
+<h4 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h4><p>说明：</p>
+<p>中括号中的部分可以省略；</p>
+<p>如果在函数内部需要使用传递给函数的参数，一般用$0、$1、……、$n，以及$#、$*、$@</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell">[function] 函数名()<br>&#123;<br>	命令<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th><strong>function</strong>  <strong>demo_fun()</strong></th>
+<th><strong>函数开始</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>{</strong></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>……</strong></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>while  [ -n “$1” ]</strong></td>
+<td><strong>访问变量$1,即第一个变量</strong></td>
+</tr>
+<tr>
+<td><strong>do</strong></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>echo  “Parameters($$count) is:$1”</strong></td>
+<td><strong>输出第一个变量</strong></td>
+</tr>
+<tr>
+<td><strong>let  count&#x3D;$count+1</strong></td>
+<td><strong>变量计数加1</strong></td>
+</tr>
+<tr>
+<td><strong>shift</strong></td>
+<td><strong>变量左移，$1变为原来$1的右侧的变量</strong></td>
+</tr>
+<tr>
+<td><strong>done</strong></td>
+<td><strong>即变为下一个变量</strong></td>
+</tr>
+<tr>
+<td><strong>}</strong></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>……</strong></td>
+<td></td>
+</tr>
+</tbody></table>
 
                 
               </div>
