@@ -24,7 +24,7 @@
 <meta property="og:description" content="第二章Java内存模型 volatile只能保证可见性和有序性，但不能保证原子性。 volatile只能保证对单次读&#x2F;写的原子性，但不能保证对复合操作（如i++）的原子性。 volatile不会对变量加锁，因此多个线程同时访问一个变量时，可能会出现数据不一致的情况。  Volatile的实现原理(看这篇就够了) - 知乎1 伪共享伪共享是多线程操作位于同一缓存行的不同变量时，由于缓存失效">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-04-30T16:37:42.000Z">
-<meta property="article:modified_time" content="2023-05-09T15:10:02.090Z">
+<meta property="article:modified_time" content="2023-05-13T07:56:49.038Z">
 <meta property="article:author" content="Pachwang">
 <meta property="article:tag" content="原创">
 <meta name="twitter:card" content="summary_large_image">
@@ -220,7 +220,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          23k 字
+          27k 字
         
       </span>
     
@@ -231,7 +231,7 @@
         
         
         
-          193 分钟
+          222 分钟
         
       </span>
     
@@ -573,7 +573,49 @@
 </ul>
 <h5 id="boolean-await-long-timeout-TimeUnit-unit-方法-1"><a href="#boolean-await-long-timeout-TimeUnit-unit-方法-1" class="headerlink" title="boolean await(long timeout, TimeUnit unit)方法"></a>boolean await(long timeout, TimeUnit unit)方法</h5><p>出了上面说的情况以外，设置的超时时间到了后返回</p>
 <h5 id="int-dowait-boolean-timed-long-nanos-方法"><a href="#int-dowait-boolean-timed-long-nanos-方法" class="headerlink" title="int dowait(boolean timed, long nanos)方法"></a>int dowait(boolean timed, long nanos)方法</h5><p>await()的内部实现，当一个线程调用后，首先会得到独占锁，其余线程阻塞。获取到锁的线程执行完毕后被放入条件变量阻塞队列，并唤醒其他线程，从而其余线程竞争锁。当所有线程都被放入阻塞队列后，重置CyclicBarrier，这样的话他们又可以继续执行下去了</p>
-<h3 id="Semaphore"><a href="#Semaphore" class="headerlink" title="Semaphore"></a>Semaphore</h3><p>同步器，内部计数器是递增的，可以初始化为一个特定的值而不需要知道待同步的线程个数，而是再需要同步的时候调用acquire方法时指定需要同步的线程个数</p>
+<h3 id="Semaphore"><a href="#Semaphore" class="headerlink" title="Semaphore"></a>Semaphore</h3><h4 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h4><p>同步器，内部计数器是递增的，可以初始化为一个特定的值而不需要知道待同步的线程个数，而是再需要同步的时候调用acquire方法时指定需要同步的线程个数</p>
+<p>如果构造Semaphore时传递的参数为N，并在M个线程种调用了该信号量的release方法，那么在调用acquire方法使M个线程同步时传递的参数应该是M+N</p>
+<h4 id="原理探究-2"><a href="#原理探究-2" class="headerlink" title="原理探究"></a>原理探究</h4><p>Semaphore内部还是使用AQS实现的。默认采用非公平锁。</p>
+<h5 id="void-acquire-方法"><a href="#void-acquire-方法" class="headerlink" title="void acquire()方法"></a>void acquire()方法</h5><p>阻塞，当前线程调用该方法的目的是希望获取一个信号量资源。如果当前信号量个数大于0，则当前信号量的计数会减1，然后返回；否则如果当前信号量个数为0，那么当前线程会被放入AQS的阻塞队列。</p>
+<p>会对中断进行响应。如果当前线程被打断了，则会抛出中断异常。</p>
+<h5 id="void-acquire-int-permits-方法"><a href="#void-acquire-int-permits-方法" class="headerlink" title="void acquire(int permits)方法"></a>void acquire(int permits)方法</h5><p>获取permits个信号量</p>
+<h5 id="void-release-方法"><a href="#void-release-方法" class="headerlink" title="void release()方法"></a>void release()方法</h5><p>把当前Semaphore对象的信号量值增加1，如果当前有线程因为调用acquire方法被阻塞而被放入了AQS的阻塞队列，则会根据公平策略选择一个信号量个数能被满足的线程进行激活，激活的线程尝试获取信号量。</p>
+<h5 id="void-release-int-permits-方法"><a href="#void-release-int-permits-方法" class="headerlink" title="void release(int permits)方法"></a>void release(int permits)方法</h5><p>每次调用信号量值增加permits</p>
+<h2 id="第十一章"><a href="#第十一章" class="headerlink" title="第十一章"></a>第十一章</h2><h3 id="ArrayBlockingQueue的使用"><a href="#ArrayBlockingQueue的使用" class="headerlink" title="ArrayBlockingQueue的使用"></a>ArrayBlockingQueue的使用</h3><h4 id="异步日志打印模型"><a href="#异步日志打印模型" class="headerlink" title="异步日志打印模型"></a>异步日志打印模型</h4><p>让业务线程把要打印的日志任务放入一个队列后直接返回，然后使用一个线程专门负责从队列中获取日志任务并将其写入磁盘。这样的话，业务线程打印日志的耗时就仅仅是把日志任务放入队列的耗时了。</p>
+<p>logback的异步日志模型是一个多生产者-但消费者模型，通过使用队列把同步日志打印转换成了异步，业务线程只需要通过调用异步appender把日志任务放入日志队列，而日志线程则负责使用同步的appender进行具体的日志打印，日志打印线程只需要负责生成日志并将其放入队列，不需要关系消费者线程何时把日志具体写入磁盘。</p>
+<h4 id="异步日志与具体实现"><a href="#异步日志与具体实现" class="headerlink" title="异步日志与具体实现"></a>异步日志与具体实现</h4><p>AsyncAppender是实现异步日志的关键，继承自AsyncAppenderBase，重写了其中的一些方法。</p>
+<p>logback中异步日志队列是一个阻塞队列，其实就是有界阻塞队列ArrayBlockingQueue，其中</p>
+<ul>
+<li>queueSize表示有界队列的元素个数，默认256个</li>
+<li>worker是个线程，是异步打印日志中的单消费者线程</li>
+<li>aai是一个appender的装饰器，里面存放同步日志的appender</li>
+<li>appenderCount记录aai里面附加的同步appender的个数</li>
+<li>neverBlock用来指示当日志队列满时是否阻塞打印日志的线程</li>
+<li>discardingThreshold是一个阈值，当日志队列里面的空闲元素个数小于该值时，新的某些级别的日志会直接被丢弃</li>
+</ul>
+<h4 id="实现一个多生产者-单消费者模型"><a href="#实现一个多生产者-单消费者模型" class="headerlink" title="实现一个多生产者-单消费者模型"></a>实现一个多生产者-单消费者模型</h4><p>多生产者-单消费者模型是指有多个生产者向同一个队列中不断添加元素，而消费者则从队列中取出元素进行消费。在这个模型中，需要保证队列的线程安全性，以避免多个线程同时修改队列导致数据不一致或出现并发问题。</p>
+<p>Java中提供了许多线程安全的队列实现，其中ArrayBlockingQueue是一个基于数组的有界阻塞队列，它支持多线程并发操作，可以满足多生产者-单消费者模型的需求。</p>
+<p>下面是一个简易的多生产者-单消费者模型的实现，使用ArrayBlockingQueue作为队列实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.util.concurrent.ArrayBlockingQueue;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ProducerConsumer</span> &#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-variable">BUFFER_SIZE</span> <span class="hljs-operator">=</span> <span class="hljs-number">10</span>;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> ArrayBlockingQueue&lt;Integer&gt; buffer = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayBlockingQueue</span>&lt;&gt;(BUFFER_SIZE);<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        Thread[] producers = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Thread</span>[<span class="hljs-number">3</span>];<br>        <span class="hljs-type">Thread</span> <span class="hljs-variable">consumer</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Thread</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Consumer</span>());<br><br>        <span class="hljs-comment">// 启动生产者线程</span><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; producers.length; i++) &#123;<br>            producers[i] = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Thread</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Producer</span>(i));<br>            producers[i].start();<br>        &#125;<br><br>        <span class="hljs-comment">// 启动消费者线程</span><br>        consumer.start();<br>    &#125;<br><br>    <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Producer</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Runnable</span> &#123;<br>        <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> id;<br><br>        <span class="hljs-keyword">public</span> <span class="hljs-title function_">Producer</span><span class="hljs-params">(<span class="hljs-type">int</span> id)</span> &#123;<br>            <span class="hljs-built_in">this</span>.id = id;<br>        &#125;<br><br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">run</span><span class="hljs-params">()</span> &#123;<br>            <span class="hljs-keyword">try</span> &#123;<br>                <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">1</span>; i &lt;= <span class="hljs-number">20</span>; i++) &#123;<br>                    <span class="hljs-type">int</span> <span class="hljs-variable">data</span> <span class="hljs-operator">=</span> id * <span class="hljs-number">100</span> + i;<br>                    buffer.put(data);<br>                    System.out.println(<span class="hljs-string">&quot;Producer &quot;</span> + id + <span class="hljs-string">&quot; put &quot;</span> + data);<br>                    Thread.sleep(<span class="hljs-number">100</span>);<br>                &#125;<br>            &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;<br>                e.printStackTrace();<br>            &#125;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Consumer</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Runnable</span> &#123;<br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">run</span><span class="hljs-params">()</span> &#123;<br>            <span class="hljs-keyword">try</span> &#123;<br>                <span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>) &#123;<br>                    <span class="hljs-type">int</span> <span class="hljs-variable">data</span> <span class="hljs-operator">=</span> buffer.take();<br>                    System.out.println(<span class="hljs-string">&quot;Consumer got &quot;</span> + data);<br>                    Thread.sleep(<span class="hljs-number">500</span>);<br>                &#125;<br>            &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;<br>                e.printStackTrace();<br>            &#125;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>在这个实现中，我们定义了一个BUFFER_SIZE常量来指定队列的大小，创建了一个ArrayBlockingQueue作为队列实现，并在main方法中启动了三个生产者线程和一个消费者线程。</p>
+<p>生产者线程在run方法中使用for循环不断地向队列中添加数据，每次添加完后打印一条日志并休眠100毫秒。消费者线程在run方法中使用while循环不断地从队列中取出数据，每次取出后打印一条日志并休眠500毫秒。</p>
+<p>需要注意的是，在使用ArrayBlockingQueue时，如果队列已满，则调用put方法会阻塞当前线程，直到队列中有空闲位置；如果队列已空，则调用take方法会阻塞当前线程，直到队列中有数据可取。这保证了生产者和消费者的同步操作，并避免了并发问题</p>
+<h3 id="ConcurrentLinkedQueue的使用"><a href="#ConcurrentLinkedQueue的使用" class="headerlink" title="ConcurrentLinkedQueue的使用"></a>ConcurrentLinkedQueue的使用</h3><p>主要记录Tomcat的NioEndPoint中ConcurrentLinkedQueue的应用</p>
+<h4 id="Tomcat容器结构"><a href="#Tomcat容器结构" class="headerlink" title="Tomcat容器结构"></a>Tomcat容器结构</h4><p>Connector是一个桥梁，它把Server和Engine连接了起来，Connector的作用是接受客户端的请求，然后把请求委托给Engine容器处理。</p>
+<p>其内部具体使用Endpoint处理，根据处理方式可以分成：NioEndpoint、JIoEndpoint、AprEndpoint</p>
+<h4 id="NioEndpoint"><a href="#NioEndpoint" class="headerlink" title="NioEndpoint"></a>NioEndpoint</h4><p>NioEndpoint是Tomcat中的一个关键组件，它使用Java NIO来实现非阻塞式IO操作。NioEndpoint中包含以下三个主要组件：</p>
+<ol>
+<li><p>Acceptor 套接字接受线程 <strong>生产者</strong><br>Acceptor是NioEndpoint的第一个组件，它用于接收新的连接请求。Acceptor在单独的线程中运行，并且在一个无限循环中等待新的连接请求。一旦有新的连接请求到来，Acceptor将其封装成事件任务放入Poller的队列，一个Connector里面只有一个Acceptor。</p>
+</li>
+<li><p>Poller 套接字处理线程 <strong>消费者</strong><br>  每个Poller内部都有一个独有的队列，Poller线程则从自己的队列里面获取具体的事件任务，然后将其交给Worker进行处理。Poller线程个数与处理器的核数有关。</p>
+</li>
+</ol>
+<p>  每个Poller里面都维护了一个ConcurrentLinkedQueue，用来缓存请求任务，也是一个多生产者-单消费者模型</p>
+<ol start="3">
+<li>Worker 实际处理请求的线程</li>
+</ol>
+<p>  真正做事情的是SocketProcessor。</p>
 
                 
               </div>
