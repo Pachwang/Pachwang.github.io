@@ -24,7 +24,7 @@
 <meta property="og:description" content="第二章Java内存模型 volatile只能保证可见性和有序性，但不能保证原子性。 volatile只能保证对单次读&#x2F;写的原子性，但不能保证对复合操作（如i++）的原子性。 volatile不会对变量加锁，因此多个线程同时访问一个变量时，可能会出现数据不一致的情况。  Volatile的实现原理(看这篇就够了) - 知乎1 伪共享伪共享是多线程操作位于同一缓存行的不同变量时，由于缓存失效">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-04-30T16:37:42.000Z">
-<meta property="article:modified_time" content="2023-05-13T07:56:49.038Z">
+<meta property="article:modified_time" content="2023-05-14T15:32:20.992Z">
 <meta property="article:author" content="Pachwang">
 <meta property="article:tag" content="原创">
 <meta name="twitter:card" content="summary_large_image">
@@ -220,7 +220,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          27k 字
+          30k 字
         
       </span>
     
@@ -231,7 +231,7 @@
         
         
         
-          222 分钟
+          252 分钟
         
       </span>
     
@@ -608,7 +608,7 @@
 <ol>
 <li><p>Acceptor 套接字接受线程 <strong>生产者</strong><br>Acceptor是NioEndpoint的第一个组件，它用于接收新的连接请求。Acceptor在单独的线程中运行，并且在一个无限循环中等待新的连接请求。一旦有新的连接请求到来，Acceptor将其封装成事件任务放入Poller的队列，一个Connector里面只有一个Acceptor。</p>
 </li>
-<li><p>Poller 套接字处理线程 <strong>消费者</strong><br>  每个Poller内部都有一个独有的队列，Poller线程则从自己的队列里面获取具体的事件任务，然后将其交给Worker进行处理。Poller线程个数与处理器的核数有关。</p>
+<li><p>Poller 套接字处理线程 <strong>消费者</strong><br> 每个Poller内部都有一个独有的队列，Poller线程则从自己的队列里面获取具体的事件任务，然后将其交给Worker进行处理。Poller线程个数与处理器的核数有关。</p>
 </li>
 </ol>
 <p>  每个Poller里面都维护了一个ConcurrentLinkedQueue，用来缓存请求任务，也是一个多生产者-单消费者模型</p>
@@ -616,7 +616,40 @@
 <li>Worker 实际处理请求的线程</li>
 </ol>
 <p>  真正做事情的是SocketProcessor。</p>
+<h3 id="ConcurrentHashMap的使用"><a href="#ConcurrentHashMap的使用" class="headerlink" title="ConcurrentHashMap的使用"></a>ConcurrentHashMap的使用</h3><p>虽然是并发安全的组件，但是使用不当仍然会导致程序错误。</p>
+<p>put(K key, V value)方法判断如果key已经存在，则使用value覆盖原来的值并返回原来的值，如果不存在则把value放入并返回null</p>
+<p>putIfAbsent(K key, V value)方法则是如果key已经存在则直接返回原来对应的值并不使用value覆盖，如果key不存在则放入value并返回null。判断key是否存在和放入是原子性操作。</p>
+<h3 id="SimpleDateFormat的使用"><a href="#SimpleDateFormat的使用" class="headerlink" title="SimpleDateFormat的使用"></a>SimpleDateFormat的使用</h3><p>SimpleDateFormat是线程不安全的，多线程共用一个SimpleDateFormat实例对日期进行解析或者格式化会导致程序出错。</p>
+<h4 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h4><p>每个SimpleDateFormat实例里面都会有一个Calendar对象，SimpleDateFormat之所以是线程不安全的，就是因为Calendar是线程不安全的，而Calendar之所以是线程不安全的，是因为其中存放日期数据的变量都是线程不安全的，比如fields、time。</p>
+<h4 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h4><ol>
+<li>每次使用时都new一个SimpleDateFormat的实例，但是这样开销很大。</li>
+<li>使用Synchronized进行同步，但加锁意味着多个线程竞争锁，在高并发场景下这会导致系统响应性能下降。</li>
+<li>使用ThreadLocal，大大节省了对象的创建和销毁的开销并且不需要多个线程同步。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.text.SimpleDateFormat;<br><span class="hljs-keyword">import</span> java.util.Date;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">DateFormatUtil</span> &#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> ThreadLocal&lt;SimpleDateFormat&gt; <br>        dateFormatThreadLocal = ThreadLocal.withInitial(() -&gt; <span class="hljs-keyword">new</span> <span class="hljs-title class_">SimpleDateFormat</span>(<span class="hljs-string">&quot;yyyy-MM-dd HH:mm:ss&quot;</span>));<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title function_">format</span><span class="hljs-params">(Date date)</span> &#123;<br>        <span class="hljs-keyword">return</span> dateFormatThreadLocal.get().format(date);<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> InterruptedException &#123;<br>        <span class="hljs-comment">// 创建多个线程，每个线程都调用format方法</span><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">5</span>; i++) &#123;<br>            <span class="hljs-keyword">new</span> <span class="hljs-title class_">Thread</span>(() -&gt; &#123;<br>                <span class="hljs-keyword">try</span> &#123;<br>                    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">j</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; j &lt; <span class="hljs-number">3</span>; j++) &#123;<br>                        <span class="hljs-type">String</span> <span class="hljs-variable">formattedDate</span> <span class="hljs-operator">=</span> DateFormatUtil.format(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>());<br>                        System.out.println(Thread.currentThread().getName() + <span class="hljs-string">&quot;: &quot;</span> + formattedDate);<br>                        Thread.sleep(<span class="hljs-number">100</span>);<br>                    &#125;<br>                &#125; <span class="hljs-keyword">finally</span> &#123;<br>                    dateFormatThreadLocal.remove(); <span class="hljs-comment">// 清除ThreadLocal变量</span><br>                &#125;<br>            &#125;).start();<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
+<h3 id="Timer的使用"><a href="#Timer的使用" class="headerlink" title="Timer的使用"></a>Timer的使用</h3><p>当一个Timer运行多个TimerTask时，只要其中一个TimerTask在执行中向run方法外抛出了异常，则其他任务也会自动终止。</p>
+<h4 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h4><p>Timer内部也是一个多生产者-单消费者模型</p>
+<h5 id="TaskQueue"><a href="#TaskQueue" class="headerlink" title="TaskQueue"></a>TaskQueue</h5><p>每个Timer对象内部都有一个TaskQueue队列。TaskQueue是一个由平衡二叉树堆实现的优先级队列</p>
+<h5 id="TimerThread"><a href="#TimerThread" class="headerlink" title="TimerThread"></a>TimerThread</h5><p>具体执行任务的线程，从TaskQueue中获取优先级最高的任务进行执行</p>
+<h3 id="创建线程和线程池时指定与业务相关的名称"><a href="#创建线程和线程池时指定与业务相关的名称" class="headerlink" title="创建线程和线程池时指定与业务相关的名称"></a>创建线程和线程池时指定与业务相关的名称</h3><p>给每个线程或者线程池根据业务类型设置具体的名称，以便在出现问题时方便进行定位</p>
+<p>在Java中，可以通过继承Thread类或实现Runnable接口来创建线程。在创建线程时，可以指定线程的名称，并将其设置为与业务相关的名称，方便我们在程序运行时进行日志记录和排查问题。</p>
+<p>下面是一个使用继承Thread类创建线程，并指定线程名称的示例代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyThread</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Thread</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">MyThread</span><span class="hljs-params">(String name)</span> &#123;<br>        <span class="hljs-built_in">super</span>(name);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">run</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-comment">// 业务逻辑</span><br>    &#125;<br>&#125;<br><br><span class="hljs-comment">// 在调用线程时，传入与业务相关的名称</span><br><span class="hljs-type">MyThread</span> <span class="hljs-variable">thread</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">MyThread</span>(<span class="hljs-string">&quot;MyThread&quot;</span>);<br>thread.start();<br></code></pre></td></tr></table></figure>
+
+<p>下面是一个使用实现Runnable接口创建线程，并指定线程名称的示例代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyRunnable</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Runnable</span> &#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> String name;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">MyRunnable</span><span class="hljs-params">(String name)</span> &#123;<br>        <span class="hljs-built_in">this</span>.name = name;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">run</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-comment">// 业务逻辑</span><br>    &#125;<br>&#125;<br><br><span class="hljs-comment">// 在调用线程时，传入与业务相关的名称</span><br><span class="hljs-type">MyRunnable</span> <span class="hljs-variable">runnable</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">MyRunnable</span>(<span class="hljs-string">&quot;MyRunnable&quot;</span>);<br><span class="hljs-type">Thread</span> <span class="hljs-variable">thread</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Thread</span>(runnable, <span class="hljs-string">&quot;MyRunnableThread&quot;</span>);<br>thread.start();<br></code></pre></td></tr></table></figure>
+
+<p>在使用线程池创建线程时，也可以指定线程名称，并将其设置为与业务相关的名称。下面是一个使用线程池创建线程，并指定线程名称的示例代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">ExecutorService</span> <span class="hljs-variable">executorService</span> <span class="hljs-operator">=</span> Executors.newFixedThreadPool(<span class="hljs-number">10</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">ThreadFactory</span>() &#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-type">AtomicInteger</span> <span class="hljs-variable">count</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">AtomicInteger</span>(<span class="hljs-number">1</span>);<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> Thread <span class="hljs-title function_">newThread</span><span class="hljs-params">(Runnable r)</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Thread</span>(r, <span class="hljs-string">&quot;MyThreadPool-&quot;</span> + count.getAndIncrement());<br>    &#125;<br>&#125;);<br><br><span class="hljs-comment">// 提交任务</span><br>executorService.submit(<span class="hljs-keyword">new</span> <span class="hljs-title class_">MyRunnable</span>(<span class="hljs-string">&quot;MyRunnable1&quot;</span>));<br>executorService.submit(<span class="hljs-keyword">new</span> <span class="hljs-title class_">MyRunnable</span>(<span class="hljs-string">&quot;MyRunnable2&quot;</span>));<br><br><span class="hljs-comment">// 关闭线程池</span><br>executorService.shutdown();<br></code></pre></td></tr></table></figure>
+
+<p>在这个示例代码中，我们通过实现ThreadFactory接口来自定义线程池的创建方式，将线程名称设置为”MyThreadPool-“加上一个递增的数字，以确保线程名称的唯一性。然后，我们可以通过ExecutorService.submit()方法将任务提交给线程池，由线程池来执行任务。最后，我们需要调用ExecutorService.shutdown()方法来关闭线程池。</p>
+<h3 id="使用线程池的情况下当程序结束时关闭线程池"><a href="#使用线程池的情况下当程序结束时关闭线程池" class="headerlink" title="使用线程池的情况下当程序结束时关闭线程池"></a>使用线程池的情况下当程序结束时关闭线程池</h3><p>在使用线程池的情况下，我们需要确保程序结束时关闭线程池，以释放占用的系统资源并避免程序卡死等问题。</p>
+<p>在Java中，我们可以使用ExecutorService.shutdown()方法来关闭线程池。该方法会通知线程池停止接受新的任务，并尝试完成所有已提交的任务。当所有任务都执行完成后，线程池会自动关闭。如果在关闭线程池时仍然有任务在执行，那么这些任务将会被中断。</p>
+<h3 id="线程池使用FutureTask"><a href="#线程池使用FutureTask" class="headerlink" title="线程池使用FutureTask"></a>线程池使用FutureTask</h3><p>线程池使用FutureTask时如果把拒绝策略设置为DiscardPolicy和DiscardOldestPolicy，并且在被拒绝的任务的Future对象上调用了无参get方法，那么调用线程会被一直阻塞。</p>
+<p>DiscardPolicy拒绝策略什么都没做，而是submit后会返回一个Future对象，这个对象枚举值为0，而无参get方法需要Future状态枚举值大于1才会返回。</p>
+<p>所以在日常开发中尽量使用带超时参数的get方法以避免线程一直阻塞</p>
+<h3 id="使用ThreadLocal不当可能导致内存泄漏"><a href="#使用ThreadLocal不当可能导致内存泄漏" class="headerlink" title="使用ThreadLocal不当可能导致内存泄漏"></a>使用ThreadLocal不当可能导致内存泄漏</h3>
                 
               </div>
             
