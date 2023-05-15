@@ -24,7 +24,7 @@
 <meta property="og:description" content="第二章Java内存模型 volatile只能保证可见性和有序性，但不能保证原子性。 volatile只能保证对单次读&#x2F;写的原子性，但不能保证对复合操作（如i++）的原子性。 volatile不会对变量加锁，因此多个线程同时访问一个变量时，可能会出现数据不一致的情况。  Volatile的实现原理(看这篇就够了) - 知乎1 伪共享伪共享是多线程操作位于同一缓存行的不同变量时，由于缓存失效">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-04-30T16:37:42.000Z">
-<meta property="article:modified_time" content="2023-05-14T15:32:20.992Z">
+<meta property="article:modified_time" content="2023-05-15T10:09:57.282Z">
 <meta property="article:author" content="Pachwang">
 <meta property="article:tag" content="原创">
 <meta name="twitter:card" content="summary_large_image">
@@ -231,7 +231,7 @@
         
         
         
-          252 分钟
+          254 分钟
         
       </span>
     
@@ -649,7 +649,9 @@
 <h3 id="线程池使用FutureTask"><a href="#线程池使用FutureTask" class="headerlink" title="线程池使用FutureTask"></a>线程池使用FutureTask</h3><p>线程池使用FutureTask时如果把拒绝策略设置为DiscardPolicy和DiscardOldestPolicy，并且在被拒绝的任务的Future对象上调用了无参get方法，那么调用线程会被一直阻塞。</p>
 <p>DiscardPolicy拒绝策略什么都没做，而是submit后会返回一个Future对象，这个对象枚举值为0，而无参get方法需要Future状态枚举值大于1才会返回。</p>
 <p>所以在日常开发中尽量使用带超时参数的get方法以避免线程一直阻塞</p>
-<h3 id="使用ThreadLocal不当可能导致内存泄漏"><a href="#使用ThreadLocal不当可能导致内存泄漏" class="headerlink" title="使用ThreadLocal不当可能导致内存泄漏"></a>使用ThreadLocal不当可能导致内存泄漏</h3>
+<h3 id="使用ThreadLocal不当可能导致内存泄漏"><a href="#使用ThreadLocal不当可能导致内存泄漏" class="headerlink" title="使用ThreadLocal不当可能导致内存泄漏"></a>使用ThreadLocal不当可能导致内存泄漏</h3><h4 id="为什么会内存泄漏"><a href="#为什么会内存泄漏" class="headerlink" title="为什么会内存泄漏"></a>为什么会内存泄漏</h4><p>ThreadLocal只是一个工具类，具体存放变量的是线程的threadLocals变量。threadLocals是一个ThreadLocalMap类型的变量。</p>
+<p>ThreadLocalMap内部是一个继承自WeakReference的Entry数组，Entry内部的value用来存放通过ThreadLocal的set方法传递的值。</p>
+
                 
               </div>
             
