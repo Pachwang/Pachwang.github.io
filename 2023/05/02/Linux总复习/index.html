@@ -41,8 +41,10 @@
 <meta property="og:image" content="https://pachwang.github.io/images/linux016.jpg">
 <meta property="og:image" content="https://pachwang.github.io/images/linux017.jpg">
 <meta property="og:image" content="https://pachwang.github.io/images/linux018.jpg">
+<meta property="og:image" content="https://pachwang.github.io/images/linux019.jpg">
+<meta property="og:image" content="https://pachwang.github.io/images/linux020.jpg">
 <meta property="article:published_time" content="2023-05-02T15:34:04.000Z">
-<meta property="article:modified_time" content="2023-05-14T10:53:43.509Z">
+<meta property="article:modified_time" content="2023-05-16T12:20:11.806Z">
 <meta property="article:author" content="Pachwang">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://pachwang.github.io/images/linux001.jpg">
@@ -238,7 +240,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          48k 字
+          57k 字
         
       </span>
     
@@ -249,7 +251,7 @@
         
         
         
-          404 分钟
+          475 分钟
         
       </span>
     
@@ -2825,6 +2827,638 @@
 
 <h6 id="执行"><a href="#执行" class="headerlink" title="执行"></a>执行</h6><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@VM-12-12-centos demo5]<span class="hljs-comment"># ls</span><br>libpr.so  main.c  main_so  pr1.c  pr2.c<br>[root@VM-12-12-centos demo5]<span class="hljs-comment"># ./main_so </span><br>This is the first <span class="hljs-built_in">print</span> src!<br>This is the second <span class="hljs-built_in">print</span> src!<br></code></pre></td></tr></table></figure>
 
+<h2 id="第十讲"><a href="#第十讲" class="headerlink" title="第十讲"></a>第十讲</h2><h3 id="磁盘设备的命名方式"><a href="#磁盘设备的命名方式" class="headerlink" title="磁盘设备的命名方式"></a>磁盘设备的命名方式</h3><h4 id="前两个字母表示分区所在设备的类型"><a href="#前两个字母表示分区所在设备的类型" class="headerlink" title="前两个字母表示分区所在设备的类型"></a>前两个字母表示分区所在设备的类型</h4><p>​	hd：IDE硬盘<br>​	sd：SCSI硬盘(U盘，移动硬盘等)</p>
+<h4 id="第三个字母表示分区在哪个设备上"><a href="#第三个字母表示分区在哪个设备上" class="headerlink" title="第三个字母表示分区在哪个设备上"></a>第三个字母表示分区在哪个设备上</h4><p>​	hda：第一块IDE硬盘<br>​	sda：第一块SCSI硬盘<br>​	sdb：第二块SCSI硬盘</p>
+<h4 id="数字表示分区的次序"><a href="#数字表示分区的次序" class="headerlink" title="数字表示分区的次序"></a>数字表示分区的次序</h4><p>​	hda1:第一块IDE硬盘第一分区<br>​	sdb2:第二块SCSI硬盘第二个分区</p>
+<h4 id="查看硬盘及分区情况"><a href="#查看硬盘及分区情况" class="headerlink" title="查看硬盘及分区情况"></a>查看硬盘及分区情况</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">fdisk -l<br>lsblk<br></code></pre></td></tr></table></figure>
+
+<h3 id="Linux的文件系统"><a href="#Linux的文件系统" class="headerlink" title="Linux的文件系统"></a>Linux的文件系统</h3><h4 id="常见的文件系统"><a href="#常见的文件系统" class="headerlink" title="常见的文件系统"></a>常见的文件系统</h4><p>FAT、NTFS、ExtFAT、ext2、ext3、 ext3、 xfs、APFS</p>
+<h3 id="VFS的功能和作用"><a href="#VFS的功能和作用" class="headerlink" title="VFS的功能和作用"></a>VFS的功能和作用</h3><p>Linux引进ext文件系统时有了一个重大的改进：为了更好的支持多种不同的文件系统，把文件系统从操作系统和系统服务中分离出来，在它们之间使用了一个接口层，也就是虚拟文件系统VFS(Virtual File System)</p>
+<p>VFS功能包括：</p>
+<ol>
+<li>记录可用文件系统的类型</li>
+<li>将设备与对应的文件系统联系起来</li>
+<li>处理面向文件的通用操作</li>
+<li>涉及到针对文件系统的操作时，把他们映射到相关的物理文件系统</li>
+</ol>
+<p>VFS 是 Linux 内核中的软件层，它在内核中提供了一组标准的、抽象的文件操作，允许不同的文件系统实现共存，并向用户空间程序提供统一的文件系统接口</p>
+<p>通过VFS将不同文件系统的实现细节隐藏起来，从外部看上去，所有的文件系统都是一样的</p>
+<p><img src="/images/linux019.jpg" srcset="/img/loading.gif" lazyload></p>
+<h3 id="设备挂载"><a href="#设备挂载" class="headerlink" title="设备挂载"></a>设备挂载</h3><p>计算机系统中，所有的存储设备都是以目录树的形式对文件进行管理的 。<br>在Linux系统中，所有的文件都是在以“&#x2F;”目录为根的一棵“大”目录树中进行管理。<br>如果要使用USB存储设备、光盘或软盘等存储设备，必须将这些设备中的“小”目录树像嫁接一样挂载（mount）到Linux系统的“大”目录树中。 </p>
+<p><img src="/images/linux020.jpg" srcset="/img/loading.gif" lazyload></p>
+<h4 id="挂载过程"><a href="#挂载过程" class="headerlink" title="挂载过程"></a>挂载过程</h4><h5 id="确定挂载信息"><a href="#确定挂载信息" class="headerlink" title="确定挂载信息"></a>确定挂载信息</h5><h6 id="挂载对象的文件系统类型：-x2F-proc-x2F-filesystems"><a href="#挂载对象的文件系统类型：-x2F-proc-x2F-filesystems" class="headerlink" title="挂载对象的文件系统类型：&#x2F;proc&#x2F;filesystems"></a>挂载对象的文件系统类型：&#x2F;proc&#x2F;filesystems</h6><p>​	vfat (fat32)     ext2    ext3     iso9660<br>​	新磁盘，先格式化</p>
+<h6 id="挂载对象的设备名称"><a href="#挂载对象的设备名称" class="headerlink" title="挂载对象的设备名称"></a>挂载对象的设备名称</h6><p>​	在Linux系统中，设备名称通常都在&#x2F;dev目录下，设备名称的命名是有规则的 ;<br>​	&#x2F;dev&#x2F;hda1   &#x2F;dev&#x2F;sda2  &#x2F;dev&#x2F;fd0  &#x2F;dev&#x2F;cdrom</p>
+<h6 id="设备挂载到哪一目录，即挂载点。"><a href="#设备挂载到哪一目录，即挂载点。" class="headerlink" title="设备挂载到哪一目录，即挂载点。"></a>设备挂载到哪一目录，即挂载点。</h6><p>​	Linux系统中有一个&#x2F;mnt目录，专门用作挂载点（mount point）目录<br>​	在挂载设备时首先查看挂载点目录是否存在，如果不存在必须首先创建该目录，否则mount命令无法正常执行。 </p>
+<h5 id="查看设备"><a href="#查看设备" class="headerlink" title="查看设备"></a>查看设备</h5><p>​	使用命令 <strong>fdisk-l</strong> 可以查看系统的存储设备</p>
+<h5 id="挂载设备"><a href="#挂载设备" class="headerlink" title="挂载设备"></a>挂载设备</h5><p>​	首先使用mkdir命令建立挂载点目录，然后再使用mount命令挂载相关设备</p>
+<h5 id="访问设备"><a href="#访问设备" class="headerlink" title="访问设备"></a>访问设备</h5><h5 id="卸载设备"><a href="#卸载设备" class="headerlink" title="卸载设备"></a>卸载设备</h5><p>​	用户在使用完挂载设备后，不能直接将挂载设备从系统拔出，否则会出现问题，严重的会导致系统崩溃。用户必须先执行卸载命令然后再该设备拔出</p>
+<p>​	<strong>umount [挂载点或设备名]</strong></p>
+<h4 id="自动挂载"><a href="#自动挂载" class="headerlink" title="自动挂载"></a>自动挂载</h4><p>使用配置文件&#x2F;etc&#x2F;fstab来自动挂载存储设备</p>
+<p>文件&#x2F;etc&#x2F;fstab存放的是系统中的文件系统信息，每个文件系统在文件中都对应一个独立的行 </p>
+<p>mount、umount 等命令都利用这个文件</p>
+<p>fstab每一行为一个分区记录，包含六个域：<br><fs_spec> <fs_file> <fs_type> <fs_options> <fs_dump> <fs_pass><br>第一列为设备号或该设备的卷标<br>第二列为挂载点<br>第三列为文件系统<br>第四列为文件系统参数<br>第五列为是否可以用dump命令备份(0：不备份，1：备份)<br>第六列为是否在系统启动的时候，用fsck检验分区</p>
+<h4 id="mkfs命令"><a href="#mkfs命令" class="headerlink" title="mkfs命令"></a>mkfs命令</h4><p>作用：</p>
+<p>​	把指定的设备格式为指定的文件系统</p>
+<p>格式：</p>
+<p>​	mkfs [选项][-t &lt;文件系统类型&gt;] [设备名称] [区块数]</p>
+<p>例子</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">mkfs –t ext3 /dev/hda4<br></code></pre></td></tr></table></figure>
+
+<h4 id="fdisk命令"><a href="#fdisk命令" class="headerlink" title="fdisk命令"></a>fdisk命令</h4><p>作用：</p>
+<p>​	创建和维护分区表</p>
+<p>格式：</p>
+<p>​	fdisk [必要参数] [选择参数]</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-l</td>
+<td>列出素所有分区表</td>
+</tr>
+<tr>
+<td>-u</td>
+<td>与-l配合使用，显示分区数目</td>
+</tr>
+</tbody></table>
+<p>例子</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">fdisk -l<br>fdisk -lu<br></code></pre></td></tr></table></figure>
+
+<h4 id="mount命令"><a href="#mount命令" class="headerlink" title="mount命令"></a>mount命令</h4><p>作用：</p>
+<p>​	挂载Linux系统外的文件</p>
+<p>格式：</p>
+<p>​	mount [选项] &lt;挂载设备名称&gt;  &lt;挂载点&gt;</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-t</td>
+<td>指定文件系统类型，通常不必指定。mount  会自动选择正确的类型</td>
+</tr>
+<tr>
+<td>-o auto、  -o noauto</td>
+<td>打开&#x2F;关闭自动挂上模式</td>
+</tr>
+<tr>
+<td>-o defaults</td>
+<td>使用预设的选项 rw, suid,  dev, exec, auto, nouser, and async</td>
+</tr>
+<tr>
+<td>-o ro</td>
+<td>用只读模式挂上</td>
+</tr>
+<tr>
+<td>-o rw</td>
+<td>用可读写模式挂上</td>
+</tr>
+</tbody></table>
+<p>例子</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># </span><br>mount  -t  ext2  /dev/fd0  /mnt/floppy<br><span class="hljs-comment"># </span><br>mount  -o  iocharset=cp936 /dev/sda1  /mnt/usb<br><span class="hljs-comment"># </span><br>mount  -o ro /dev/hda1 /mnt<br></code></pre></td></tr></table></figure>
+
+<h4 id="umount命令"><a href="#umount命令" class="headerlink" title="umount命令"></a>umount命令</h4><p>作用：</p>
+<p>​	卸除文件系统</p>
+<p>格式：</p>
+<p>​	umount [选项] 挂载点或设备名</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-a</td>
+<td>卸除&#x2F;etc&#x2F;mtab中记录的所有文件系统</td>
+</tr>
+<tr>
+<td>-n</td>
+<td>卸除时不要将信息存入&#x2F;etc&#x2F;mtab文件中</td>
+</tr>
+<tr>
+<td>-r</td>
+<td>若无法成功卸除，则尝试以只读的方式重新挂入文件系统</td>
+</tr>
+<tr>
+<td>-t &lt;文件系统类型&gt;</td>
+<td>仅卸除选项中所指定的文件系统</td>
+</tr>
+<tr>
+<td>-v</td>
+<td>执行时显示详细的信息</td>
+</tr>
+</tbody></table>
+<p>例子</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># </span><br>umount /mnt/cd<br><span class="hljs-comment"># </span><br>umount -v /dev/sda1<br></code></pre></td></tr></table></figure>
+
+<h4 id="df命令"><a href="#df命令" class="headerlink" title="df命令"></a>df命令</h4><p>作用：</p>
+<p>​	查看磁盘空间使用情况</p>
+<p>格式：</p>
+<p>​	df [选项] [路径]</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-a</td>
+<td>–all 包含所有的具有  0 Blocks 的文件系统</td>
+</tr>
+<tr>
+<td>-h</td>
+<td>–human-readable 使用人类可读的格式</td>
+</tr>
+<tr>
+<td>-i</td>
+<td>–inodes 列出 inode 资讯，不列出已使用  block</td>
+</tr>
+<tr>
+<td>-l</td>
+<td>–local 限制列出的文件结构</td>
+</tr>
+<tr>
+<td>-t</td>
+<td>–type&#x3D;TYPE 限制列出文件系统的  TYPE</td>
+</tr>
+<tr>
+<td>-T</td>
+<td>–print-type 显示文件系统的形式</td>
+</tr>
+</tbody></table>
+<h4 id="du命令"><a href="#du命令" class="headerlink" title="du命令"></a>du命令</h4><p>作用：</p>
+<p>​	统计目录或文件所占磁盘空间大小</p>
+<p>格式：</p>
+<p>​	du [选项&#x2F;参数] [目录名…]</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-a</td>
+<td>递归显示制定目录中各个文件及下级目录中各文件占用的数据块数</td>
+</tr>
+<tr>
+<td>-h</td>
+<td>以友好直观方式显示信息，即以KB或MB为单位</td>
+</tr>
+<tr>
+<td>-b</td>
+<td>以字节为单位列出磁盘空间使用情况</td>
+</tr>
+<tr>
+<td>-m</td>
+<td>以MB为单位显示</td>
+</tr>
+<tr>
+<td>-s</td>
+<td>对每个目录参数只给出占用的数据块总数</td>
+</tr>
+</tbody></table>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">du</span> -m /tmp<br></code></pre></td></tr></table></figure>
+
+<h4 id="用户信息查看命令"><a href="#用户信息查看命令" class="headerlink" title="用户信息查看命令"></a>用户信息查看命令</h4><h5 id="whoami命令"><a href="#whoami命令" class="headerlink" title="whoami命令"></a>whoami命令</h5><p>查看当前登录用户名称</p>
+<h5 id="id命令"><a href="#id命令" class="headerlink" title="id命令"></a>id命令</h5><p>查看当前登录用户信息</p>
+<p>[-u] 只显示UID</p>
+<p>[-g] 只显示GID</p>
+<h5 id="who命令"><a href="#who命令" class="headerlink" title="who命令"></a>who命令</h5><p>查看当前登录用户列表</p>
+<p>[-H] 显示标题</p>
+<p>[-l] 显示来源</p>
+<h5 id="w命令"><a href="#w命令" class="headerlink" title="w命令"></a>w命令</h5><p>查看当前登录用户情况，who的增强版</p>
+<h3 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h3><h4 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h4><p>Linux系统上所有运行的东西都可以称之为一个进程，如每个用户任务、每个系统管理任务</p>
+<p>进程是一个程序的运行 </p>
+<p>进程与程序是有区别的</p>
+<ol>
+<li>程序只是一个静态的指令集合，不占系统的运行资源，只占用磁盘空间</li>
+<li>进程是一个随时都可能发生变化的、动态的、使用系统运行资源(cpu,内存等)的程序</li>
+<li>一个程序可以启动多个进程</li>
+</ol>
+<h4 id="类型"><a href="#类型" class="headerlink" title="类型"></a>类型</h4><p>Linux操作系统包括三种不同类型的进程，每种进程都有自己的特点和属性：</p>
+<ul>
+<li><p>交互进程: 由shell启动的进程</p>
+</li>
+<li><p>批处理进程: 这种进程和终端没有联系，是一个进程序列</p>
+</li>
+<li><p>守护进程: 在后台持续运行的进程</p>
+</li>
+</ul>
+<h4 id="进程启动"><a href="#进程启动" class="headerlink" title="进程启动"></a>进程启动</h4><h5 id="前台启动"><a href="#前台启动" class="headerlink" title="前台启动"></a>前台启动</h5><ul>
+<li>用户键入一个命令，回车执行，就已经启动了一个前台的进程</li>
+<li>适合需要实时反馈的操作</li>
+<li>前台进程会一直占用终端，直到进程执行结束</li>
+<li>ctrl+c 强制终端进程执行</li>
+<li>kill 杀死进程</li>
+</ul>
+<h5 id="后台启动"><a href="#后台启动" class="headerlink" title="后台启动"></a>后台启动</h5><p>​	一般不需要与用户交互或者不需要实时的反馈</p>
+<p>​	在命令结尾上加上 &amp;</p>
+<p>常用操作</p>
+<ul>
+<li>jobs：查看所有后台进程列表</li>
+<li>ctrl+z：前台 -&gt; 后台，并暂停执行</li>
+<li>fg <number>: 将后台进程调至前台执行</li>
+<li>bg <number>: 将一个后台暂停进程，继续执行</li>
+</ul>
+<h4 id="调度启动"><a href="#调度启动" class="headerlink" title="调度启动"></a>调度启动</h4><h5 id="at命令"><a href="#at命令" class="headerlink" title="at命令"></a>at命令</h5><p>指定在将来某个时刻执行某些命令。通过atd守护进程来实现的，只执行一次。</p>
+<p>作用：</p>
+<p>​	指定在将来的某个时间点执行某些命令</p>
+<p>用法： </p>
+<p>​	at [选项] [时间]</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-m</td>
+<td>当 at  工作完成后，无论命令是否输出，都用  E-mail  通知执行  at  命令的用户。</td>
+</tr>
+<tr>
+<td>-c 工作标识号</td>
+<td>显示该  at  工作的实际内容。</td>
+</tr>
+<tr>
+<td>-t 时间</td>
+<td>在指定时间提交工作并执行，时间格式为  [[CC]YY]MMDDhhmm。</td>
+</tr>
+<tr>
+<td>-d</td>
+<td>删除某个工作，需要提供相应的工作标识号（ID），同  atrm  命令的作用相同。</td>
+</tr>
+<tr>
+<td>-l</td>
+<td>列出当前所有等待运行的工作，和  atq  命令具有相同的额作用。</td>
+</tr>
+<tr>
+<td>-f 脚本文件</td>
+<td>指定所要提交的脚本文件。</td>
+</tr>
+<tr>
+<td>HH:MM</td>
+<td>比如 04:00  AM。如果时间已过，则它会在第二天的同一时间执行</td>
+</tr>
+<tr>
+<td>Midnight(midnight)</td>
+<td>代表 12:00  AM（也就是  00:00）</td>
+</tr>
+<tr>
+<td>Noon(noon)</td>
+<td>代表 12:00  PM（相当于  12:00）</td>
+</tr>
+<tr>
+<td>Teatime(teatime)</td>
+<td>代表 4:00  PM（相当于  16:00）</td>
+</tr>
+<tr>
+<td>英文月名  日期 年份</td>
+<td>比如 January  15 2018 表示  2018  年  1  月  15  号，年份可有可无</td>
+</tr>
+<tr>
+<td>MMDDYY、MM&#x2F;DD&#x2F;YY、MM.DD.YY</td>
+<td>比如 011518  表示  2018  年  1  月  15  号</td>
+</tr>
+<tr>
+<td>now+时间</td>
+<td>以 minutes、hours、days  或  weeks  为单位，例如  now+5  days 表示命令在  5  天之后的此时此刻执行</td>
+</tr>
+</tbody></table>
+<h6 id="交互式"><a href="#交互式" class="headerlink" title="交互式"></a>交互式</h6><p>在shell提示符下输入”at 时间”，然后按回车键。这时在下一行shell会等待用户继续输入要执行的命令。每一行输入一个命令，所有命令都输入完毕后按Ctrl+d键结束</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@VM-12-12-centos ~]<span class="hljs-comment"># at now +1min </span><br>at&gt; <span class="hljs-built_in">echo</span> hello world<br>at&gt; &lt;EOT&gt;<br>job 1 at Tue May 16 19:10:00 2023<br></code></pre></td></tr></table></figure>
+
+<h6 id="指定文件"><a href="#指定文件" class="headerlink" title="指定文件"></a>指定文件</h6><p>将各个命令写入shell脚本中，然后使用下面格式设置在指定时间执行shell脚本中的命令</p>
+<p>at 时间 -f 脚本文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@VM-12-12-centos ~]<span class="hljs-comment"># vim myatscript.sh</span><br>[root@VM-12-12-centos ~]<span class="hljs-comment"># chmod +x myatscript.sh </span><br>[root@VM-12-12-centos ~]<span class="hljs-comment"># at now +1min -f myatscript.sh </span><br>job 2 at Tue May 16 19:15:00 2023<br></code></pre></td></tr></table></figure>
+
+<p><strong>创建 <code>at</code> 任务</strong>：</p>
+<ol>
+<li><p>创建一个脚本文件或准备要执行的命令。</p>
+</li>
+<li><p>使用 <code>at</code> 命令来安排任务执行。以下是示例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">at 14:30<br></code></pre></td></tr></table></figure>
+
+<p>这将进入 <code>at</code> 命令的交互模式。</p>
+</li>
+<li><p>在交互模式中，输入要执行的命令或脚本内容。按下 <code>Ctrl + D</code> 保存并退出。</p>
+<p>或者，你可以将命令或脚本内容重定向到 <code>at</code> 命令。例如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;command or script&quot;</span> | at 14:30<br></code></pre></td></tr></table></figure>
+
+<p>这将直接将命令或脚本内容传递给 <code>at</code> 命令。</p>
+</li>
+</ol>
+<p><strong>删除 <code>at</code> 任务</strong>：</p>
+<ol>
+<li><p>使用 <code>atq</code> 命令查看当前的 <code>at</code> 任务和它们的任务编号。</p>
+</li>
+<li><p>使用 <code>atrm</code> 命令后跟任务编号来删除特定的 <code>at</code> 任务。例如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">atrm 1 | at -d 1<br></code></pre></td></tr></table></figure>
+
+<p>这将删除任务编号为 1 的 <code>at</code> 任务。</p>
+</li>
+</ol>
+<p><strong>查看 <code>at</code> 任务</strong>：</p>
+<ol>
+<li><p>使用 <code>atq</code> 命令查看当前的 <code>at</code> 任务和它们的任务编号。例如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">atq | at -l <br></code></pre></td></tr></table></figure>
+
+<p>这将列出当前的 <code>at</code> 任务及其相关信息，如任务编号、执行时间等。</p>
+</li>
+<li><p>使用 <code>at -c</code> 命令后跟任务编号来查看特定 <code>at</code> 任务的详细内容。例如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">at -c 1<br></code></pre></td></tr></table></figure>
+
+<p>这将显示任务编号为 1 的 <code>at</code> 任务的详细内容。</p>
+</li>
+</ol>
+<p>请注意，具体命令的选项可能会因操作系统版本和配置而有所不同。执行 <code>man at</code> 可以获取更多关于 <code>at</code> 命令的详细信息和选项。</p>
+<h5 id="crontab命令"><a href="#crontab命令" class="headerlink" title="crontab命令"></a>crontab命令</h5><p>at命令产生的进程调度不具有周期性，只能在时间条件满足时执行一次。crontab用来让使用者在固定时间或固定时间间隔执行程序。</p>
+<p>cron命令在系统启动时由一个shell脚本自动启动，进入后台，crond守护进程(&#x2F;etc&#x2F;init.d&#x2F;crond)</p>
+<p>cron启动后搜索&#x2F;var&#x2F;spool&#x2F;cron目录，寻找以&#x2F;etc&#x2F;passwd文件中的用户名命名的crontab文件，被找到的这种文件将载入内存</p>
+<p>如果没有crontab文件，就转入“休眠”状态，释放系统资源</p>
+<p>cron每分钟“醒”过来一次，查看当前是否有需要运行的命令</p>
+<p>如果发现某个用户设置了crontab文件，它将以该用户的身份去运行文件中指定的命令。命令执行结束后，任何输出都将作为邮件发送给crontab的所有者，或者&#x2F;etc&#x2F;crontab文件中MAILTO环境变量中指定的用户。</p>
+<p>对用户来说，只需要关注自己的crontab文件的撰写，不需干涉crond进程的执行</p>
+<p>因为一个用户只有一个crontab文件，所以，crontab文件不能直接创建或者直接修改(root可以)，必须通过crontab命令得到</p>
+<p>crontab命令用于安装、删除或者列出用于驱动cron后台进程的crontab文件</p>
+<p>作用：</p>
+<p>​	设定周期性任务。root用户可以指定其他用户的时程表</p>
+<p>格式：</p>
+<p>​	crontab [ -u user ] 文件         </p>
+<p>​	crontab [ -u user ] { -l | -r | -e }</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-e</td>
+<td>执行文字编辑器来设定时间表</td>
+</tr>
+<tr>
+<td>-r</td>
+<td>删除目前的时程表</td>
+</tr>
+<tr>
+<td>-l</td>
+<td>列出目前的时程表</td>
+</tr>
+</tbody></table>
+<h6 id="crontab文件格式"><a href="#crontab文件格式" class="headerlink" title="crontab文件格式"></a>crontab文件格式</h6><p><minute> <hour> <day-of-month> <month-of-year> <day-of-week> <commands></p>
+<ul>
+<li>f1: 分钟，00-59</li>
+<li>f2: 小时，00-23</li>
+<li>f3: 一个月份中的第几天，01-31</li>
+<li>f4: 月份，01-12</li>
+<li>f5: 一个星期中的第几天，0-6</li>
+<li>commands: 要执行的程序(绝对路径)</li>
+</ul>
+<p>例子：</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs txt">每月每天12点执行一次echo hello<br>0 12 * * * echo hello<br><br>在12月内，每天早上6点到12点，每隔20分钟执行一次/usr/bin/backup<br>*/20 6-12 * 12 * /usr/bin/backup<br><br>每月每天的午夜0点20分，2点20分，4点20分…显示当前时间<br>20 0-23/2 * * * date<br><br>每隔1分钟打印当前时间<br>*/1 0-23/1 * * * date<br></code></pre></td></tr></table></figure>
+
+<p><strong>创建或编辑 crontab 定时任务</strong>：</p>
+<ol>
+<li><p>使用以下命令编辑用户的 crontab 文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">crontab -e<br></code></pre></td></tr></table></figure>
+
+<p>如果是第一次编辑，系统会要求选择编辑器。</p>
+</li>
+<li><p>在编辑器中，按照 crontab 格式（分、时、日、月、周几、要执行的命令）添加定时任务。例如，要在每天的上午 9 点运行一个脚本：</p>
+<figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs basic"><span class="hljs-symbol">0 </span><span class="hljs-number">9</span> * * * /path/<span class="hljs-keyword">to</span>/script.sh<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>保存并退出编辑器。</p>
+</li>
+</ol>
+<p><strong>删除 crontab 定时任务</strong>：</p>
+<ol>
+<li><p>使用以下命令删除用户的 crontab 文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">crontab -r<br></code></pre></td></tr></table></figure>
+
+<p>这将删除用户的所有定时任务。</p>
+</li>
+</ol>
+<p><strong>查看 crontab 定时任务</strong>：</p>
+<ol>
+<li><p>使用以下命令查看用户的 crontab 文件中的定时任务：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">crontab -l<br></code></pre></td></tr></table></figure>
+
+<p>这将列出用户的所有定时任务。</p>
+</li>
+</ol>
+<p>请注意，<code>crontab</code> 命令仅适用于当前用户的定时任务。如果你需要编辑其他用户的定时任务（例如超级用户权限），可以使用 <code>sudo crontab -e</code>、<code>sudo crontab -r</code> 和 <code>sudo crontab -l</code> 命令，并在编辑时注意所使用的权限。</p>
+<p>建议在编辑 crontab 文件之前，先了解 cron 格式和相关选项。你可以执行 <code>man cron</code> 或 <code>man 5 crontab</code> 命令来获取更多关于 cron 和 crontab 的详细信息。</p>
+<h4 id="ps命令"><a href="#ps命令" class="headerlink" title="ps命令"></a>ps命令</h4><p>作用:</p>
+<p>​	显示当前进程的状态</p>
+<p>格式：</p>
+<p>​	ps [选项]</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-A</td>
+<td>列出所有的进程</td>
+</tr>
+<tr>
+<td>-w</td>
+<td>显示加宽可以显示较多的资讯</td>
+</tr>
+<tr>
+<td>-au</td>
+<td>显示较详细的资讯</td>
+</tr>
+<tr>
+<td>-aux</td>
+<td>显示所有包含其他使用者的行程</td>
+</tr>
+<tr>
+<td>-e</td>
+<td>显示所有进程</td>
+</tr>
+<tr>
+<td>-f</td>
+<td>采用全格式显示</td>
+</tr>
+</tbody></table>
+<p>例子</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># </span><br>ps -ef | grep sshd<br><span class="hljs-comment"># </span><br>ps -aux | grep vsftpd<br></code></pre></td></tr></table></figure>
+
+<h5 id="pstree命令"><a href="#pstree命令" class="headerlink" title="pstree命令"></a>pstree命令</h5><p>安装</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">yum install psmisc<br></code></pre></td></tr></table></figure>
+
+<p>作用：</p>
+<p>​	以树形结构查看进程信息</p>
+<p>用法： </p>
+<p>​	pstree [选项] [pid | user]</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-a</td>
+<td>显示启动每个进程对应的完整指令，包括启动进程的路径、参数等</td>
+</tr>
+<tr>
+<td>-c</td>
+<td>不使用精简法显示进程信息，即显示的进程中包含子进程和父进程</td>
+</tr>
+<tr>
+<td>-p</td>
+<td>显示某进程信息</td>
+</tr>
+<tr>
+<td>-u</td>
+<td>显示某用户信息</td>
+</tr>
+</tbody></table>
+<h4 id="kill命令"><a href="#kill命令" class="headerlink" title="kill命令"></a>kill命令</h4><p>解除系统死锁，内存回收。Linux 的 kill 命令是向进程发送信号，kill 不是杀死的意思，-9 表示无条件退出，但由进程自行决定是否退出，这就是为什么 kill -9 终止不了系统进程和守护进程的原因。</p>
+<p>killall命令</p>
+<p>​	killall -KILL atd #按进程名</p>
+<p>作用:</p>
+<p>​	删除执行中的程序或工作</p>
+<p>格式： </p>
+<p>​	kill  [-s &lt;信息名称或编号&gt;] [程序]</p>
+<p>​	kill [-l &lt;信息编号&gt;]</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1 (HUP)</td>
+<td>重新加载进程</td>
+</tr>
+<tr>
+<td>9 (KILL)</td>
+<td>杀死一个进程</td>
+</tr>
+<tr>
+<td>15 (TERM)</td>
+<td>正常停止一个进程</td>
+</tr>
+</tbody></table>
+<p>在 Linux 中，HUP 是 SIGHUP（Hang Up）信号的缩写。当进程接收到 SIGHUP 信号时，通常会触发重新加载配置或重启的操作。</p>
+<p>关于为什么进程编号为 1 的进程（通常是 init 或 systemd 进程）会接收到 SIGHUP 信号，这与进程的特殊角色和启动过程有关。</p>
+<p>在 Linux 启动过程中，init 或 systemd 进程是第一个被启动的进程，并作为所有其他进程的祖先进程（即进程树的根）。当终端连接断开或关闭时，会向进程组发送 SIGHUP 信号。因为 init 或 systemd 进程是进程组的领导者，所以它会收到该信号。</p>
+<p>对于 init 或 systemd 进程，接收到 SIGHUP 信号通常会触发重新加载配置或重新启动系统服务的操作，以适应终端连接的变化。这样可以确保在断开或关闭终端连接时，系统能够正确地进行清理和重新配置。</p>
+<p>需要注意的是，进程编号为 1 的进程并不总是 init 或 systemd，因为特定的系统配置和发行版可能会有所不同。但在大多数常见的 Linux 系统中，1 号进程是 init 或 systemd 进程。</p>
+<p>在 Linux 中，<code>kill</code> 命令用于向进程发送信号。每个信号都有一个唯一的编号，用于指示要发送的特定操作。其中，信号编号 9 代表 <code>SIGKILL</code>，也称为强制终止信号。</p>
+<p><code>SIGKILL</code> 信号是一种不可被阻塞、不可被忽略的信号，用于强制终止目标进程。当使用 <code>kill -9 &lt;PID&gt;</code> 命令时，将发送 <code>SIGKILL</code> 信号给指定进程，使其立即终止，无法进行任何清理或处理操作。</p>
+<p>为什么会选择使用 <code>SIGKILL</code>（信号编号 9）来强制终止进程呢？这是因为 <code>SIGKILL</code> 是一种终极手段，可以确保目标进程立即终止，无论其当前状态如何。这对于某些情况下需要迅速终止进程的场景非常有用，例如占用过多资源、无响应、无法正常退出等情况。</p>
+<p>然而，需要注意的是，由于 <code>SIGKILL</code> 是无法被阻塞或忽略的信号，它会立即终止进程，可能会导致数据丢失或不可恢复的情况。因此，在正常情况下，最好首先尝试使用其他信号（如 <code>SIGTERM</code>，信号编号 15）来请求进程正常退出，以便进程有机会进行清理和释放资源。只有在必要时才使用 <code>SIGKILL</code> 信号来强制终止进程。</p>
+<p>在 Linux 中，<code>TERM</code> 是 <code>SIGTERM</code> 信号的缩写。<code>SIGTERM</code> 是一种终止信号，用于请求目标进程正常退出。</p>
+<p>当使用 <code>kill</code> 命令发送 <code>SIGTERM</code> 信号给目标进程时，进程会收到该信号并有机会进行清理、保存数据和释放资源等操作，然后正常退出。</p>
+<p>为什么选择信号编号 15 来表示 <code>SIGTERM</code> 呢？这是由于早期 UNIX 系统的发展历史。在早期的 UNIX 系统中，信号编号 1（SIGHUP）和 15（SIGTERM）是两个特殊的信号，常用于控制进程的终止。SIGHUP（挂起信号）通常被用于指示进程重新读取配置文件或重启，而 SIGTERM 则用于请求进程正常退出。</p>
+<p>虽然 <code>SIGTERM</code> 是一个终止信号，但它可以被进程捕获并执行一些特定的操作，例如完成未完成的任务、保存数据或清理资源。相比之下，<code>SIGKILL</code>（信号编号 9）是一个无法被阻塞或忽略的强制终止信号，进程无法捕获它或执行任何操作，会立即终止。</p>
+<p>因此，为了优雅地终止进程并给予它进行清理的机会，通常会首先尝试发送 <code>SIGTERM</code> 信号（编号 15），只有在进程无响应或无法正常退出时，才会考虑使用 <code>SIGKILL</code> 信号（编号 9）来强制终止进程。</p>
+<h4 id="top命令"><a href="#top命令" class="headerlink" title="top命令"></a>top命令</h4><p>作用：</p>
+<p>​	能显示实时的进程列表，而且还能实时监视系统资源，包括内存、交换分区和CPU的使用率等 </p>
+<p>格式： </p>
+<p>​	top [选项]</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-d</td>
+<td>改变显示的更新速度</td>
+</tr>
+<tr>
+<td>-q</td>
+<td>没有任何延迟的显示速度，如果使用者是有 superuser  的权限，则 top 将会以最高的优先序执行</td>
+</tr>
+<tr>
+<td>-c</td>
+<td>切换显示模式，共有两种模式，一是只显示执行档的名称，另一种是显示完整的路径与名称</td>
+</tr>
+<tr>
+<td>-i</td>
+<td>不显示任何闲置 (idle)  或无用 (zombie) 的进程</td>
+</tr>
+<tr>
+<td>-n</td>
+<td>更新的次数，完成后将会退出 top</td>
+</tr>
+</tbody></table>
+<p>top命令使用过程中，可以使用一些交互的命令来完成其它参数的功能</p>
+<ul>
+<li>&lt;空格&gt;：立刻刷新</li>
+<li>P：根据CPU使用大小进行排序</li>
+<li>T：根据时间、累计时间排序</li>
+<li>q：退出top命令</li>
+<li>m：切换显示内存信息</li>
+<li>t：切换显示进程和CPU状态信息</li>
+<li>c：切换显示命令名称和完整命令行</li>
+<li>M：根据使用内存大小进行排序</li>
+</ul>
+<h4 id="free命令"><a href="#free命令" class="headerlink" title="free命令"></a>free命令</h4><p>作用：</p>
+<p>​	显示内存状态，包括实体内存，虚拟的交换文件内存，共享内存区段，以及系统核心使用的缓冲区等</p>
+<p>格式：</p>
+<p>​	free [选项]</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-b</td>
+<td>以Byte为单位显示内存使用情况</td>
+</tr>
+<tr>
+<td>-k</td>
+<td>以KB为单位显示内存使用情况</td>
+</tr>
+<tr>
+<td>-m</td>
+<td>以MB为单位显示内存使用情况</td>
+</tr>
+<tr>
+<td>-h</td>
+<td>以合适的单位显示内存使用情况，最大为三位数</td>
+</tr>
+<tr>
+<td>-o</td>
+<td>不显示缓冲区调节列</td>
+</tr>
+<tr>
+<td>-s&lt;间隔描述&gt;</td>
+<td>持续观察内存使用状况</td>
+</tr>
+<tr>
+<td>-t</td>
+<td>显示内存总和列</td>
+</tr>
+</tbody></table>
+<h3 id="日志文件"><a href="#日志文件" class="headerlink" title="日志文件"></a>日志文件</h3><ol>
+<li>日志文件（log files）是包含关于系统消息的文件，包括内核、服务、在系统上运行的应用程序等</li>
+<li>多数的日志文件位于&#x2F;var&#x2F;log目录下,不同的日志文件记载不同的信息 </li>
+<li>某些程序（如apache）在&#x2F;var&#x2F;log中有单独的日志文件目录 </li>
+<li>多数日志文件都使用纯文本格式，可以使用任何文本编辑器如vi来查看它们</li>
+<li>大多数日志文件都需要拥有特权才允许查看</li>
+</ol>
 
                 
               </div>
