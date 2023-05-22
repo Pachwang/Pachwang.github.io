@@ -43,8 +43,9 @@
 <meta property="og:image" content="https://pachwang.github.io/images/linux018.jpg">
 <meta property="og:image" content="https://pachwang.github.io/images/linux019.jpg">
 <meta property="og:image" content="https://pachwang.github.io/images/linux020.jpg">
+<meta property="og:image" content="https://pachwang.github.io/images/linux020.jpg">
 <meta property="article:published_time" content="2023-05-02T15:34:04.000Z">
-<meta property="article:modified_time" content="2023-05-16T12:20:11.806Z">
+<meta property="article:modified_time" content="2023-05-19T12:32:38.305Z">
 <meta property="article:author" content="Pachwang">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://pachwang.github.io/images/linux001.jpg">
@@ -240,7 +241,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          57k 字
+          58k 字
         
       </span>
     
@@ -251,7 +252,7 @@
         
         
         
-          475 分钟
+          482 分钟
         
       </span>
     
@@ -3459,6 +3460,39 @@
 <li>多数日志文件都使用纯文本格式，可以使用任何文本编辑器如vi来查看它们</li>
 <li>大多数日志文件都需要拥有特权才允许查看</li>
 </ol>
+<h2 id="第十二讲"><a href="#第十二讲" class="headerlink" title="第十二讲"></a>第十二讲</h2><h3 id="X-Window的作用和组成"><a href="#X-Window的作用和组成" class="headerlink" title="X Window的作用和组成"></a>X Window的作用和组成</h3><h4 id="什么是X-Window"><a href="#什么是X-Window" class="headerlink" title="什么是X Window"></a>什么是X Window</h4><p>一种以位图方式显示的软件窗口系统</p>
+<p>诞生于1984，比Microsoft Windows要早</p>
+<p>是一套独立于内核的软件</p>
+<h4 id="X-Window的组成"><a href="#X-Window的组成" class="headerlink" title="X Window的组成"></a>X Window的组成</h4><p>X Window系统由三个基本元素组成</p>
+<h5 id="X-服务端"><a href="#X-服务端" class="headerlink" title="X 服务端"></a>X 服务端</h5><ul>
+<li>控制输入及输出设备并维护相关资源的程序，它接收输入设备的信息，并将其传给X Client，而将X Client传来的信息输出到屏幕上(在屏幕上构造方块(窗口)，然后画出里面的元素)</li>
+<li>每一套显示设备只对应唯一的X Server</li>
+<li>由系统供应商提供，通常无法被用户修改</li>
+<li>只是一个普通的用户程序</li>
+</ul>
+<h5 id="X-客户端"><a href="#X-客户端" class="headerlink" title="X 客户端"></a>X 客户端</h5><ul>
+<li>应用程序的核心部分，它与硬件无关，每个应用程序就是一个X Client</li>
+<li>X Client可以是终端仿真器(Xterm)或图形界面程序，它不直接对显示器绘制或者操作图形，而是与X Server通信，由X Server控制显示</li>
+<li>X Client无法直接影响视窗行为或显示效果，它们只能发送一个请求给X Server，由X Server来完成这些的请求 </li>
+<li>多种多样的X Client程序向X Server发出请求，由X Server运算得出结果，再显示到指定的地方去</li>
+</ul>
+<h5 id="X-通信通道"><a href="#X-通信通道" class="headerlink" title="X 通信通道"></a>X 通信通道</h5><ul>
+<li><p>X通信通道的主体是xlib（X函数库）</p>
+</li>
+<li><p>X Client调用xlib，利用相应的通信功能向X Server发出请求 </p>
+</li>
+<li><p>X Server完成任务之后，同样调用xlib把结果显示指点的设备上去</p>
+</li>
+</ul>
+<p><img src="/images/linux020.jpg" srcset="/img/loading.gif" lazyload></p>
+<h3 id="修改系统运行级别"><a href="#修改系统运行级别" class="headerlink" title="修改系统运行级别"></a>修改系统运行级别</h3><h4 id="临时更改"><a href="#临时更改" class="headerlink" title="临时更改"></a>临时更改</h4><p>init n或telinit n<br>    n为级别号，root权限</p>
+<p>startx<br>    启动图形化环境(需要安装图形化界面)</p>
+<h4 id="长期"><a href="#长期" class="headerlink" title="长期"></a>长期</h4><p>修改配置文件 &#x2F;etc&#x2F;inittab(CentOS6及以前)</p>
+<p>systemctl set-default  *.target(CentOS7之后)<br>    查看 &#x2F;etc&#x2F;inittab文件内容</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span> /etc/inittab<br></code></pre></td></tr></table></figure>
+
+<p>​	查看runlevel 与*.target的对应关系</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">ls</span> -l /lib/systemd/system/runlevel*.target<br></code></pre></td></tr></table></figure>
 
                 
               </div>
