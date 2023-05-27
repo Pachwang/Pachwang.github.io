@@ -45,7 +45,7 @@
 <meta property="og:image" content="https://pachwang.github.io/images/linux020.jpg">
 <meta property="og:image" content="https://pachwang.github.io/images/linux020.jpg">
 <meta property="article:published_time" content="2023-05-02T15:34:04.000Z">
-<meta property="article:modified_time" content="2023-05-23T04:00:02.558Z">
+<meta property="article:modified_time" content="2023-05-24T13:31:05.459Z">
 <meta property="article:author" content="Pachwang">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://pachwang.github.io/images/linux001.jpg">
@@ -252,7 +252,7 @@
         
         
         
-          482 分钟
+          483 分钟
         
       </span>
     
@@ -1185,7 +1185,7 @@
 
 <h4 id="chgrp命令"><a href="#chgrp命令" class="headerlink" title="chgrp命令"></a>chgrp命令</h4><p>作用：改变指定目录或文件的所属组。<br>格式：chgrp [-R] 组名 路径<br>root权限</p>
 <p>例子</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 将文件a.txt所属的组改为wilson。</span><br><span class="hljs-built_in">chgrp</span> wilson a.txt<br><span class="hljs-comment"># 将目录dir1及其子目录下所有文件的所属组都改为wilson。-R选项表示递归操作。</span><br><span class="hljs-built_in">chgrp</span> -R wilson dir1<br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 将文件a.txt所属的组改为wilson。</span><br><span class="hljs-built_in">chgrp</span> wilson a.txt<br><br><span class="hljs-comment"># 将目录dir1及其子目录下所有文件的所属组都改为wilson。-R选项表示递归操作。</span><br><span class="hljs-built_in">chgrp</span> -R wilson dir1<br></code></pre></td></tr></table></figure>
 
 <h4 id="In命令"><a href="#In命令" class="headerlink" title="In命令"></a>In命令</h4><p>作用：创建文件的快捷方式 </p>
 <p>格式： ln [-s] 源路径 目标路径 </p>
@@ -1193,10 +1193,10 @@
 <p>软链接(symbolic link) 软链接的方式则是产生一个特殊的文件，该文件的内容是指向另一个文件的位置。它只是一个快捷方式，删除了源文件，这个连接文件就没用了。软链接可以跨越不同的文件系统</p>
 <p>例子</p>
 <p>创建硬链接：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">ln</span> source_file hardlink_file</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">ln</span> source_file hardlink_file<br></code></pre></td></tr></table></figure>
 
 <p>创建软链接：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">ln</span> -s source_file softlink_file</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">ln</span> -s source_file softlink_file<br></code></pre></td></tr></table></figure>
 
 <h3 id="文件压缩类命令"><a href="#文件压缩类命令" class="headerlink" title="文件压缩类命令"></a>文件压缩类命令</h3><h4 id="tar命令"><a href="#tar命令" class="headerlink" title="tar命令"></a>tar命令</h4><p>作用：备份文件<br>格式：tar [选项]  压缩文件名  路径</p>
 <table>
@@ -1349,7 +1349,7 @@
 </tr>
 </tbody></table>
 <p>例子</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 在第一行后插入一行 &quot;Hello Unix&quot;：</span><br>sed <span class="hljs-string">&#x27;1a Hello Unix&#x27;</span> test.txt<br><span class="hljs-comment"># 在第二行后插入一行 &quot;Hello Unix&quot;：</span><br>sed <span class="hljs-string">&#x27;2a Hello Unix&#x27;</span> test.txt<br><span class="hljs-comment"># 将第二行替换成 &quot;Hello Unix&quot;：</span><br>sed <span class="hljs-string">&#x27;2c Hello Unix&#x27;</span> test.txt<br><span class="hljs-comment"># 将所有的 &quot;l&quot; 替换成 &quot;L&quot;：</span><br>sed <span class="hljs-string">&#x27;s/l/L/&#x27;</span> test.txt<br><span class="hljs-comment"># 将所有的 &quot;l&quot; 替换成 &quot;L&quot;，并且替换每一行中的所有匹配项：</span><br>sed <span class="hljs-string">&#x27;s/l/L/g&#x27;</span> test.txt<br><span class="hljs-comment"># 在第一行前插入 &quot;Hello Unix&quot;：</span><br>sed <span class="hljs-string">&#x27;1i Hello Unix&#x27;</span> test.txt<br><span class="hljs-comment"># 在第二行前插入 &quot;Hello Unix&quot;：</span><br>sed <span class="hljs-string">&#x27;2i Hello Unix&#x27;</span> test.txt<br><span class="hljs-comment"># 删除第一行：</span><br>sed <span class="hljs-string">&#x27;1d&#x27;</span> test.txt<br><span class="hljs-comment"># 删除所有行：</span><br>sed <span class="hljs-string">&#x27;d&#x27;</span> test.txt<br><span class="hljs-comment"># 使用 -i 选项可以直接在原文件中进行修改</span><br><span class="hljs-comment"># 将 test.txt 文件的第二行替换为 Hello Unix：</span><br>sed -i <span class="hljs-string">&#x27;2c Hello Unix&#x27;</span> test.txt<br><span class="hljs-comment"># 在 test.txt 文件的第二行之前插入一行 Hello Unix：</span><br>sed -i <span class="hljs-string">&#x27;2i Hello Unix&#x27;</span> test.txt<br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 在第一行后插入一行 &quot;Hello Unix&quot;：</span><br>sed <span class="hljs-string">&#x27;1a Hello Unix&#x27;</span> test.txt<br><span class="hljs-comment"># 在第二行后插入一行 &quot;Hello Unix&quot;：</span><br>sed <span class="hljs-string">&#x27;2a Hello Unix&#x27;</span> test.txt<br><span class="hljs-comment"># 将第二行替换成 &quot;Hello Unix&quot;：</span><br>sed <span class="hljs-string">&#x27;2c Hello Unix&#x27;</span> test.txt<br><span class="hljs-comment"># 只替换每行中第一个匹配的 l 为 L：</span><br>sed <span class="hljs-string">&#x27;s/l/L/&#x27;</span> test.txt<br><span class="hljs-comment"># 替换每行中所有匹配的 l 为 L：</span><br>sed <span class="hljs-string">&#x27;s/l/L/g&#x27;</span> test.txt<br><span class="hljs-comment"># 在第一行插入 &quot;Hello Unix&quot;：</span><br>sed <span class="hljs-string">&#x27;1i Hello Unix&#x27;</span> test.txt<br><span class="hljs-comment"># 在第二行插入 &quot;Hello Unix&quot;：</span><br>sed <span class="hljs-string">&#x27;2i Hello Unix&#x27;</span> test.txt<br><span class="hljs-comment"># 删除第一行：</span><br>sed <span class="hljs-string">&#x27;1d&#x27;</span> test.txt<br><span class="hljs-comment"># 删除所有行：</span><br>sed <span class="hljs-string">&#x27;d&#x27;</span> test.txt<br><span class="hljs-comment"># 使用 -i 选项可以直接在原文件中进行修改</span><br><span class="hljs-comment"># 将 test.txt 文件的第二行替换为 Hello Unix：</span><br>sed -i <span class="hljs-string">&#x27;2c Hello Unix&#x27;</span> test.txt<br><span class="hljs-comment"># 在 test.txt 文件的第二行之前插入一行 Hello Unix：</span><br>sed -i <span class="hljs-string">&#x27;2i Hello Unix&#x27;</span> test.txt<br></code></pre></td></tr></table></figure>
 
 <h4 id="cut命令"><a href="#cut命令" class="headerlink" title="cut命令"></a>cut命令</h4><p>作用：从指定文件中过滤或提取特定内容，并显示在当前屏幕上<br>格式：cut [选项] 路径</p>
 <table>
@@ -1613,14 +1613,23 @@
 <h4 id="yum命令"><a href="#yum命令" class="headerlink" title="yum命令"></a>yum命令</h4><h4 id="sudo命令"><a href="#sudo命令" class="headerlink" title="sudo命令"></a>sudo命令</h4><p>作用：以系统管理者的身份执行指令<br>格式： sudo 命令<br>CentOS7默认没有普通用户具有sudo权限</p>
 <h5 id="添加sudo权限"><a href="#添加sudo权限" class="headerlink" title="添加sudo权限"></a>添加sudo权限</h5><p>修改 &#x2F;etc&#x2F;sudoers<br>步骤</p>
 <ol>
-<li>su   #切换到root用户</li>
-<li>ls -l &#x2F;etc&#x2F;sudoers 	#查看文件权限</li>
-<li>chmod u+w &#x2F;etc&#x2F;sudoers  	#添加写权限</li>
-<li>vi &#x2F;etc&#x2F;sudoers 	#打开并搜索root行</li>
-<li>用户名     ALL&#x3D;(ALL)       ALL   #添加内容，保存退出</li>
-<li>chmod u-w &#x2F;etc&#x2F;sudoers  	#删除写权限</li>
-<li>exit 	#切换回当前用户</li>
+<li><p>su   #切换到root用户</p>
+</li>
+<li><p>ls -l &#x2F;etc&#x2F;sudoers 	#查看文件权限</p>
+</li>
+<li><p>chmod u+w &#x2F;etc&#x2F;sudoers  	#添加写权限</p>
+</li>
+<li><p>vi &#x2F;etc&#x2F;sudoers 	#打开并搜索root行</p>
+<p>用户名     ALL&#x3D;(ALL)       ALL   #添加内容，保存退出</p>
+</li>
+<li><p>chmod u-w &#x2F;etc&#x2F;sudoers  	#删除写权限</p>
+</li>
+<li><p>exit 	#切换回当前用户</p>
+</li>
 </ol>
+<h3 id="包管理工具"><a href="#包管理工具" class="headerlink" title="包管理工具"></a>包管理工具</h3><p><strong>RedHat rpm</strong><br>rpm -qa |  -i | -e   	</p>
+<p><strong>RedHat CentOS | Fedora</strong><br>yum install | remove | list | search </p>
+<p><strong>Debian|Ubuntu</strong><br>apt-get install | remove | list | search</p>
 <h3 id="vi三种模式的功能、切换"><a href="#vi三种模式的功能、切换" class="headerlink" title="vi三种模式的功能、切换"></a>vi三种模式的功能、切换</h3><h4 id="快捷键"><a href="#快捷键" class="headerlink" title="快捷键"></a>快捷键</h4><p><img src="/images/linux009.jpg" srcset="/img/loading.gif" lazyload></p>
 <h4 id="三种模式"><a href="#三种模式" class="headerlink" title="三种模式"></a>三种模式</h4><p><img src="/images/linux0010.jpg" srcset="/img/loading.gif" lazyload></p>
 <h4 id="命令模式"><a href="#命令模式" class="headerlink" title="命令模式"></a>命令模式</h4><p>启动vi后默认模式 按下ESC键可进入命令模式 输入的字符被当成命令，字符不回显 </p>
