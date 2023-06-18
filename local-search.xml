@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>zfile项目学习</title>
+    <link href="/2023/06/18/zfile%E9%A1%B9%E7%9B%AE%E5%AD%A6%E4%B9%A0/"/>
+    <url>/2023/06/18/zfile%E9%A1%B9%E7%9B%AE%E5%AD%A6%E4%B9%A0/</url>
+    
+    <content type="html"><![CDATA[<p>写在开头：</p><p>一个纯净的SpringBoot项目</p><p><a href="https://gitee.com/click33/springboot-pure">https://gitee.com/click33/springboot-pure</a></p><h1 id="项目介绍"><a href="#项目介绍" class="headerlink" title="项目介绍"></a>项目介绍</h1><h2 id="功能介绍"><a href="#功能介绍" class="headerlink" title="功能介绍"></a>功能介绍</h2><p>zfile是一个于 Java 的在线网盘程序，支持对接 S3、OneDrive、SharePoint、Google Drive、多吉云、又拍云、本地存储、FTP、SFTP 等存储源，支持在线浏览图片、播放音视频，文本文件、Office、obj（3d）等文件类型。 </p><h2 id="技术栈"><a href="#技术栈" class="headerlink" title="技术栈"></a>技术栈</h2><h3 id="后端"><a href="#后端" class="headerlink" title="后端"></a>后端</h3><p>Spring Boot + Spring Security + Mybatis Plus + Flyway+ Sa-Token+Hutool+MapStruct  </p><h3 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h3><p>Vue3+Pinia+VueRoute+Axios+Element Plus </p><h1 id="GitHub地址"><a href="#GitHub地址" class="headerlink" title="GitHub地址"></a>GitHub地址</h1><p><a href="https://github.com/zfile-dev/zfile">https://github.com/zfile-dev/zfile</a></p><h1 id="技术栈学习"><a href="#技术栈学习" class="headerlink" title="技术栈学习"></a>技术栈学习</h1><h2 id="Flyway"><a href="#Flyway" class="headerlink" title="Flyway"></a>Flyway</h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>Flyway是一种在JVM上运行的数据库迁移工具。它可以帮助你用简单的方式控制和管理你的数据库版本。¹</p><p>Flyway的主要功能有：</p><ul><li>使用SQL脚本或Java代码进行数据库迁移</li><li>支持多种关系型数据库，如Oracle, MySQL, PostgreSQL等</li><li>可以集成到构建工具，如Maven, Gradle等</li><li>可以通过命令行或API调用</li><li>可以自动检测并执行未执行的迁移</li><li>可以清空数据库模式⁴</li></ul><p>Flyway的使用方法有：</p><ul><li>下载并解压Flyway命令行工具</li><li>编写SQL脚本或Java代码，并放在sql或jars目录下</li><li>配置flyway.conf文件，指定数据库连接信息和其他选项</li><li>运行flyway命令，如migrate, info, clean等⁴</li></ul><p>源: 与必应的对话， 2023&#x2F;6&#x2F;18<br>(1) Homepage - Flyway. <a href="https://flywaydb.org/">https://flywaydb.org/</a>.<br>(2) Flyway 4.2の仕組み、使い方を学ぶ - Qiita. <a href="https://qiita.com/rubytomato@github/items/d1746585451ff0ba917c">https://qiita.com/rubytomato@github/items/d1746585451ff0ba917c</a>.<br>(3) Fliway. <a href="https://www.fliway.com/">https://www.fliway.com/</a>.<br>(4) Flyway - Wikipedia. <a href="https://en.wikipedia.org/wiki/Flyway">https://en.wikipedia.org/wiki/Flyway</a>.</p><p><a href="https://developer.aliyun.com/article/842712">https://developer.aliyun.com/article/842712</a></p><h3 id="SpringBoot-整合-Flyway"><a href="#SpringBoot-整合-Flyway" class="headerlink" title="SpringBoot 整合 Flyway"></a>SpringBoot 整合 Flyway</h3><ol><li><a href="https://segmentfault.com/a/1190000040259397">https://segmentfault.com/a/1190000040259397</a></li><li><a href="https://cloud.tencent.com/developer/article/1638609">https://cloud.tencent.com/developer/article/1638609</a></li></ol><h2 id="Sa-Token"><a href="#Sa-Token" class="headerlink" title="Sa-Token"></a>Sa-Token</h2><p><a href="https://sa-token.cc/">https://sa-token.cc/</a></p><h2 id="MapStruct"><a href="#MapStruct" class="headerlink" title="MapStruct"></a>MapStruct</h2><p><a href="https://juejin.cn/post/6956190395319451679">https://juejin.cn/post/6956190395319451679</a></p><p><a href="https://doboot.github.io/2017/02/28/mapstruct-jie-shao/">https://doboot.github.io/2017/02/28/mapstruct-jie-shao/</a></p><p>MapStruct是一个开源的基于Java的代码生成器，用于创建实现Java Bean之间转换的扩展映射器。使用MapStruct，我们只需要创建接口，而该库会通过注解在编译过程中自动创建具体的映射实现，大大减少了通常需要手工编写的样板代码的数量。</p><h2 id="Hutool"><a href="#Hutool" class="headerlink" title="Hutool"></a>Hutool</h2><p><a href="https://hutool.cn/">https://hutool.cn/</a></p><p>参考文档</p><p><a href="https://doc.hutool.cn/">https://doc.hutool.cn/</a></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Java</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>浅谈HashMap源码</title>
     <link href="/2023/06/15/%E6%B5%85%E8%B0%88HashMap%E6%BA%90%E7%A0%81/"/>
     <url>/2023/06/15/%E6%B5%85%E8%B0%88HashMap%E6%BA%90%E7%A0%81/</url>
