@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>解决本地仓库推送到远程Github仓库超时的问题</title>
+    <link href="/2023/06/19/%E8%A7%A3%E5%86%B3%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E6%8E%A8%E9%80%81%E5%88%B0%E8%BF%9C%E7%A8%8BGithub%E4%BB%93%E5%BA%93%E8%B6%85%E6%97%B6%E7%9A%84%E9%97%AE%E9%A2%98/"/>
+    <url>/2023/06/19/%E8%A7%A3%E5%86%B3%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E6%8E%A8%E9%80%81%E5%88%B0%E8%BF%9C%E7%A8%8BGithub%E4%BB%93%E5%BA%93%E8%B6%85%E6%97%B6%E7%9A%84%E9%97%AE%E9%A2%98/</url>
+    
+    <content type="html"><![CDATA[<h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>引用网址：<a href="https://blog.csdn.net/weixin_43160744/article/details/119054656">https://blog.csdn.net/weixin_43160744/article/details/119054656</a></p><h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>由于某些原因，我们本地仓库的代码推送到GitHub远程仓库时总是会最终提示超时从而失败。</p><h1 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h1><p>这里有两种办法，一种是通过修改hosts文件，但是这种方法存在问题，GitHub的IP总是在变化，只能算权宜之计。</p><p>这里我采用另外一种方法。</p><p>先获取加速器程序运行的端口为7890</p><p>设置Git代理</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">git config --global https.proxy 127.0.0.0:7890<br>git config --global http.proxy 127.0.0.0:7890<br></code></pre></td></tr></table></figure><p>然后就可以push了</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Git</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Bug</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>MySQL单表访问方法实践</title>
     <link href="/2023/06/19/MySQL%E5%8D%95%E8%A1%A8%E8%AE%BF%E9%97%AE%E6%96%B9%E6%B3%95%E5%AE%9E%E8%B7%B5/"/>
     <url>/2023/06/19/MySQL%E5%8D%95%E8%A1%A8%E8%AE%BF%E9%97%AE%E6%96%B9%E6%B3%95%E5%AE%9E%E8%B7%B5/</url>
