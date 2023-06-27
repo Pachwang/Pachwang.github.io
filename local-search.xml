@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>JPA、JDBC与ORM</title>
+    <link href="/2023/06/27/JPA%E3%80%81JDBC%E4%B8%8EORM/"/>
+    <url>/2023/06/27/JPA%E3%80%81JDBC%E4%B8%8EORM/</url>
+    
+    <content type="html"><![CDATA[<h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>本篇博客转载自 pdai Java全栈知识体系</p><p>著作权归@pdai所有 原文链接：<a href="https://pdai.tech/md/spring/springboot/springboot-x-hello-h2-jpa.html">https://pdai.tech/md/spring/springboot/springboot-x-hello-h2-jpa.html</a></p><h1 id="JDBC"><a href="#JDBC" class="headerlink" title="JDBC"></a>JDBC</h1><p>JDBC（JavaDataBase Connectivity）就是Java数据库连接，说白了就是用Java语言来操作数据库。原来我们操作数据库是在控制台使用SQL语句来操作数据库，JDBC是用Java语言向数据库发送SQL语句。</p><p><img src="/images/pdai001.jpg"></p><h1 id="ORM"><a href="#ORM" class="headerlink" title="ORM"></a>ORM</h1><p>对象关系映射（Object Relational Mapping，简称ORM）， 简单的说，<strong>ORM是通过使用描述对象和数据库之间映射的元数据，将java程序中的对象自动持久化到关系数据库中</strong>。本质上就是将数据从一种形式转换到另外一种形式，具体如下：</p><p><img src="/images/pdai002.jpg"></p><p>具体映射：</p><ol><li>数据库的表（table） –&gt; 类（class）</li><li>记录（record，行数据）–&gt; 对象（object）</li><li>字段（field）–&gt; 对象的属性（attribute）</li></ol><h1 id="JPA"><a href="#JPA" class="headerlink" title="JPA"></a>JPA</h1><p>JPA是Spring提供的一种ORM</p><p>Spring Data是基于Spring runtime体系的，JPA 属于Spring Data, 和JDBC的关系如下：</p><p><img src="/images/pdai003.jpg"></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Java</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>转载</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>解决本地仓库推送到远程Github仓库超时的问题</title>
     <link href="/2023/06/19/%E8%A7%A3%E5%86%B3%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E6%8E%A8%E9%80%81%E5%88%B0%E8%BF%9C%E7%A8%8BGithub%E4%BB%93%E5%BA%93%E8%B6%85%E6%97%B6%E7%9A%84%E9%97%AE%E9%A2%98/"/>
     <url>/2023/06/19/%E8%A7%A3%E5%86%B3%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E6%8E%A8%E9%80%81%E5%88%B0%E8%BF%9C%E7%A8%8BGithub%E4%BB%93%E5%BA%93%E8%B6%85%E6%97%B6%E7%9A%84%E9%97%AE%E9%A2%98/</url>
