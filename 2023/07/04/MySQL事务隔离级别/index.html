@@ -16,26 +16,26 @@
   <meta name="author" content="Pachwang">
   <meta name="keywords" content="">
   
-    <meta name="description" content="写在前面本篇博客转载自 pdai Java全栈知识体系 著作权归@pdai所有 原文链接：https:&#x2F;&#x2F;pdai.tech&#x2F;md&#x2F;spring&#x2F;springboot&#x2F;springboot-x-hello-h2-jpa.html JDBCJDBC（JavaDataBase Connectivity）就是Java数据库连接，说白了就是用Java语言来操作数据库。原来我们操作数据库是在控制台使用SQL">
+    <meta name="description" content="写在前面总结一下《MySQL是怎样运行的》第24章 一条记录的多幅面孔-事务的隔离级别与 MVCC 事务并发执行遇到的问题脏写（Dirty Write）一个事务修改了另一个未提交事务修改过的数据  Session A 和 Session B 各开启了一个事务， Session B 中的事务先将 number 列为 1 的记录的 name 列更新为 ‘关羽’ ，然后 Session A 中的事务接着">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JPA、JDBC与ORM">
-<meta property="og:url" content="https://pachwang.github.io/2023/06/27/JPA%E3%80%81JDBC%E4%B8%8EORM/index.html">
+<meta property="og:title" content="MySQL事务隔离级别">
+<meta property="og:url" content="https://pachwang.github.io/2023/07/04/MySQL%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/index.html">
 <meta property="og:site_name" content="Pachwang">
-<meta property="og:description" content="写在前面本篇博客转载自 pdai Java全栈知识体系 著作权归@pdai所有 原文链接：https:&#x2F;&#x2F;pdai.tech&#x2F;md&#x2F;spring&#x2F;springboot&#x2F;springboot-x-hello-h2-jpa.html JDBCJDBC（JavaDataBase Connectivity）就是Java数据库连接，说白了就是用Java语言来操作数据库。原来我们操作数据库是在控制台使用SQL">
+<meta property="og:description" content="写在前面总结一下《MySQL是怎样运行的》第24章 一条记录的多幅面孔-事务的隔离级别与 MVCC 事务并发执行遇到的问题脏写（Dirty Write）一个事务修改了另一个未提交事务修改过的数据  Session A 和 Session B 各开启了一个事务， Session B 中的事务先将 number 列为 1 的记录的 name 列更新为 ‘关羽’ ，然后 Session A 中的事务接着">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://pachwang.github.io/images/pdai001.jpg">
-<meta property="og:image" content="https://pachwang.github.io/images/pdai002.jpg">
-<meta property="og:image" content="https://pachwang.github.io/images/pdai003.jpg">
-<meta property="article:published_time" content="2023-06-27T08:16:19.000Z">
-<meta property="article:modified_time" content="2023-06-27T08:30:15.807Z">
+<meta property="og:image" content="https://pachwang.github.io/images/MySQL013.jpg">
+<meta property="og:image" content="https://pachwang.github.io/images/MySQL014.jpg">
+<meta property="og:image" content="https://pachwang.github.io/images/MySQL015.jpg">
+<meta property="og:image" content="https://pachwang.github.io/images/MySQL016.jpg">
+<meta property="article:published_time" content="2023-07-04T06:28:58.000Z">
+<meta property="article:modified_time" content="2023-07-04T06:45:27.054Z">
 <meta property="article:author" content="Pachwang">
-<meta property="article:tag" content="转载">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://pachwang.github.io/images/pdai001.jpg">
+<meta name="twitter:image" content="https://pachwang.github.io/images/MySQL013.jpg">
   
   
   
-  <title>JPA、JDBC与ORM - Pachwang</title>
+  <title>MySQL事务隔离级别 - Pachwang</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -201,7 +201,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="JPA、JDBC与ORM"></span>
+            <span id="subtitle" data-typed-text="MySQL事务隔离级别"></span>
           
         </div>
 
@@ -212,8 +212,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-06-27 16:16" pubdate>
-          2023年6月27日 下午
+        <time datetime="2023-07-04 14:28" pubdate>
+          2023年7月4日 下午
         </time>
       </span>
     
@@ -224,7 +224,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          517 字
+          939 字
         
       </span>
     
@@ -235,7 +235,7 @@
         
         
         
-          5 分钟
+          8 分钟
         
       </span>
     
@@ -273,26 +273,24 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">JPA、JDBC与ORM</h1>
+            <h1 style="display: none">MySQL事务隔离级别</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>本篇博客转载自 pdai Java全栈知识体系</p>
-<p>著作权归@pdai所有 原文链接：<a target="_blank" rel="noopener" href="https://pdai.tech/md/spring/springboot/springboot-x-hello-h2-jpa.html">https://pdai.tech/md/spring/springboot/springboot-x-hello-h2-jpa.html</a></p>
-<h1 id="JDBC"><a href="#JDBC" class="headerlink" title="JDBC"></a>JDBC</h1><p>JDBC（JavaDataBase Connectivity）就是Java数据库连接，说白了就是用Java语言来操作数据库。原来我们操作数据库是在控制台使用SQL语句来操作数据库，JDBC是用Java语言向数据库发送SQL语句。</p>
-<p><img src="/images/pdai001.jpg" srcset="/img/loading.gif" lazyload></p>
-<h1 id="ORM"><a href="#ORM" class="headerlink" title="ORM"></a>ORM</h1><p>对象关系映射（Object Relational Mapping，简称ORM）， 简单的说，<strong>ORM是通过使用描述对象和数据库之间映射的元数据，将java程序中的对象自动持久化到关系数据库中</strong>。本质上就是将数据从一种形式转换到另外一种形式，具体如下：</p>
-<p><img src="/images/pdai002.jpg" srcset="/img/loading.gif" lazyload></p>
-<p>具体映射：</p>
-<ol>
-<li>数据库的表（table） –&gt; 类（class）</li>
-<li>记录（record，行数据）–&gt; 对象（object）</li>
-<li>字段（field）–&gt; 对象的属性（attribute）</li>
-</ol>
-<h1 id="JPA"><a href="#JPA" class="headerlink" title="JPA"></a>JPA</h1><p>JPA是Spring提供的一种ORM</p>
-<p>Spring Data是基于Spring runtime体系的，JPA 属于Spring Data, 和JDBC的关系如下：</p>
-<p><img src="/images/pdai003.jpg" srcset="/img/loading.gif" lazyload></p>
+                <h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>总结一下《MySQL是怎样运行的》第24章 一条记录的多幅面孔-事务的隔离级别与 MVCC</p>
+<h1 id="事务并发执行遇到的问题"><a href="#事务并发执行遇到的问题" class="headerlink" title="事务并发执行遇到的问题"></a>事务并发执行遇到的问题</h1><h2 id="脏写（Dirty-Write）"><a href="#脏写（Dirty-Write）" class="headerlink" title="脏写（Dirty Write）"></a>脏写（Dirty Write）</h2><p><strong>一个事务修改了另一个未提交事务修改过的数据</strong></p>
+<p><img src="/images/MySQL013.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>Session A 和 Session B 各开启了一个事务， Session B 中的事务先将 number 列为 1 的记录的 name 列更新为 ‘关羽’ ，然后 Session A 中的事务接着又把这条 number 列为 1 的记录的 name 列更新为 张飞 。如果之后 Session B 中的事务进行了回滚，那么 Session A 中的更新也将不复存在，这种现象就称之为脏写 。</p>
+<h2 id="脏读（Dirty-Read）"><a href="#脏读（Dirty-Read）" class="headerlink" title="脏读（Dirty Read）"></a>脏读（Dirty Read）</h2><p><strong>一个事务读到了另一个未提交事务修改过的数据</strong></p>
+<p><img src="/images/MySQL014.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>Session A 和 Session B 各开启了一个事务， Session B 中的事务先将 number 列为 1 的记录的 name 列更新为 ‘关羽’ ，然后 Session A 中的事务再去查询这条 number 为 1 的记录，如果读到列 name 的 值为 ‘关羽’ ，而 Session B 中的事务稍后进行了回滚，那么 Session A 中的事务相当于读到了一个不存在 的数据，这种现象就称之为 脏读 。</p>
+<h2 id="不可重复读（Non-Repeatable-Read）"><a href="#不可重复读（Non-Repeatable-Read）" class="headerlink" title="不可重复读（Non-Repeatable Read）"></a>不可重复读（Non-Repeatable Read）</h2><p>一个事务只能读到另一个已经提交的事务修改过的数据，并且其他事务每对该数据进行一次修改并提交 后，该事务都能查询得到最新值</p>
+<p><img src="/images/MySQL015.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>在 Session B 中提交了几个隐式事务（注意是隐式事务，意味着语句结束事务就提交了），这些事务都修改了 number 列为 1 的记录的列 name 的值，每次事务提交之后，如果 Session A 中的事务都可以查看到最新的值，这种现象也被称之为 不可重复读 。</p>
+<h2 id="幻读（Phantom）"><a href="#幻读（Phantom）" class="headerlink" title="幻读（Phantom）"></a>幻读（Phantom）</h2><p>一个事务先根据某些条件查询出一些记录，之后另一个事务又向表中插入了符合这些条件的记录，原先的事务再次按照该条件查询时，能把另一个事务插入的记录也读出来</p>
+<p><img src="/images/MySQL016.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>Session A 中的事务先根据条件 number &gt; 0 这个条件查询表 hero ，得到了 name 列值为 ‘刘 备’ 的记录；之后 Session B 中提交了一个隐式事务，该事务向表 hero 中插入了一条新记录；之后 Session A 中的事务再根据相同的条件 number &gt; 0 查询表 hero ，得到的结果集中包含 Session B 中的事务新插入的那条记录，这种现象也被称之为 幻读 。</p>
 
                 
               </div>
@@ -311,7 +309,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/Java/" class="category-chain-item">Java</a>
+  <a href="/categories/MySQL/" class="category-chain-item">MySQL</a>
   
   
 
@@ -323,13 +321,6 @@
     </div>
   
   
-    <div class="post-meta">
-      <i class="iconfont icon-tags"></i>
-      
-        <a href="/tags/%E8%BD%AC%E8%BD%BD/">#转载</a>
-      
-    </div>
-  
 </div>
 
 
@@ -338,8 +329,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>JPA、JDBC与ORM</div>
-      <div>https://pachwang.github.io/2023/06/27/JPA、JDBC与ORM/</div>
+      <div>MySQL事务隔离级别</div>
+      <div>https://pachwang.github.io/2023/07/04/MySQL事务隔离级别/</div>
     </div>
     <div class="license-meta">
       
@@ -351,7 +342,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年6月27日</div>
+          <div>2023年7月4日</div>
         </div>
       
       
@@ -383,18 +374,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/06/28/MySQL%E5%85%8D%E5%AE%89%E8%A3%85%E7%89%88%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4/" title="MySQL免安装版详细步骤">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">MySQL免安装版详细步骤</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/06/19/%E8%A7%A3%E5%86%B3%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E6%8E%A8%E9%80%81%E5%88%B0%E8%BF%9C%E7%A8%8BGithub%E4%BB%93%E5%BA%93%E8%B6%85%E6%97%B6%E7%9A%84%E9%97%AE%E9%A2%98/" title="解决本地仓库推送到远程Github仓库超时的问题">
-                        <span class="hidden-mobile">解决本地仓库推送到远程Github仓库超时的问题</span>
+                      <a href="/2023/06/28/MySQL%E5%85%8D%E5%AE%89%E8%A3%85%E7%89%88%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4/" title="MySQL免安装版详细步骤">
+                        <span class="hidden-mobile">MySQL免安装版详细步骤</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

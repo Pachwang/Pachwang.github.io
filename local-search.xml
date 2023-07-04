@@ -4,6 +4,38 @@
   
   
   <entry>
+    <title>MySQL事务隔离级别</title>
+    <link href="/2023/07/04/MySQL%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/"/>
+    <url>/2023/07/04/MySQL%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/</url>
+    
+    <content type="html"><![CDATA[<h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>总结一下《MySQL是怎样运行的》第24章 一条记录的多幅面孔-事务的隔离级别与 MVCC</p><h1 id="事务并发执行遇到的问题"><a href="#事务并发执行遇到的问题" class="headerlink" title="事务并发执行遇到的问题"></a>事务并发执行遇到的问题</h1><h2 id="脏写（Dirty-Write）"><a href="#脏写（Dirty-Write）" class="headerlink" title="脏写（Dirty Write）"></a>脏写（Dirty Write）</h2><p><strong>一个事务修改了另一个未提交事务修改过的数据</strong></p><p><img src="/images/MySQL013.jpg"></p><p>Session A 和 Session B 各开启了一个事务， Session B 中的事务先将 number 列为 1 的记录的 name 列更新为 ‘关羽’ ，然后 Session A 中的事务接着又把这条 number 列为 1 的记录的 name 列更新为 张飞 。如果之后 Session B 中的事务进行了回滚，那么 Session A 中的更新也将不复存在，这种现象就称之为脏写 。</p><h2 id="脏读（Dirty-Read）"><a href="#脏读（Dirty-Read）" class="headerlink" title="脏读（Dirty Read）"></a>脏读（Dirty Read）</h2><p><strong>一个事务读到了另一个未提交事务修改过的数据</strong></p><p><img src="/images/MySQL014.jpg"></p><p>Session A 和 Session B 各开启了一个事务， Session B 中的事务先将 number 列为 1 的记录的 name 列更新为 ‘关羽’ ，然后 Session A 中的事务再去查询这条 number 为 1 的记录，如果读到列 name 的 值为 ‘关羽’ ，而 Session B 中的事务稍后进行了回滚，那么 Session A 中的事务相当于读到了一个不存在 的数据，这种现象就称之为 脏读 。</p><h2 id="不可重复读（Non-Repeatable-Read）"><a href="#不可重复读（Non-Repeatable-Read）" class="headerlink" title="不可重复读（Non-Repeatable Read）"></a>不可重复读（Non-Repeatable Read）</h2><p>一个事务只能读到另一个已经提交的事务修改过的数据，并且其他事务每对该数据进行一次修改并提交 后，该事务都能查询得到最新值</p><p><img src="/images/MySQL015.jpg"></p><p>在 Session B 中提交了几个隐式事务（注意是隐式事务，意味着语句结束事务就提交了），这些事务都修改了 number 列为 1 的记录的列 name 的值，每次事务提交之后，如果 Session A 中的事务都可以查看到最新的值，这种现象也被称之为 不可重复读 。</p><h2 id="幻读（Phantom）"><a href="#幻读（Phantom）" class="headerlink" title="幻读（Phantom）"></a>幻读（Phantom）</h2><p>一个事务先根据某些条件查询出一些记录，之后另一个事务又向表中插入了符合这些条件的记录，原先的事务再次按照该条件查询时，能把另一个事务插入的记录也读出来</p><p><img src="/images/MySQL016.jpg"></p><p>Session A 中的事务先根据条件 number &gt; 0 这个条件查询表 hero ，得到了 name 列值为 ‘刘 备’ 的记录；之后 Session B 中提交了一个隐式事务，该事务向表 hero 中插入了一条新记录；之后 Session A 中的事务再根据相同的条件 number &gt; 0 查询表 hero ，得到的结果集中包含 Session B 中的事务新插入的那条记录，这种现象也被称之为 幻读 。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>MySQL</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>MySQL免安装版详细步骤</title>
+    <link href="/2023/06/28/MySQL%E5%85%8D%E5%AE%89%E8%A3%85%E7%89%88%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4/"/>
+    <url>/2023/06/28/MySQL%E5%85%8D%E5%AE%89%E8%A3%85%E7%89%88%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>JPA、JDBC与ORM</title>
     <link href="/2023/06/27/JPA%E3%80%81JDBC%E4%B8%8EORM/"/>
     <url>/2023/06/27/JPA%E3%80%81JDBC%E4%B8%8EORM/</url>
